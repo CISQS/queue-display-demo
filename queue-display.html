@@ -76,20 +76,6 @@
       font-weight: 700;
     }
 
-    .station-hint {
-      margin-top: 8px;
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      background: rgba(0, 141, 99, 0.08);
-      color: #0d7657;
-      padding: 5px 12px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
     .meta {
       margin: 8px;
       display: flex;
@@ -120,9 +106,9 @@
     }
 
     .board {
-      height: 380px;
+      min-height: 380px;
       width: 100%;
-      padding-top: 10px;
+      padding: 10px 0 4px;
     }
 
     .board-header {
@@ -137,6 +123,10 @@
       display: flex;
       justify-content: space-between;
       padding: 8px 40px;
+    }
+
+    .row:last-child {
+      padding-bottom: 18px;
     }
 
     .ticket-box {
@@ -183,13 +173,15 @@
     }
 
     .waiting {
-      margin: 10px 0 8px;
+      margin: 4px 0 10px;
       height: 100px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: #fff;
       font-family: Arial, Helvetica, sans-serif;
+      border-top: 1px solid rgba(83, 82, 77, 0.08);
+      border-bottom: 1px solid rgba(83, 82, 77, 0.08);
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
     }
 
@@ -319,7 +311,6 @@
         <div class="station-copy">
           <div id="stationZh"></div>
           <div id="stationEn"></div>
-          <div class="station-hint">Click to switch station</div>
         </div>
       </button>
 

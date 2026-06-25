@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Queue Display Offline</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg-start: #eedcac;
+      --bg-end: #bce4be;
+      --panel: #ffffff;
+      --soft: #edeedd;
+      --accent: #008d63;
+      --text: #111111;
+      --muted: #5a5a5a;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(90deg, var(--bg-start), var(--bg-end));
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 28px;
+      background: var(--panel);
+      border-bottom: 12px solid var(--accent);
+    }
+
+    .station-button {
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      padding: 0;
+    }
+
+    .station-button:hover .station-name {
+      text-decoration: underline;
+    }
+
+    .station-name {
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .station-sub {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .meta {
+      text-align: right;
+      font-size: 18px;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .section {
+      padding: 20px 28px 0;
+    }
+
+    .board-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 12px 14px;
+      font-size: 34px;
+      font-weight: 700;
+    }
+
+    .rows {
+      display: grid;
+      gap: 14px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .ticket-box,
+    .counter-button {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      background: var(--soft);
+      box-shadow: var(--shadow);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .ticket-box {
+      flex: 1 1 auto;
+    }
+
+    .counter-button {
+      width: 240px;
+      cursor: pointer;
+    }
+
+    .counter-button:hover {
+      filter: brightness(0.98);
+    }
+
+    .counter-button:active {
+      transform: translateY(1px);
+    }
+
+    .waiting {
+      margin: 18px 28px;
+      background: var(--panel);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .waiting-title {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .waiting-value {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .waiting-number {
+      font-size: 72px;
+      font-weight: 700;
+    }
+
+    .waiting-unit {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .notice-toggle {
+      margin: 0 28px 0;
+      width: calc(100% - 56px);
+      border: 0;
+      background: var(--panel);
+      padding: 22px 28px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 28px;
+      font-weight: 700;
+      box-shadow: var(--shadow);
+    }
+
+    .notice-toggle small {
+      display: block;
+      color: var(--muted);
+      font-size: 20px;
+      margin-top: 6px;
+    }
+
+    .notice-grid {
+      margin: 18px 28px 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-content: flex-start;
+      min-height: 130px;
+    }
+
+    .notice-tag {
+      padding: 14px 20px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      font-size: 34px;
+      font-weight: 700;
+    }
+
+    .helper {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 960px) {
+      .header,
+      .waiting,
+      .row,
+      .board-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .meta {
+        text-align: left;
+      }
+
+      .counter-button {
+        width: 100%;
+      }
+
+      .waiting-value {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <button id="stationButton" class="station-button" type="button" title="點擊切換 station">
+        <div id="stationZh" class="station-name"></div>
+        <div id="stationEn" class="station-sub"></div>
+      </button>
+      <div class="meta">
+        <div>Queue Display Offline</div>
+        <div id="clock"></div>
+        <div class="helper">點擊左上 station 標題可切換站別</div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="board-header">
+        <div>號碼 Number</div>
+        <div id="counterLabel"></div>
+      </div>
+      <div id="rows" class="rows"></div>
+    </section>
+
+    <section class="waiting">
+      <div class="waiting-title">
+        <div>預計輪候時間</div>
+        <div>Estimated waiting time</div>
+      </div>
+      <div class="waiting-value">
+        <div id="waitingMins" class="waiting-number"></div>
+        <div class="waiting-unit">
+          <div>分鐘</div>
+          <div>Mins</div>
+        </div>
+      </div>
+    </section>
+
+    <button id="toggleMock" class="notice-toggle" type="button">
+      <div>以下號碼請聯絡門診職員</div>
+      <small>For the following numbers, please approach our staff</small>
+    </button>
+
+    <section id="noticeGrid" class="notice-grid"></section>
+  </div>
+
+  <script>
+    const stations = [
+      { key: "dr", labelZh: "醫生診室", labelEn: "Dr Station", wait: 15, counterLabelZh: "診室", counterLabelEn: "Room", prefix: "OPD" },
+      { key: "nurse", labelZh: "護士分流站", labelEn: "Nurse Station", wait: 10, counterLabelZh: "櫃位", counterLabelEn: "Counter", prefix: "TRI" },
+      { key: "pharmacy", labelZh: "藥房", labelEn: "Pharmacy", wait: 20, counterLabelZh: "櫃位", counterLabelEn: "Counter", prefix: "PHA" }
+    ];
+
+    const counterCycle = ["", "OPD001", "OPD002", "OPD003", "OPD200", "OPD201", "OPD202"];
+    const fixedMockTickets = Array.from({ length: 11 }, (_, idx) => `OPD${String(200 + idx).padStart(3, "0")}`);
+
+    let stationIndex = 0;
+    let showFixedMock = true;
+    const rowState = [1, 2, 3, 4].map((counter) => ({ counter, ticket: "" }));
+
+    const stationZh = document.getElementById("stationZh");
+    const stationEn = document.getElementById("stationEn");
+    const stationButton = document.getElementById("stationButton");
+    const counterLabel = document.getElementById("counterLabel");
+    const waitingMins = document.getElementById("waitingMins");
+    const rows = document.getElementById("rows");
+    const noticeGrid = document.getElementById("noticeGrid");
+    const toggleMock = document.getElementById("toggleMock");
+    const clock = document.getElementById("clock");
+
+    function getCurrentStation() {
+      return stations[stationIndex];
+    }
+
+    function formatClock(date) {
+      const pad = (value) => String(value).padStart(2, "0");
+      return `${pad(date.getDate())}-${pad(date.getMonth() + 1)}-${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    }
+
+    function renderClock() {
+      clock.textContent = formatClock(new Date());
+    }
+
+    function buildRow(row) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "row";
+
+      const ticket = document.createElement("div");
+      ticket.className = "ticket-box";
+      ticket.textContent = row.ticket;
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "counter-button";
+      button.textContent = row.ticket ? String(row.counter) : "";
+      button.addEventListener("click", () => {
+        const currentIndex = counterCycle.indexOf(row.ticket);
+        const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % counterCycle.length : 1;
+        row.ticket = counterCycle[nextIndex];
+        renderRows();
+      });
+
+      wrapper.appendChild(ticket);
+      wrapper.appendChild(button);
+      return wrapper;
+    }
+
+    function renderRows() {
+      rows.innerHTML = "";
+      rowState.forEach((row) => rows.appendChild(buildRow(row)));
+    }
+
+    function renderNotice() {
+      noticeGrid.innerHTML = "";
+      if (!showFixedMock) return;
+      fixedMockTickets.forEach((ticket) => {
+        const item = document.createElement("div");
+        item.className = "notice-tag";
+        item.textContent = ticket;
+        noticeGrid.appendChild(item);
+      });
+    }
+
+    function renderStation() {
+      const station = getCurrentStation();
+      stationZh.textContent = station.labelZh;
+      stationEn.textContent = station.labelEn;
+      counterLabel.textContent = `${station.counterLabelZh} ${station.counterLabelEn}`;
+      waitingMins.textContent = String(station.wait);
+
+      rowState.forEach((row, index) => {
+        if (!row.ticket) {
+          row.ticket = `${station.prefix}${String(index + 1).padStart(3, "0")}`;
+        }
+      });
+
+      renderRows();
+    }
+
+    stationButton.addEventListener("click", () => {
+      stationIndex = (stationIndex + 1) % stations.length;
+      rowState.forEach((row) => {
+        row.ticket = "";
+      });
+      renderStation();
+    });
+
+    toggleMock.addEventListener("click", () => {
+      showFixedMock = !showFixedMock;
+      renderNotice();
+    });
+
+    renderClock();
+    setInterval(renderClock, 1000);
+    renderStation();
+    renderNotice();
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import StationSelect from "@/components/StationSelect";
 import { isStationKey, type StationKey } from "@/queue/stations";
@@ -12,9 +12,15 @@ export default function Call() {
 
   const [ticketInput, setTicketInput] = useState("");
   const [counter, setCounter] = useState(1);
+  const stationState = useQueueStore((s) => s.stations[station]);
   const callTicket = useQueueStore((s) => s.callTicket);
   const completeTicket = useQueueStore((s) => s.completeTicket);
   const passTicket = useQueueStore((s) => s.passTicket);
+
+  useEffect(() => {
+    const counterTicket = stationState.counters.find((item) => item.counter === counter)?.ticket ?? "";
+    setTicketInput(counterTicket || stationState.nowServing || "");
+  }, [stationState, counter]);
 
   return (
     <div className="min-h-screen bg-[#e6e6e6] text-[#222]">

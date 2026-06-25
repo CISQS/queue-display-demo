@@ -54,9 +54,6 @@ export default function Home() {
                 叫號
               </button>
 
-              <div className="mt-4 text-xs leading-relaxed text-black/60">
-                提示：於 TV/顯示器開啟後可按 F11 進入全螢幕。
-              </div>
             </div>
           </div>
         </div>

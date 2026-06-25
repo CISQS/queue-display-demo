@@ -19,8 +19,8 @@ export default function Call() {
 
   useEffect(() => {
     const counterTicket = stationState.counters.find((item) => item.counter === counter)?.ticket ?? "";
-    setTicketInput(counterTicket || stationState.nowServing || "");
-  }, [stationState, counter]);
+    setTicketInput(counterTicket);
+  }, [stationState.counters, counter]);
 
   return (
     <div className="min-h-screen bg-[#e6e6e6] text-[#222]">

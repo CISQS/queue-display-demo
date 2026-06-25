@@ -24,12 +24,6 @@
       user-select: none;
     }
 
-    .top-band {
-      background: #008d63;
-      height: 18px;
-      width: 100%;
-    }
-
     .header {
       display: flex;
       flex-wrap: wrap;
@@ -63,15 +57,7 @@
       outline-offset: 2px;
     }
 
-    .station-logo {
-      width: 64px;
-      height: 64px;
-      flex: 0 0 auto;
-      object-fit: contain;
-    }
-
     .station-copy {
-      margin-left: 20px;
       font-size: 24px;
       font-weight: 700;
       line-height: 1.1;
@@ -328,11 +314,8 @@
 </head>
 <body>
   <div class="app">
-    <div class="top-band"></div>
-
     <div class="header">
       <button id="stationButton" class="station-button" type="button" title="點擊切換 station">
-        <img class="station-logo" src="./public/qdisplay/assets/hksh_logo-CIMGYLsQ.png" alt="" aria-hidden="true" />
         <div class="station-copy">
           <div id="stationZh"></div>
           <div id="stationEn"></div>

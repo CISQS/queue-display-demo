@@ -54,15 +54,8 @@ function formatTicket(prefix: string, num: number, width: number) {
   return `${prefix}${padNumber(num, width)}`;
 }
 
-function normalizeTicket(station: StationKey, input: string) {
-  const raw = input.trim().toUpperCase();
-  if (!raw) return "";
-  if (/^\d+$/.test(raw)) {
-    return `${getPrefix(station)}${padNumber(Number(raw), 3)}`;
-  }
-  const parsed = parseTicket(raw);
-  if (!parsed) return raw;
-  return formatTicket(parsed.prefix, parsed.num, Math.max(parsed.width, 3));
+function normalizeTicket(input: string) {
+  return input.trim();
 }
 
 function uniqStable(items: string[]) {
@@ -138,7 +131,7 @@ export const useQueueStore = create<QueueStoreState>()(
         pharmacy: buildInitialStation("pharmacy"),
       },
       callTicket: (station, ticketInput, counter) => {
-    const ticket = normalizeTicket(station, ticketInput);
+    const ticket = normalizeTicket(ticketInput);
     if (!ticket) return;
 
     const nowIso = new Date().toISOString();
@@ -173,7 +166,7 @@ export const useQueueStore = create<QueueStoreState>()(
       completeTicket: (station, ticketInput, counter) => {
     const state = get();
     const prev = state.stations[station];
-    const inputTicket = normalizeTicket(station, ticketInput);
+    const inputTicket = normalizeTicket(ticketInput);
     const fallbackTicket = prev.counters.find((c) => c.counter === counter)?.ticket ?? prev.nowServing;
     const ticket = inputTicket || fallbackTicket;
     if (!ticket) return;
@@ -217,7 +210,7 @@ export const useQueueStore = create<QueueStoreState>()(
       passTicket: (station, ticketInput, counter) => {
     const state = get();
     const prev = state.stations[station];
-    const inputTicket = normalizeTicket(station, ticketInput);
+    const inputTicket = normalizeTicket(ticketInput);
     const fallbackTicket = prev.counters.find((c) => c.counter === counter)?.ticket ?? prev.nowServing;
     const ticket = inputTicket || fallbackTicket;
     if (!ticket) return;

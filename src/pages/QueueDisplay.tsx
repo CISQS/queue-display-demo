@@ -4,6 +4,8 @@ import { getStationOption, isStationKey, type StationKey } from "@/queue/station
 import { useQueueSnapshot } from "@/hooks/useQueueSnapshot";
 import { useQueueStore } from "@/queue/store";
 
+const FIXED_MISSED_TICKETS = Array.from({ length: 11 }, (_, idx) => `OPD${String(200 + idx).padStart(3, "0")}`);
+
 function formatDateTimeDDMMYYYYHHmmss(date: Date) {
   const dd = String(date.getDate()).padStart(2, "0");
   const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -22,7 +24,7 @@ export default function QueueDisplay() {
 
   const stationOption = useMemo(() => getStationOption(station), [station]);
 
-  const { snapshot, passedTickets } = useQueueSnapshot(station);
+  const { snapshot } = useQueueSnapshot(station);
   const cycleCounterTicket = useQueueStore((s) => s.cycleCounterTicket);
   const [now, setNow] = useState(() => new Date());
 
@@ -44,7 +46,7 @@ export default function QueueDisplay() {
     return 10;
   }, [station]);
 
-  const noticeTickets = useMemo(() => passedTickets, [passedTickets]);
+  const noticeTickets = FIXED_MISSED_TICKETS;
 
   const columnLabelZh = station === "dr" ? "診室" : "櫃位";
   const columnLabelEn = station === "dr" ? "Room" : "Counter";

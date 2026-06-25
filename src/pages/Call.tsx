@@ -28,7 +28,23 @@ export default function Call() {
           Home
         </button>
         <div className="text-sm font-semibold">叫號</div>
-        <div className="w-[48px]" />
+        <div className="flex items-center gap-2">
+          <div className="text-xs font-semibold text-black/60">Counter</div>
+          <div className="relative">
+            <select
+              value={counter}
+              onChange={(e) => setCounter(Number(e.target.value))}
+              className="h-9 w-[84px] appearance-none rounded-lg border border-black/15 bg-white pl-3 pr-8 text-sm font-semibold text-black outline-none focus:ring-2 focus:ring-[#2aa9b8]/30"
+            >
+              {[1, 2, 3, 4].map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-black/60">▾</div>
+          </div>
+        </div>
       </div>
 
       <div className="mx-auto max-w-2xl px-6 py-8">
@@ -44,24 +60,6 @@ export default function Call() {
                   className="mt-2"
                   variant="light"
                 />
-              </div>
-
-              <div>
-                <div className="text-xs font-semibold text-black/60">Counter</div>
-                <div className="relative mt-2">
-                  <select
-                    value={counter}
-                    onChange={(e) => setCounter(Number(e.target.value))}
-                    className="h-11 w-full appearance-none rounded-lg border border-black/15 bg-white px-4 pr-10 text-sm font-semibold text-black outline-none focus:ring-2 focus:ring-[#2aa9b8]/30"
-                  >
-                    {[1, 2, 3, 4].map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-black/60">▾</div>
-                </div>
               </div>
 
               <div>
@@ -95,25 +93,6 @@ export default function Call() {
                   className="inline-flex h-11 items-center justify-center rounded-lg border border-black/15 bg-white px-4 text-sm font-semibold text-black/80 shadow-sm transition hover:bg-black/[0.03] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/25"
                 >
                   已過號
-                </button>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                <button
-                  type="button"
-                  onClick={() => navigate(`/display?station=${station}`)}
-                  className="inline-flex h-11 items-center justify-center rounded-lg bg-[#2aa9b8] px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2396a3] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/35"
-                >
-                  Queue Display
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTicketInput("");
-                  }}
-                  className="inline-flex h-11 items-center justify-center rounded-lg border border-black/15 bg-white px-4 text-sm font-semibold text-black/80 shadow-sm transition hover:bg-black/[0.03] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/25"
-                >
-                  清除輸入
                 </button>
               </div>
             </div>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MonitorPlay } from "lucide-react";
 import StationSelect from "@/components/StationSelect";
 import type { StationKey } from "@/queue/stations";
 
@@ -30,8 +29,6 @@ export default function Home() {
 
           <div className="p-6">
             <div className="rounded-lg border border-black/10 bg-white p-5">
-              <div className="text-sm font-semibold">叫號屏 Queue Display</div>
-
               <div className="mt-4">
                 <div className="text-xs font-semibold text-black/60">Station 選擇站點</div>
                 <StationSelect value={station} onChange={setStation} className="mt-2" variant="light" />
@@ -39,17 +36,8 @@ export default function Home() {
 
               <button
                 type="button"
-                onClick={() => navigate(`/display?station=${station}`)}
-                className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2aa9b8] px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2396a3] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/35"
-              >
-                <MonitorPlay className="h-4 w-4" />
-                Queue Display
-              </button>
-
-              <button
-                type="button"
                 onClick={() => navigate(`/call?station=${station}`)}
-                className="mt-3 inline-flex h-11 w-full items-center justify-center rounded-lg border border-black/15 bg-white px-4 text-sm font-semibold text-black/80 shadow-sm transition hover:bg-black/[0.03] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/25"
+                className="mt-5 inline-flex h-11 w-full items-center justify-center rounded-lg border border-black/15 bg-white px-4 text-sm font-semibold text-black/80 shadow-sm transition hover:bg-black/[0.03] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/25"
               >
                 叫號
               </button>

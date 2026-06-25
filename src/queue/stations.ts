@@ -8,7 +8,7 @@ export type StationOption = {
 
 export const STATIONS: StationOption[] = [
   { key: "dr", labelEn: "Dr Station", labelZh: "醫生診室" },
-  { key: "nurse", labelEn: "Nurse Station", labelZh: "分流站" },
+  { key: "nurse", labelEn: "Nurse Station", labelZh: "護士分流站" },
   { key: "pharmacy", labelEn: "Pharmacy", labelZh: "藥房" },
 ];
 
@@ -27,4 +27,3 @@ export function getStationOption(stationKey: StationKey): StationOption {
   }
   return station;
 }
-

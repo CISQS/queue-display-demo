@@ -14,10 +14,7 @@
       min-height: 100vh;
       font-family: "Courier New", monospace;
       color: #000;
-      background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.45), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.22), transparent 32%),
-        linear-gradient(120deg, #eedcac 0%, #d7e6b9 48%, #bce4be 100%);
+      background: linear-gradient(90deg, #eedcac 0%, #bce4be 100%);
     }
 
     .app {
@@ -27,28 +24,18 @@
       user-select: none;
     }
 
-    .page-shell {
-      width: min(1240px, calc(100% - 32px));
-      margin: 22px auto;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
     .header {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      background: rgba(255, 255, 255, 0.92);
-      border-radius: 28px;
-      box-shadow: 0 18px 40px rgba(61, 39, 20, 0.09);
-      backdrop-filter: blur(10px);
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
     }
 
     .station-button {
       margin: 8px;
-      padding: 18px 22px;
+      padding: 12px 18px 12px 20px;
       border: 0;
       background: transparent;
       display: flex;
@@ -56,7 +43,7 @@
       text-align: left;
       cursor: pointer;
       color: #000;
-      border-radius: 22px;
+      border-radius: 18px;
       transition: background 0.2s ease, transform 0.2s ease;
     }
 
@@ -78,16 +65,15 @@
     }
 
     .station-copy #stationZh {
-      font-size: clamp(30px, 4vw, 38px);
+      font-size: 34px;
       font-weight: 700;
       letter-spacing: 0.02em;
     }
 
     .station-copy #stationEn {
       margin-top: 2px;
-      font-size: clamp(20px, 2.8vw, 24px);
+      font-size: 24px;
       font-weight: 700;
-      color: #2f4f46;
     }
 
     .station-hint {
@@ -105,16 +91,14 @@
     }
 
     .meta {
-      margin: 8px 14px 8px 8px;
+      margin: 8px;
       display: flex;
       align-items: center;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 14px;
-      gap: 16px;
     }
 
     .meta-copy {
-      padding: 10px 0;
       text-align: center;
       font-size: 12px;
       line-height: 1.2;
@@ -129,36 +113,30 @@
     }
 
     .meta-mark {
-      min-height: 78px;
-      max-width: 92px;
-      opacity: 0.34;
+      margin-left: 18px;
+      min-height: 80px;
+      opacity: 0.42;
       flex: 0 0 auto;
     }
 
     .board {
-      min-height: 380px;
+      height: 380px;
       width: 100%;
-      padding: 26px 0 12px;
-      background: rgba(255, 255, 255, 0.24);
-      border-radius: 28px;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28), 0 18px 40px rgba(61, 39, 20, 0.08);
-      backdrop-filter: blur(6px);
+      padding-top: 10px;
     }
 
     .board-header {
       display: flex;
       justify-content: space-between;
-      padding: 0 34px 14px;
-      font-size: clamp(28px, 3.4vw, 40px);
+      padding: 0 40px 10px;
+      font-size: 40px;
       letter-spacing: 0.01em;
-      color: #3d2714;
     }
 
     .row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 8px 34px;
+      padding: 8px 40px;
     }
 
     .ticket-box {
@@ -166,16 +144,13 @@
       align-items: center;
       justify-content: center;
       width: 320px;
-      min-height: 72px;
-      padding: 8px 16px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(237, 238, 221, 0.95));
+      height: 64px;
+      background: #edeedd;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(30px, 3.8vw, 40px);
+      font-size: 40px;
       font-weight: 600;
-      border-radius: 18px;
-      box-shadow: inset 0 0 0 1px rgba(83, 82, 77, 0.05), 0 10px 22px rgba(61, 39, 20, 0.08);
-      color: #2d332f;
-      letter-spacing: 0.02em;
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 1px rgba(83, 82, 77, 0.06), 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     .counter-button {
@@ -183,23 +158,22 @@
       align-items: center;
       justify-content: center;
       width: 224px;
-      min-height: 72px;
-      padding: 8px 16px;
+      height: 64px;
       border: 0;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(237, 238, 221, 0.95));
+      background: #edeedd;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(30px, 3.8vw, 40px);
+      font-size: 40px;
       font-weight: 600;
       cursor: pointer;
       color: #000;
-      border-radius: 18px;
-      box-shadow: inset 0 0 0 1px rgba(83, 82, 77, 0.05), 0 10px 22px rgba(61, 39, 20, 0.08);
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 1px rgba(83, 82, 77, 0.06), 0 4px 12px rgba(0, 0, 0, 0.05);
       transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
 
     .counter-button:hover {
-      background: linear-gradient(180deg, #ffffff, #eef3e8);
-      box-shadow: inset 0 0 0 1px rgba(83, 82, 77, 0.08), 0 14px 26px rgba(61, 39, 20, 0.11);
+      background: #f1f2e7;
+      box-shadow: inset 0 0 0 1px rgba(83, 82, 77, 0.08), 0 8px 18px rgba(0, 0, 0, 0.08);
       transform: translateY(-1px);
     }
 
@@ -209,15 +183,14 @@
     }
 
     .waiting {
-      min-height: 112px;
+      margin: 10px 0 8px;
+      height: 100px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(255, 255, 255, 0.92);
+      background: #fff;
       font-family: Arial, Helvetica, sans-serif;
-      border-radius: 28px;
-      box-shadow: 0 18px 40px rgba(61, 39, 20, 0.08);
-      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
     }
 
     .waiting-left {
@@ -235,10 +208,9 @@
     }
 
     .waiting-title {
-      font-size: clamp(24px, 3vw, 32px);
+      font-size: 32px;
       font-weight: 600;
       line-height: 1.2;
-      color: #3d2714;
     }
 
     .waiting-right {
@@ -250,40 +222,37 @@
 
     .waiting-number {
       margin: 0 16px;
-      font-size: clamp(54px, 7vw, 72px);
+      font-size: 72px;
       font-weight: 600;
       font-family: Arial, Helvetica, sans-serif;
-      color: #124936;
     }
 
     .waiting-unit {
-      font-size: clamp(24px, 3vw, 32px);
+      font-size: 32px;
       line-height: 1.2;
       font-family: Arial, Helvetica, sans-serif;
-      color: #3d2714;
     }
 
     .notice-toggle {
-      min-height: 108px;
+      margin: 6px 0 4px;
+      height: 100px;
       display: flex;
       align-items: center;
       width: 100%;
       border: 0;
-      background: rgba(255, 255, 255, 0.92);
+      background: #fff;
       color: #000;
       text-align: left;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(22px, 2.8vw, 30px);
+      font-size: 30px;
       font-weight: 600;
       cursor: pointer;
-      border-radius: 28px;
-      box-shadow: 0 18px 40px rgba(61, 39, 20, 0.08);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
       transition: background 0.18s ease;
-      backdrop-filter: blur(8px);
     }
 
     .notice-toggle:hover {
-      background: rgba(255, 255, 255, 0.98);
+      background: #fcfcf7;
     }
 
     .notice-icon {
@@ -299,33 +268,23 @@
       flex-wrap: wrap;
       align-content: flex-start;
       overflow: auto;
-      gap: 14px;
-      min-height: 150px;
-      padding: 20px 18px 26px;
-      background: rgba(246, 249, 241, 0.8);
+      gap: 12px;
+      padding: 18px 16px 24px;
+      background: #f6f9f1;
       font-family: Arial, Helvetica, sans-serif;
       color: #53524d;
-      border-radius: 28px;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3), 0 18px 40px rgba(61, 39, 20, 0.06);
     }
 
     .notice-tag {
-      padding: 12px 18px;
-      background: rgba(255, 255, 255, 0.96);
-      font-size: clamp(28px, 3.6vw, 40px);
+      padding: 10px 16px;
+      background: #fff;
+      font-size: 40px;
       font-weight: 600;
-      border-radius: 16px;
-      box-shadow: 0 10px 22px rgba(61, 39, 20, 0.08);
-      letter-spacing: 0.02em;
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     }
 
     @media (max-width: 1100px) {
-      .page-shell {
-        width: calc(100% - 20px);
-        margin: 12px 10px 20px;
-        gap: 12px;
-      }
-
       .header,
       .row,
       .board-header,
@@ -335,37 +294,8 @@
         align-items: stretch;
       }
 
-      .header,
-      .board,
-      .waiting,
-      .notice-toggle,
-      .notice-grid {
-        border-radius: 22px;
-      }
-
-      .header {
-        padding: 2px 0;
-      }
-
-      .station-button {
-        width: calc(100% - 16px);
-        margin: 8px;
-        padding: 16px 18px;
-      }
-
-      .meta {
-        justify-content: center;
-        margin: 0 8px 10px;
-      }
-
-      .board-header {
-        padding: 0 20px 12px;
-        gap: 8px;
-      }
-
       .row {
         gap: 12px;
-        padding: 8px 20px;
       }
 
       .ticket-box,
@@ -377,118 +307,79 @@
       .waiting-right {
         width: 100%;
         justify-content: flex-start;
-        padding: 14px 20px;
-      }
-
-      .notice-toggle {
-        padding: 10px 0;
-      }
-
-      .notice-grid {
-        padding: 16px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .station-copy #stationZh {
-        font-size: 28px;
-      }
-
-      .station-copy #stationEn {
-        font-size: 18px;
-      }
-
-      .station-hint {
-        font-size: 11px;
-      }
-
-      .meta {
-        gap: 10px;
-      }
-
-      .meta-mark {
-        max-width: 72px;
-      }
-
-      .waiting-icon,
-      .notice-icon {
-        width: 44px;
-        height: 44px;
-        margin: 0 14px;
+        padding: 12px 20px;
       }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <div class="page-shell">
-      <div class="header">
-        <button id="stationButton" class="station-button" type="button" title="點擊切換 station">
-          <div class="station-copy">
-            <div id="stationZh"></div>
-            <div id="stationEn"></div>
-            <div class="station-hint">Click to switch station</div>
-          </div>
-        </button>
-
-        <div class="meta">
-          <div class="meta-copy">
-            <div>養和醫院</div>
-            <div>Hong Kong</div>
-            <div>Sanatorium &amp; Hospital</div>
-            <span id="clock" class="clock"></span>
-          </div>
-          <img class="meta-mark" src="./public/qdisplay/assets/logo-hksh-emc-sh-B1ezILO2.png" alt="" aria-hidden="true" />
-        </div>
-      </div>
-
-      <div class="board">
-        <div class="board-header">
-          <div>號碼 Number</div>
-          <div id="counterLabel"></div>
-        </div>
-        <div id="rows"></div>
-      </div>
-
-      <div class="waiting">
-        <div class="waiting-left">
-          <svg class="waiting-icon" viewBox="0 0 473.068 473.068" fill="#000000" aria-hidden="true">
-            <g>
-              <g>
-                <path d="M355.507,181.955c8.793-6.139,29.39-20.519,29.39-55.351v-71.77h9.814c4.49,0,8.17-3.679,8.17-8.169v-38.5 c0-4.49-3.681-8.165-8.17-8.165H78.351c-4.495,0-8.165,3.675-8.165,8.165v38.5c0,4.491,3.67,8.169,8.165,8.169h9.82v73.071 c0,34.499,10.502,42.576,29.074,53.89l80.745,49.203v20.984c-20.346,12.23-73.465,44.242-80.434,49.107 c-8.793,6.135-29.384,20.51-29.384,55.352v61.793h-9.82c-4.495,0-8.165,3.676-8.165,8.166v38.498c0,4.49,3.67,8.17,8.165,8.17 h316.361c4.49,0,8.17-3.68,8.17-8.17V426.4c0-4.49-3.681-8.166-8.17-8.166h-9.814v-63.104c0-34.493-10.508-42.572-29.069-53.885 l-80.745-49.202v-20.987C295.417,218.831,348.537,186.822,355.507,181.955z M252.726,272.859l87.802,53.5 c6.734,4.109,10.333,6.373,12.001,9.002c1.991,3.164,2.963,9.627,2.963,19.768v63.104H117.574v-61.793 c0-19.507,9.718-26.289,16.81-31.242c5.551-3.865,54.402-33.389,85.878-52.289c4.428-2.658,7.135-7.441,7.135-12.611v-37.563 c0-5.123-2.671-9.883-7.053-12.55l-87.54-53.339l-0.265-0.165c-6.741-4.105-10.336-6.369-11.998-9.009 c-1.992-3.156-2.968-9.626-2.968-19.767V54.835h237.918v71.77c0,19.5-9.718,26.288-16.814,31.235 c-5.546,3.872-54.391,33.395-85.869,52.295c-4.427,2.658-7.134,7.442-7.134,12.601v37.563 C245.675,265.431,248.346,270.188,252.726,272.859z"></path>
-                <path d="M331.065,154.234c0,0,5.291-4.619-2.801-3.299c-19.178,3.115-53.079,15.133-92.079,15.133s-57-11-82.507-11.303 c-5.569-0.066-5.456,3.629,0.937,7.391c6.386,3.758,63.772,35.681,71.671,40.08c7.896,4.389,12.417,4.05,20.786,0 C259.246,196.334,331.065,154.234,331.065,154.234z"></path>
-                <path d="M154.311,397.564c-6.748,6.209-9.978,10.713,5.536,10.713c12.656,0,139.332,0,155.442,0 c16.099,0,9.856-5.453,2.311-12.643c-14.576-13.883-45.416-23.566-82.414-23.566 C196.432,372.068,169.342,383.723,154.311,397.564z"></path>
-              </g>
-            </g>
-          </svg>
-          <div class="waiting-title">
-            <div>預計輪候時間</div>
-            <div>Estimated waiting time</div>
-          </div>
-        </div>
-        <div class="waiting-right">
-          <div id="waitingMins" class="waiting-number"></div>
-          <div class="waiting-unit">
-            <div>分鐘</div>
-            <div>Mins</div>
-          </div>
-        </div>
-      </div>
-
-      <button id="toggleMock" class="notice-toggle" type="button">
-        <svg class="notice-icon" viewBox="0 0 437.699 437.699" fill="#3d2714" aria-hidden="true">
-          <g>
-            <path d="M372.578,63.101c-41.18-32.332-95.775-50.138-153.727-50.138c-57.952,0-112.547,17.806-153.728,50.138 C23.127,96.073,0,140.162,0,187.244c0,47.688,24.536,93.246,67.589,126.027l-20.81,97.656c-0.893,4.186,0.629,8.518,3.94,11.227 c2.079,1.701,4.645,2.582,7.237,2.582c1.538,0,3.087-0.311,4.548-0.943l144.063-62.539c4.104,0.18,8.223,0.271,12.282,0.271 c57.952,0,112.545-17.807,153.727-50.139c41.996-32.973,65.123-77.061,65.123-124.144 C437.701,140.162,414.574,96.073,372.578,63.101z M218.852,304.393c-15.709,0-28.49-12.78-28.49-28.489 c0-15.71,12.781-28.491,28.49-28.491c15.708,0,28.49,12.781,28.49,28.491C247.342,291.612,234.561,304.393,218.852,304.393z M240.721,215.57c-0.771,11.446-10.367,20.417-21.844,20.417c-0.499,0-1.002-0.016-1.505-0.051 c-10.867-0.737-19.624-9.498-20.355-20.376l-6.931-102.056c-0.522-7.686,1.98-15.118,7.049-20.926 c5.068-5.806,12.092-9.29,19.779-9.813c0.653-0.044,1.313-0.066,1.962-0.066c15.11,0,27.757,11.813,28.778,26.894 C248.202,116.2,240.721,215.57,240.721,215.57z"></path>
-          </g>
-        </svg>
-        <div>
-          <div>以下號碼請聯絡門診職員</div>
-          <div>For the following numbers, please approach our staff</div>
+    <div class="header">
+      <button id="stationButton" class="station-button" type="button" title="點擊切換 station">
+        <div class="station-copy">
+          <div id="stationZh"></div>
+          <div id="stationEn"></div>
+          <div class="station-hint">Click to switch station</div>
         </div>
       </button>
 
-      <div id="noticeGrid" class="notice-grid"></div>
+      <div class="meta">
+        <div class="meta-copy">
+          <div>養和醫院</div>
+          <div>Hong Kong</div>
+          <div>Sanatorium &amp; Hospital</div>
+          <span id="clock" class="clock"></span>
+        </div>
+        <img class="meta-mark" src="./public/qdisplay/assets/logo-hksh-emc-sh-B1ezILO2.png" alt="" aria-hidden="true" />
+      </div>
     </div>
+
+    <div class="board">
+      <div class="board-header">
+        <div>號碼 Number</div>
+        <div id="counterLabel"></div>
+      </div>
+      <div id="rows"></div>
+    </div>
+
+    <div class="waiting">
+      <div class="waiting-left">
+        <svg class="waiting-icon" viewBox="0 0 473.068 473.068" fill="#000000" aria-hidden="true">
+          <g>
+            <g>
+              <path d="M355.507,181.955c8.793-6.139,29.39-20.519,29.39-55.351v-71.77h9.814c4.49,0,8.17-3.679,8.17-8.169v-38.5 c0-4.49-3.681-8.165-8.17-8.165H78.351c-4.495,0-8.165,3.675-8.165,8.165v38.5c0,4.491,3.67,8.169,8.165,8.169h9.82v73.071 c0,34.499,10.502,42.576,29.074,53.89l80.745,49.203v20.984c-20.346,12.23-73.465,44.242-80.434,49.107 c-8.793,6.135-29.384,20.51-29.384,55.352v61.793h-9.82c-4.495,0-8.165,3.676-8.165,8.166v38.498c0,4.49,3.67,8.17,8.165,8.17 h316.361c4.49,0,8.17-3.68,8.17-8.17V426.4c0-4.49-3.681-8.166-8.17-8.166h-9.814v-63.104c0-34.493-10.508-42.572-29.069-53.885 l-80.745-49.202v-20.987C295.417,218.831,348.537,186.822,355.507,181.955z M252.726,272.859l87.802,53.5 c6.734,4.109,10.333,6.373,12.001,9.002c1.991,3.164,2.963,9.627,2.963,19.768v63.104H117.574v-61.793 c0-19.507,9.718-26.289,16.81-31.242c5.551-3.865,54.402-33.389,85.878-52.289c4.428-2.658,7.135-7.441,7.135-12.611v-37.563 c0-5.123-2.671-9.883-7.053-12.55l-87.54-53.339l-0.265-0.165c-6.741-4.105-10.336-6.369-11.998-9.009 c-1.992-3.156-2.968-9.626-2.968-19.767V54.835h237.918v71.77c0,19.5-9.718,26.288-16.814,31.235 c-5.546,3.872-54.391,33.395-85.869,52.295c-4.427,2.658-7.134,7.442-7.134,12.601v37.563 C245.675,265.431,248.346,270.188,252.726,272.859z"></path>
+              <path d="M331.065,154.234c0,0,5.291-4.619-2.801-3.299c-19.178,3.115-53.079,15.133-92.079,15.133s-57-11-82.507-11.303 c-5.569-0.066-5.456,3.629,0.937,7.391c6.386,3.758,63.772,35.681,71.671,40.08c7.896,4.389,12.417,4.05,20.786,0 C259.246,196.334,331.065,154.234,331.065,154.234z"></path>
+              <path d="M154.311,397.564c-6.748,6.209-9.978,10.713,5.536,10.713c12.656,0,139.332,0,155.442,0 c16.099,0,9.856-5.453,2.311-12.643c-14.576-13.883-45.416-23.566-82.414-23.566 C196.432,372.068,169.342,383.723,154.311,397.564z"></path>
+            </g>
+          </g>
+        </svg>
+        <div class="waiting-title">
+          <div>預計輪候時間</div>
+          <div>Estimated waiting time</div>
+        </div>
+      </div>
+      <div class="waiting-right">
+        <div id="waitingMins" class="waiting-number"></div>
+        <div class="waiting-unit">
+          <div>分鐘</div>
+          <div>Mins</div>
+        </div>
+      </div>
+    </div>
+
+    <button id="toggleMock" class="notice-toggle" type="button">
+      <svg class="notice-icon" viewBox="0 0 437.699 437.699" fill="#3d2714" aria-hidden="true">
+        <g>
+          <path d="M372.578,63.101c-41.18-32.332-95.775-50.138-153.727-50.138c-57.952,0-112.547,17.806-153.728,50.138 C23.127,96.073,0,140.162,0,187.244c0,47.688,24.536,93.246,67.589,126.027l-20.81,97.656c-0.893,4.186,0.629,8.518,3.94,11.227 c2.079,1.701,4.645,2.582,7.237,2.582c1.538,0,3.087-0.311,4.548-0.943l144.063-62.539c4.104,0.18,8.223,0.271,12.282,0.271 c57.952,0,112.545-17.807,153.727-50.139c41.996-32.973,65.123-77.061,65.123-124.144 C437.701,140.162,414.574,96.073,372.578,63.101z M218.852,304.393c-15.709,0-28.49-12.78-28.49-28.489 c0-15.71,12.781-28.491,28.49-28.491c15.708,0,28.49,12.781,28.49,28.491C247.342,291.612,234.561,304.393,218.852,304.393z M240.721,215.57c-0.771,11.446-10.367,20.417-21.844,20.417c-0.499,0-1.002-0.016-1.505-0.051 c-10.867-0.737-19.624-9.498-20.355-20.376l-6.931-102.056c-0.522-7.686,1.98-15.118,7.049-20.926 c5.068-5.806,12.092-9.29,19.779-9.813c0.653-0.044,1.313-0.066,1.962-0.066c15.11,0,27.757,11.813,28.778,26.894 C248.202,116.2,240.721,215.57,240.721,215.57z"></path>
+        </g>
+      </svg>
+      <div>
+        <div>以下號碼請聯絡門診職員</div>
+        <div>For the following numbers, please approach our staff</div>
+      </div>
+    </button>
+
+    <div id="noticeGrid" class="notice-grid"></div>
   </div>
 
   <script>

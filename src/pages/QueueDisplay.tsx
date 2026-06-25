@@ -4,8 +4,6 @@ import { getStationOption, isStationKey, type StationKey } from "@/queue/station
 import { useQueueSnapshot } from "@/hooks/useQueueSnapshot";
 import { useQueueStore } from "@/queue/store";
 
-const FIXED_MISSED_TICKETS = Array.from({ length: 11 }, (_, idx) => `OPD${String(200 + idx).padStart(3, "0")}`);
-
 function formatDateTimeDDMMYYYYHHmmss(date: Date) {
   const dd = String(date.getDate()).padStart(2, "0");
   const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -24,7 +22,7 @@ export default function QueueDisplay() {
 
   const stationOption = useMemo(() => getStationOption(station), [station]);
 
-  const { snapshot } = useQueueSnapshot(station);
+  const { snapshot, passedTickets } = useQueueSnapshot(station);
   const cycleCounterTicket = useQueueStore((s) => s.cycleCounterTicket);
   const [now, setNow] = useState(() => new Date());
   const [showNoticeTickets, setShowNoticeTickets] = useState(true);
@@ -47,7 +45,7 @@ export default function QueueDisplay() {
     return 10;
   }, [station]);
 
-  const noticeTickets = FIXED_MISSED_TICKETS;
+  const noticeTickets = passedTickets;
 
   const columnLabelZh = station === "dr" ? "診室" : "櫃位";
   const columnLabelEn = station === "dr" ? "Room" : "Counter";
@@ -223,7 +221,6 @@ export default function QueueDisplay() {
             <div>以下號碼請聯絡門診職員</div>
             <div>For the following numbers, please approach our staff</div>
           </div>
-          <div className="ml-auto mr-6 text-xl text-black/60">{showNoticeTickets ? "隱藏" : "顯示"}</div>
         </button>
 
         {showNoticeTickets ? (
@@ -237,11 +234,7 @@ export default function QueueDisplay() {
               </div>
             ))}
           </div>
-        ) : (
-          <div className="mb-5 flex h-16 items-center justify-center bg-[#f6f9f1] font-sans text-xl font-semibold text-[#53524d]">
-            過號資料已隱藏
-          </div>
-        )}
+        ) : null}
 
         <div style={{ background: "rgb(246, 249, 241)", display: "none" }}>
           <img src={asset("qdisplay/assets/Notice_V2-dwi0n6kw.png")} className="m-auto w-[800px]" />

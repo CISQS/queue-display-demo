@@ -358,6 +358,91 @@
         padding: 12px 20px;
       }
     }
+
+    .nurse-screen {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, #f1e8c4 0%, #dff0cc 100%);
+    }
+
+    .nurse-top {
+      height: 96px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #008d63;
+      color: #fff;
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .nurse-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 40px;
+    }
+
+    .nurse-ticket {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 120px;
+      font-weight: 600;
+      color: #000;
+      letter-spacing: 0.02em;
+    }
+
+    .doctor-table-wrap {
+      width: 100%;
+      padding: 16px 40px 8px;
+    }
+
+    .doctor-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 16px;
+    }
+
+    .doctor-table th {
+      padding-bottom: 8px;
+      text-align: left;
+      font-size: 40px;
+      font-weight: 400;
+    }
+
+    .doctor-ticket-cell {
+      padding-right: 32px;
+    }
+
+    .doctor-ticket-box,
+    .doctor-name-box {
+      display: flex;
+      height: 64px;
+      align-items: center;
+      justify-content: center;
+      background: #edeedd;
+    }
+
+    .doctor-ticket-box {
+      min-width: 320px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+    }
+
+    .doctor-name-box {
+      min-width: 224px;
+      padding: 0 16px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -379,6 +464,25 @@
         </button>
         <img class="meta-mark" src="./public/qdisplay/assets/logo-hksh-emc-sh-B1ezILO2.png" alt="" aria-hidden="true" />
       </div>
+    </div>
+
+    <div id="nurseScreen" class="nurse-screen" style="display:none">
+      <div class="nurse-top">護士分流站 Nurse Station</div>
+      <div class="nurse-body">
+        <div id="nurseTicket" class="nurse-ticket"></div>
+      </div>
+    </div>
+
+    <div id="doctorScreen" class="doctor-table-wrap" style="display:none">
+      <table class="doctor-table">
+        <thead>
+          <tr>
+            <th>號碼 Number</th>
+            <th>醫生 Doctor</th>
+          </tr>
+        </thead>
+        <tbody id="doctorRows"></tbody>
+      </table>
     </div>
 
     <div class="board">
@@ -431,12 +535,13 @@
 
   <script>
     const STATIONS = [
-      { key: "dr", labelZh: "醫生診室", labelEn: "Dr Station", wait: 15, columnZh: "診室", columnEn: "Room" },
+      { key: "dr", labelZh: "醫生診室", labelEn: "Dr Station", wait: 15, columnZh: "醫生", columnEn: "Doctor" },
       { key: "nurse", labelZh: "護士分流站", labelEn: "Nurse Station", wait: 10, columnZh: "櫃位", columnEn: "Counter" },
       { key: "pharmacy", labelZh: "藥房", labelEn: "Pharmacy", wait: 20, columnZh: "櫃位", columnEn: "Counter" }
     ];
 
     const COUNTER_CYCLE = ["", "OPD001", "OPD002", "OPD003"];
+    const DOCTOR_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
     const FIXED_MISSED_TICKETS = Array.from({ length: 11 }, (_, idx) => `OPD${String(200 + idx).padStart(3, "0")}`);
     const FIXED_MOCK_STORAGE_PREFIX = "queue-display-fixed-notice";
 
@@ -454,8 +559,15 @@
     const counterLabel = document.getElementById("counterLabel");
     const waitingMins = document.getElementById("waitingMins");
     const rows = document.getElementById("rows");
+    const doctorScreen = document.getElementById("doctorScreen");
+    const doctorRows = document.getElementById("doctorRows");
     const toggleMock = document.getElementById("toggleMock");
     const noticeGrid = document.getElementById("noticeGrid");
+    const nurseScreen = document.getElementById("nurseScreen");
+    const nurseTicket = document.getElementById("nurseTicket");
+    const header = document.querySelector(".header");
+    const board = document.querySelector(".board");
+    const waiting = document.querySelector(".waiting");
 
     function currentStation() {
       return STATIONS[stationIndex];
@@ -536,9 +648,25 @@
       stationButton.setAttribute("aria-label", `切換 station，目前顯示 ${station.labelZh} ${station.labelEn}`);
       counterLabel.textContent = `${station.columnZh} ${station.columnEn}`;
       waitingMins.textContent = String(station.wait);
+      applyStationLayout();
+    }
+
+    function applyStationLayout() {
+      const isNurse = currentStation().key === "nurse";
+      const isDoctor = currentStation().key === "dr";
+      nurseScreen.style.display = isNurse ? "flex" : "none";
+      doctorScreen.style.display = isDoctor ? "block" : "none";
+      board.style.display = isNurse || isDoctor ? "none" : "block";
+      waiting.style.display = isNurse || isDoctor ? "none" : "flex";
+      toggleMock.style.display = isNurse || isDoctor ? "none" : "flex";
+      noticeGrid.style.display = isNurse || isDoctor ? "none" : "flex";
+      if (isNurse) {
+        nurseTicket.textContent = rowsState.find((item) => item.counter === 1)?.ticket || "";
+      }
     }
 
     function cycleCounter(counter) {
+      if (currentStation().key === "nurse") return;
       const row = rowsState.find((item) => item.counter === counter);
       if (!row) return;
       const currentIndex = COUNTER_CYCLE.indexOf(row.ticket);
@@ -552,6 +680,7 @@
     }
 
     function moveCounterTicketToPassed(counter) {
+      if (currentStation().key === "nurse") return;
       const row = rowsState.find((item) => item.counter === counter);
       if (!row || !row.ticket) return;
       passedTickets = appendPassedTicket(passedTickets, row.ticket);
@@ -572,27 +701,65 @@
     }
 
     function renderRows() {
+      if (currentStation().key === "nurse") {
+        applyStationLayout();
+        return;
+      }
+      if (currentStation().key === "dr") {
+        applyStationLayout();
+        doctorRows.innerHTML = "";
+        rowsState.forEach((row, index) => {
+          const tr = document.createElement("tr");
+
+          const ticketCell = document.createElement("td");
+          ticketCell.className = "doctor-ticket-cell";
+          const ticketBox = document.createElement("div");
+          ticketBox.className = "doctor-ticket-box";
+          ticketBox.textContent = row.ticket;
+          ticketCell.appendChild(ticketBox);
+
+          const doctorCell = document.createElement("td");
+          const doctorBox = document.createElement("div");
+          doctorBox.className = "doctor-name-box";
+          doctorBox.textContent = DOCTOR_NAMES[index] || "";
+          doctorCell.appendChild(doctorBox);
+
+          tr.appendChild(ticketCell);
+          tr.appendChild(doctorCell);
+          doctorRows.appendChild(tr);
+        });
+        return;
+      }
       rows.innerHTML = "";
-      rowsState.forEach((row) => {
+      rowsState.forEach((row, index) => {
         const wrapper = document.createElement("div");
         wrapper.className = "row";
 
         const left = document.createElement("div");
-        const ticket = document.createElement("button");
-        ticket.type = "button";
+        const ticket = document.createElement(currentStation().key === "dr" ? "div" : "button");
+        if (currentStation().key !== "dr") {
+          ticket.type = "button";
+          ticket.disabled = !row.ticket;
+          ticket.addEventListener("click", () => moveCounterTicketToPassed(row.counter));
+        }
         ticket.className = "ticket-box";
         ticket.textContent = row.ticket;
-        ticket.disabled = !row.ticket;
-        ticket.addEventListener("click", () => moveCounterTicketToPassed(row.counter));
         left.appendChild(ticket);
 
         const right = document.createElement("div");
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "counter-button";
-        button.textContent = row.ticket ? String(row.counter) : "";
-        button.addEventListener("click", () => cycleCounter(row.counter));
-        right.appendChild(button);
+        if (currentStation().key === "dr") {
+          const doctor = document.createElement("div");
+          doctor.className = "counter-button";
+          doctor.textContent = DOCTOR_NAMES[index] || "";
+          right.appendChild(doctor);
+        } else {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "counter-button";
+          button.textContent = row.ticket ? String(row.counter) : "";
+          button.addEventListener("click", () => cycleCounter(row.counter));
+          right.appendChild(button);
+        }
 
         wrapper.appendChild(left);
         wrapper.appendChild(right);

@@ -10,6 +10,7 @@ export default function Call() {
   const [params, setParams] = useSearchParams();
   const stationFromQuery = params.get("station") ?? "dr";
   const station: StationKey = isStationKey(stationFromQuery) ? stationFromQuery : "dr";
+  const isNurseStation = station === "nurse";
 
   const [ticketInput, setTicketInput] = useState("");
   const [counter, setCounter] = useState(1);
@@ -39,6 +40,10 @@ export default function Call() {
     setTicketInput(counterTicket);
   }, [stationState.counters, counter]);
 
+  useEffect(() => {
+    if (isNurseStation) setCounter(1);
+  }, [isNurseStation]);
+
   return (
     <div className="min-h-screen bg-[#e6e6e6] text-[#222]">
       <div className="h-10 w-full bg-[#2aa9b8]" />
@@ -51,23 +56,27 @@ export default function Call() {
           Home
         </button>
         <div className="text-sm font-semibold">Queue System</div>
-        <div className="flex items-center gap-2">
-          <div className="text-xs font-semibold text-black/60">Counter</div>
-          <div className="relative">
-            <select
-              value={counter}
-              onChange={(e) => setCounter(Number(e.target.value))}
-              className="h-9 w-[84px] appearance-none rounded-lg border border-black/15 bg-white pl-3 pr-8 text-sm font-semibold text-black outline-none focus:ring-2 focus:ring-[#2aa9b8]/30"
-            >
-              {[1, 2, 3, 4].map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-black/60">▾</div>
+        {isNurseStation ? (
+          <div className="w-[140px]" />
+        ) : (
+          <div className="flex items-center gap-2">
+            <div className="text-xs font-semibold text-black/60">Counter</div>
+            <div className="relative">
+              <select
+                value={counter}
+                onChange={(e) => setCounter(Number(e.target.value))}
+                className="h-9 w-[84px] appearance-none rounded-lg border border-black/15 bg-white pl-3 pr-8 text-sm font-semibold text-black outline-none focus:ring-2 focus:ring-[#2aa9b8]/30"
+              >
+                {[1, 2, 3, 4].map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-black/60">▾</div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="mx-auto max-w-2xl px-6 py-8">
@@ -121,13 +130,13 @@ export default function Call() {
               <div className="grid gap-3 sm:grid-cols-3">
                 <button
                   type="button"
-                  onClick={() => callTicket(station, ticketInput, counter)}
+                  onClick={() => callTicket(station, ticketInput, isNurseStation ? 1 : counter)}
                   className="inline-flex h-11 items-center justify-center rounded-lg bg-[#00B18B] px-4 text-sm font-semibold text-white shadow-sm transition duration-150 hover:bg-[#009a78] hover:shadow-md active:translate-y-[1px] active:scale-[0.98] active:bg-[#008f70] active:shadow-inner focus:outline-none focus:ring-2 focus:ring-[#00B18B]/35"
                   style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
                 >叫號</button>
                 <button
                   type="button"
-                  onClick={() => completeTicket(station, ticketInput, counter)}
+                  onClick={() => completeTicket(station, ticketInput, isNurseStation ? 1 : counter)}
                   className="inline-flex h-11 items-center justify-center rounded-lg border border-black/15 bg-white px-4 text-sm font-semibold text-black/80 shadow-sm transition duration-150 hover:bg-black/[0.03] hover:shadow-md active:translate-y-[1px] active:scale-[0.98] active:bg-black/[0.06] active:shadow-inner focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/25"
                   style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
                 >
@@ -135,7 +144,7 @@ export default function Call() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => passTicket(station, ticketInput, counter)}
+                  onClick={() => passTicket(station, ticketInput, isNurseStation ? 1 : counter)}
                   className="inline-flex h-11 items-center justify-center rounded-lg border border-black/15 bg-white px-4 text-sm font-semibold text-black/80 shadow-sm transition duration-150 hover:bg-black/[0.03] hover:shadow-md active:translate-y-[1px] active:scale-[0.98] active:bg-black/[0.06] active:shadow-inner focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/25"
                   style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
                 >

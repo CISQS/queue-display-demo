@@ -16,6 +16,7 @@ type QueueStoreState = {
   callTicket: (station: StationKey, ticketInput: string, counter: number) => void;
   completeTicket: (station: StationKey, ticketInput: string, counter: number) => void;
   passTicket: (station: StationKey, ticketInput: string, counter: number) => void;
+  moveCounterTicketToPassed: (station: StationKey, counter: number) => void;
   dismissPassedTicket: (station: StationKey, ticket: string) => void;
   cycleCounterTicket: (station: StationKey, counter: number) => void;
 };
@@ -240,6 +241,28 @@ export const useQueueStore = create<QueueStoreState>()(
           broadcastStations(nextStations);
           return { stations: nextStations };
     });
+      },
+      moveCounterTicketToPassed: (station, counter) => {
+        const nowIso = new Date().toISOString();
+        set((s) => {
+          const current = s.stations[station];
+          const ticket = current.counters.find((c) => c.counter === counter)?.ticket ?? "";
+          const value = normalizeTicket(ticket);
+          if (!value) return s;
+          const passedTickets = appendPassedTicket(current.passedTickets, value);
+          const counters = current.counters.map((c) => (c.counter === counter ? { ...c, ticket: "" } : c));
+          const nextStations = {
+            ...s.stations,
+            [station]: {
+              ...current,
+              passedTickets,
+              counters,
+              updatedAtISO: nowIso,
+            },
+          };
+          broadcastStations(nextStations);
+          return { stations: nextStations };
+        });
       },
       dismissPassedTicket: (station, ticket) => {
         const nowIso = new Date().toISOString();

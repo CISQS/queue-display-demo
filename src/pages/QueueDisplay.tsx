@@ -26,6 +26,7 @@ export default function QueueDisplay() {
 
   const { snapshot, passedTickets } = useQueueSnapshot(station);
   const cycleCounterTicket = useQueueStore((s) => s.cycleCounterTicket);
+  const moveCounterTicketToPassed = useQueueStore((s) => s.moveCounterTicketToPassed);
   const dismissPassedTicket = useQueueStore((s) => s.dismissPassedTicket);
   const [now, setNow] = useState(() => new Date());
   const [showFixedNoticeTickets, setShowFixedNoticeTickets] = useState(true);
@@ -49,17 +50,32 @@ export default function QueueDisplay() {
     return 10;
   }, [station]);
 
-  const noticeTickets = passedTickets;
   const fixedNoticeTickets = useMemo(() => {
     return FIXED_MISSED_TICKETS.filter((t) => !hiddenFixedNoticeTickets.has(t));
   }, [hiddenFixedNoticeTickets]);
+
+  const mergedNoticeTickets = useMemo(() => {
+    const out: Array<{ ticket: string; isFixed: boolean }> = [];
+    const fixedSet = new Set<string>();
+    if (showFixedNoticeTickets) {
+      fixedNoticeTickets.forEach((t) => {
+        out.push({ ticket: t, isFixed: true });
+        fixedSet.add(t);
+      });
+    }
+    passedTickets.forEach((t) => {
+      if (fixedSet.has(t)) return;
+      out.push({ ticket: t, isFixed: false });
+    });
+    return out;
+  }, [fixedNoticeTickets, passedTickets, showFixedNoticeTickets]);
 
   const columnLabelZh = station === "dr" ? "診室" : "櫃位";
   const columnLabelEn = station === "dr" ? "Room" : "Counter";
   const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
   return (
-    <div className="min-h-screen w-full font-mono">
+    <div className="min-h-screen w-full ui-sans-serif">
       <div className="flex min-h-screen w-full select-none flex-col bg-gradient-to-r from-[#eedcac] to-[#bce4be] text-black">
         <div className="bg-[#008d63]">
           <div className="inset-x-0 top-0 flex flex-wrap items-center justify-between bg-white">
@@ -112,11 +128,20 @@ export default function QueueDisplay() {
           </div>
 
           {rows.map((row) => (
-            <div key={`${row.ticket}-${row.counter}`} className="flex justify-between px-10 py-2">
+            <div key={`counter-row-${row.counter}`} className="flex justify-between px-10 py-2">
               <div>
-                <div className="flex h-16 w-80 items-center justify-center bg-[#edeedd] font-sans text-4xl font-semibold tabular-nums">
+                <button
+                  type="button"
+                  disabled={!row.ticket}
+                  onClick={() => moveCounterTicketToPassed(station, Number(row.counter))}
+                  className="flex h-16 w-80 items-center justify-center bg-[#edeedd] font-sans text-4xl font-semibold tabular-nums"
+                  style={{
+                    touchAction: "manipulation",
+                    WebkitTapHighlightColor: "transparent",
+                  }}
+                >
                   {row.ticket}
-                </div>
+                </button>
               </div>
               <div>
                 <button
@@ -235,32 +260,21 @@ export default function QueueDisplay() {
         </button>
 
         <div className="flex w-full flex-1 flex-wrap content-start overflow-auto bg-[#f6f9f1] p-4 box-border font-sans text-[#53524d]">
-          {noticeTickets.map((t) => (
-            <button
-              key={`passed-${t}`}
-              type="button"
-              onClick={() => dismissPassedTicket(station, t)}
-              className="mr-3 mb-3 rounded bg-white px-4 py-2 text-3xl font-semibold tabular-nums shadow-sm md:text-4xl"
-              style={{
-                touchAction: "manipulation",
-                WebkitTapHighlightColor: "transparent",
-              }}
-            >
-              {t}
-            </button>
-          ))}
-          {showFixedNoticeTickets
-            ? fixedNoticeTickets.map((t) => (
+          {mergedNoticeTickets.map(({ ticket, isFixed }) => (
               <button
-                key={`mock-${t}`}
+                key={`${isFixed ? "mock" : "passed"}-${ticket}`}
                 type="button"
                 onClick={() => {
-                  dismissPassedTicket(station, t);
-                  setHiddenFixedNoticeTickets((prev) => {
-                    const next = new Set(prev);
-                    next.add(t);
-                    return next;
-                  });
+                  if (isFixed) {
+                    dismissPassedTicket(station, ticket);
+                    setHiddenFixedNoticeTickets((prev) => {
+                      const next = new Set(prev);
+                      next.add(ticket);
+                      return next;
+                    });
+                    return;
+                  }
+                  dismissPassedTicket(station, ticket);
                 }}
                 className="mr-3 mb-3 rounded bg-white px-4 py-2 text-3xl font-semibold tabular-nums shadow-sm md:text-4xl"
                 style={{
@@ -268,10 +282,9 @@ export default function QueueDisplay() {
                   WebkitTapHighlightColor: "transparent",
                 }}
               >
-                {t}
+                {ticket}
               </button>
-            ))
-            : null}
+          ))}
         </div>
 
         <div style={{ background: "rgb(246, 249, 241)", display: "none" }}>

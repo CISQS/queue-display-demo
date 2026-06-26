@@ -106,9 +106,21 @@ export async function startFirebaseSync() {
   started = true;
 
   const env = import.meta.env as FirebaseEnv;
-  const debug =
-    typeof window !== "undefined" &&
-    (new URLSearchParams(window.location.search).has("debugSync") || window.localStorage.getItem("debugSync") === "1");
+  const debug = (() => {
+    if (typeof window === "undefined") return false;
+    if (window.localStorage.getItem("debugSync") === "1") return true;
+    try {
+      const url = new URL(window.location.href);
+      if (url.searchParams.has("debugSync")) return true;
+    } catch {
+      return false;
+    }
+    const hash = window.location.hash || "";
+    const queryIdx = hash.indexOf("?");
+    if (queryIdx < 0) return false;
+    const params = new URLSearchParams(hash.slice(queryIdx + 1));
+    return params.has("debugSync");
+  })();
 
   if (env.VITE_ENABLE_FIREBASE_SYNC !== "true") {
     if (debug) console.info("[firebaseSync] disabled");

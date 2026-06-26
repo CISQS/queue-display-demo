@@ -29,6 +29,7 @@ export default function QueueDisplay() {
   const dismissPassedTicket = useQueueStore((s) => s.dismissPassedTicket);
   const [now, setNow] = useState(() => new Date());
   const [showFixedNoticeTickets, setShowFixedNoticeTickets] = useState(true);
+  const [hiddenFixedNoticeTickets, setHiddenFixedNoticeTickets] = useState<Set<string>>(() => new Set());
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000);
@@ -49,6 +50,9 @@ export default function QueueDisplay() {
   }, [station]);
 
   const noticeTickets = passedTickets;
+  const fixedNoticeTickets = useMemo(() => {
+    return FIXED_MISSED_TICKETS.filter((t) => !hiddenFixedNoticeTickets.has(t));
+  }, [hiddenFixedNoticeTickets]);
 
   const columnLabelZh = station === "dr" ? "診室" : "櫃位";
   const columnLabelEn = station === "dr" ? "Room" : "Counter";
@@ -246,13 +250,26 @@ export default function QueueDisplay() {
             </button>
           ))}
           {showFixedNoticeTickets
-            ? FIXED_MISSED_TICKETS.map((t) => (
-              <div
+            ? fixedNoticeTickets.map((t) => (
+              <button
                 key={`mock-${t}`}
+                type="button"
+                onClick={() => {
+                  dismissPassedTicket(station, t);
+                  setHiddenFixedNoticeTickets((prev) => {
+                    const next = new Set(prev);
+                    next.add(t);
+                    return next;
+                  });
+                }}
                 className="mr-3 mb-3 rounded bg-white px-4 py-2 text-3xl font-semibold tabular-nums shadow-sm md:text-4xl"
+                style={{
+                  touchAction: "manipulation",
+                  WebkitTapHighlightColor: "transparent",
+                }}
               >
                 {t}
-              </div>
+              </button>
             ))
             : null}
         </div>

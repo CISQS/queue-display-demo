@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { MonitorPlay } from "lucide-react";
 import StationSelect from "@/components/StationSelect";
 import { isStationKey, type StationKey } from "@/queue/stations";
 import { useQueueStore } from "@/queue/store";
@@ -33,7 +34,7 @@ export default function Call() {
         >
           Home
         </button>
-        <div className="text-sm font-semibold">叫號</div>
+        <div className="text-sm font-semibold">Queue System</div>
         <div className="flex items-center gap-2">
           <div className="text-xs font-semibold text-black/60">Counter</div>
           <div className="relative">
@@ -55,8 +56,19 @@ export default function Call() {
 
       <div className="mx-auto max-w-2xl px-6 py-8">
         <div className="rounded-xl border border-black/10 bg-white">
-          <div className="bg-[#2aa9b8] px-4 py-2 text-sm font-semibold text-white">叫號控制</div>
+          <div className="bg-[#2aa9b8] px-4 py-2 text-sm font-semibold text-white">叫號系統 Calling System</div>
           <div className="p-6">
+            <button
+              type="button"
+              onClick={() => {
+                const url = `${import.meta.env.BASE_URL}#/display?station=${station}`;
+                window.open(url, "_blank", "noopener,noreferrer");
+              }}
+              className="mb-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2aa9b8] px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2396a3] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/35"
+            >
+              <MonitorPlay className="h-4 w-4" />
+              Queue Display
+            </button>
             <div className="grid gap-4">
               <div>
                 <div className="text-xs font-semibold text-black/60">Station</div>
@@ -69,7 +81,7 @@ export default function Call() {
               </div>
 
               <div>
-                <div className="text-xs font-semibold text-black/60">號碼</div>
+                <div className="text-xs font-semibold text-black/60">Ticket No.</div>
                 <input
                   value={ticketInput}
                   onChange={(e) => setTicketInput(e.target.value)}
@@ -82,10 +94,8 @@ export default function Call() {
                 <button
                   type="button"
                   onClick={() => callTicket(station, ticketInput, counter)}
-                  className="inline-flex h-11 items-center justify-center rounded-lg bg-[#2aa9b8] px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2396a3] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/35"
-                >
-                  叫號
-                </button>
+                  className="inline-flex h-11 items-center justify-center rounded-lg bg-[#00B18B] px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-[#009a78] focus:outline-none focus:ring-2 focus:ring-[#00B18B]/35"
+                >叫號</button>
                 <button
                   type="button"
                   onClick={() => completeTicket(station, ticketInput, counter)}

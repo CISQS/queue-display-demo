@@ -193,7 +193,8 @@ export default function QueueDisplay() {
   };
 
   if (station === "nurse") {
-    const nurseDisplayTicket = nurseTicket || nurseMockTicket;
+    const nurseTicketIsMock = MOCK_TICKET_CYCLE.includes(nurseTicket);
+    const nurseDisplayTicket = nurseMockTicket || nurseTicket;
     return (
       <div className="min-h-screen w-full ui-sans-serif">
         <div className="flex min-h-screen w-full flex-col bg-gradient-to-b from-[#f1e8c4] to-[#dff0cc] text-black">
@@ -257,8 +258,9 @@ export default function QueueDisplay() {
             <button
               type="button"
               onClick={() => {
-                if (nurseTicket) return;
-                setNurseMockTicket((prev) => nextMockTicket(prev));
+                if (nurseTicket && !nurseMockTicket && !nurseTicketIsMock) return;
+                const base = nurseMockTicket || (nurseTicketIsMock ? nurseTicket : "");
+                setNurseMockTicket(nextMockTicket(base));
               }}
               className="font-sans text-[120px] font-semibold tabular-nums"
               style={{
@@ -345,7 +347,7 @@ export default function QueueDisplay() {
                       <tr key={`counter-row-${row.counter}`}>
                         <td className="pr-8 align-middle">
                           {row.ticket ? (
-                            <div className="flex h-20 w-full min-w-[280px] items-center justify-center bg-[#edeedd] font-sans text-[40px] font-semibold tabular-nums">
+                            <div className="flex h-20 w-full min-w-[360px] items-center justify-center bg-[#edeedd] font-sans text-[40px] font-semibold tabular-nums">
                               {row.ticket}
                             </div>
                           ) : (
@@ -358,7 +360,7 @@ export default function QueueDisplay() {
                                   return next;
                                 });
                               }}
-                              className="flex h-20 w-full min-w-[280px] items-center justify-center bg-[#edeedd] font-sans text-[40px] font-semibold tabular-nums"
+                              className="flex h-20 w-full min-w-[360px] items-center justify-center bg-[#edeedd] font-sans text-[40px] font-semibold tabular-nums"
                               style={{
                                 touchAction: "manipulation",
                                 WebkitTapHighlightColor: "transparent",
@@ -379,7 +381,7 @@ export default function QueueDisplay() {
                                 return next;
                               });
                             }}
-                            className="flex h-20 w-full min-w-[260px] items-center justify-center bg-[#edeedd] px-4 text-center font-sans text-[33px] font-semibold leading-none"
+                            className="flex h-20 w-full min-w-[320px] items-center justify-center bg-[#edeedd] px-4 text-center font-sans text-[33px] font-semibold leading-none"
                             style={{
                               touchAction: "manipulation",
                               WebkitTapHighlightColor: "transparent",

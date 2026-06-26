@@ -57,6 +57,14 @@
       outline-offset: 2px;
     }
 
+    .station-logo {
+      height: 64px;
+      width: auto;
+      margin-right: 14px;
+      flex: 0 0 auto;
+      display: block;
+    }
+
     .station-copy {
       font-size: 24px;
       font-weight: 700;
@@ -74,6 +82,14 @@
       margin-top: 2px;
       font-size: 24px;
       font-weight: 700;
+    }
+
+    body[data-station="pharmacy"] .station-copy #stationZh {
+      font-size: 28px;
+    }
+
+    body[data-station="pharmacy"] .station-copy #stationEn {
+      font-size: 20px;
     }
 
     .meta {
@@ -433,14 +449,14 @@
     }
 
     .doctor-ticket-box {
-      min-width: 280px;
+      min-width: 360px;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 42px;
       font-weight: 600;
     }
 
     .doctor-name-box {
-      min-width: 260px;
+      min-width: 320px;
       padding: 0 16px;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 33px;
@@ -454,6 +470,7 @@
   <div class="app">
     <div class="header">
       <button id="stationButton" class="station-button" type="button" title="點擊切換 station">
+        <img class="station-logo" src="./public/qdisplay/assets/hksh_logo-CIMGYLsQ.png" alt="HKSH" />
         <div class="station-copy">
           <div id="stationZh"></div>
           <div id="stationEn"></div>
@@ -658,8 +675,10 @@
     }
 
     function applyStationLayout() {
-      const isNurse = currentStation().key === "nurse";
-      const isDoctor = currentStation().key === "dr";
+      const stationKey = currentStation().key;
+      document.body.dataset.station = stationKey;
+      const isNurse = stationKey === "nurse";
+      const isDoctor = stationKey === "dr";
       nurseScreen.style.display = isNurse ? "flex" : "none";
       doctorScreen.style.display = isDoctor ? "block" : "none";
       board.style.display = isNurse || isDoctor ? "none" : "block";
@@ -828,6 +847,7 @@
       stationIndex = (stationIndex + 1) % STATIONS.length;
       applyFixedMockState(loadFixedMockState());
       renderHeader();
+      renderRows();
       renderNotice();
     });
 

@@ -254,7 +254,7 @@ export default function QueueDisplay() {
             <div className="text-4xl font-semibold tracking-wide">護士分流站 Nurse Station</div>
           </div>
 
-          <div className="flex flex-1 items-center justify-center px-10">
+          <div className="flex flex-1 items-stretch justify-center px-10">
             <button
               type="button"
               onClick={() => {
@@ -262,7 +262,8 @@ export default function QueueDisplay() {
                 const base = nurseMockTicket || (nurseTicketIsMock ? nurseTicket : "");
                 setNurseMockTicket(nextMockTicket(base));
               }}
-              className="font-sans text-[120px] font-semibold tabular-nums"
+              aria-label="點擊循環顯示測試票號"
+              className="flex w-full items-center justify-center font-sans text-[120px] font-semibold tabular-nums"
               style={{
                 touchAction: "manipulation",
                 WebkitTapHighlightColor: "transparent",

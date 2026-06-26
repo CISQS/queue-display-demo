@@ -109,43 +109,71 @@ export async function startFirebaseSync() {
   if (env.VITE_ENABLE_FIREBASE_SYNC !== "true") return;
 
   const config = getFirebaseConfig(env);
-  if (!config) return;
+  if (!config) {
+    console.error("[firebaseSync] missing Firebase env config");
+    return;
+  }
 
   const deviceId = getDeviceId();
 
-  const [{ initializeApp }, { getFirestore, doc, setDoc, onSnapshot }] = await Promise.all([
-    import("firebase/app"),
-    import("firebase/firestore"),
-  ]);
+  let initializeApp: typeof import("firebase/app").initializeApp;
+  let getFirestore: typeof import("firebase/firestore").getFirestore;
+  let doc: typeof import("firebase/firestore").doc;
+  let setDoc: typeof import("firebase/firestore").setDoc;
+  let onSnapshot: typeof import("firebase/firestore").onSnapshot;
 
-  const app = initializeApp(config);
-  const db = getFirestore(app);
+  try {
+    [{ initializeApp }, { getFirestore, doc, setDoc, onSnapshot }] = await Promise.all([
+      import("firebase/app"),
+      import("firebase/firestore"),
+    ]);
+  } catch (err) {
+    console.error("[firebaseSync] failed to load Firebase SDK", err);
+    return;
+  }
+
+  let db: ReturnType<typeof getFirestore>;
+  try {
+    const app = initializeApp(config);
+    db = getFirestore(app);
+  } catch (err) {
+    console.error("[firebaseSync] failed to initialize Firebase", err);
+    return;
+  }
+
+  console.info("[firebaseSync] enabled");
 
   const stationKeys: StationKey[] = ["dr", "nurse", "pharmacy"];
 
   stationKeys.forEach((station) => {
     const ref = doc(db, "stations", station);
-    onSnapshot(ref, (snap) => {
-      const data = snap.data() as RemoteStationDoc | undefined;
-      if (!data) return;
-      if (!isStationKey(data.station)) return;
-      if (data.lastUpdatedBy === deviceId) return;
+    onSnapshot(
+      ref,
+      (snap) => {
+        const data = snap.data() as RemoteStationDoc | undefined;
+        if (!data) return;
+        if (!isStationKey(data.station)) return;
+        if (data.lastUpdatedBy === deviceId) return;
 
-      const state = useQueueStore.getState();
-      const localStation = state.stations[station];
-      const localMutation = state.lastMutation?.station === station ? state.lastMutation : undefined;
-      if (localMutation?.atISO && typeof data.updatedAtISO === "string" && localMutation.atISO >= data.updatedAtISO) {
-        return;
-      }
+        const state = useQueueStore.getState();
+        const localStation = state.stations[station];
+        const localMutation = state.lastMutation?.station === station ? state.lastMutation : undefined;
+        if (localMutation?.atISO && typeof data.updatedAtISO === "string" && localMutation.atISO >= data.updatedAtISO) {
+          return;
+        }
 
-      const nextStation = coerceStationState(station, data, localStation);
-      useQueueStore.setState((s) => ({
-        stations: {
-          ...s.stations,
-          [station]: nextStation,
-        },
-      }));
-    });
+        const nextStation = coerceStationState(station, data, localStation);
+        useQueueStore.setState((s) => ({
+          stations: {
+            ...s.stations,
+            [station]: nextStation,
+          },
+        }));
+      },
+      (err) => {
+        console.error(`[firebaseSync] snapshot failed (${station})`, err);
+      },
+    );
   });
 
   let lastPushedKey = "";
@@ -167,6 +195,8 @@ export async function startFirebaseSync() {
         lastUpdatedBy: deviceId,
       },
       { merge: false },
-    );
+    ).catch((err) => {
+      console.error(`[firebaseSync] push failed (${station})`, err);
+    });
   });
 }

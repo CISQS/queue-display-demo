@@ -11,6 +11,7 @@ export default function Call() {
   const stationFromQuery = params.get("station") ?? "dr";
   const station: StationKey = isStationKey(stationFromQuery) ? stationFromQuery : "dr";
   const isNurseStation = station === "nurse";
+  const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
   const [ticketInput, setTicketInput] = useState("");
   const [counter, setCounter] = useState(1);
@@ -44,17 +45,54 @@ export default function Call() {
     if (isNurseStation) setCounter(1);
   }, [isNurseStation]);
 
+  const toggleFullscreen = async () => {
+    const doc = document as Document & {
+      webkitExitFullscreen?: () => Promise<void> | void;
+      webkitFullscreenElement?: Element | null;
+    };
+    const root = document.documentElement as HTMLElement & {
+      webkitRequestFullscreen?: () => Promise<void> | void;
+    };
+
+    const fullscreenElement = doc.fullscreenElement ?? doc.webkitFullscreenElement;
+    try {
+      if (fullscreenElement) {
+        if (doc.exitFullscreen) await doc.exitFullscreen();
+        else if (doc.webkitExitFullscreen) await doc.webkitExitFullscreen();
+        return;
+      }
+      if (root.requestFullscreen) await root.requestFullscreen();
+      else if (root.webkitRequestFullscreen) await root.webkitRequestFullscreen();
+    } catch {
+      return;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#e6e6e6] text-[#222]">
       <div className="h-10 w-full bg-[#2aa9b8]" />
       <div className="flex items-center justify-between border-b border-black/10 bg-white px-4 py-2">
-        <button
-          type="button"
-          onClick={() => navigate("/")}
-          className="text-sm font-semibold text-black/70 hover:text-black"
-        >
-          Home
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={toggleFullscreen}
+            className="inline-flex items-center justify-center rounded"
+            style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
+            aria-label="進入/解除全屏"
+            title="進入/解除全屏"
+          >
+            <img
+              src={asset("qdisplay/assets/hksh_logo-CIMGYLsQ.png")}
+              className="h-6 w-6 rounded object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          </button>
+          <button type="button" onClick={() => navigate("/")} className="text-sm font-semibold text-black/70 hover:text-black">
+            Home
+          </button>
+        </div>
         <div className="text-sm font-semibold">Queue System</div>
         {isNurseStation ? (
           <div className="w-[140px]" />

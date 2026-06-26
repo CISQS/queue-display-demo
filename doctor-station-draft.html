@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Station Draft</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #000;
+        background: linear-gradient(90deg, #eedcac 0%, #bce4be 100%);
+      }
+
+      .app {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+      }
+
+      .header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        padding: 14px 18px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+      }
+
+      .station-title {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .station-title .zh {
+        font-size: 34px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+
+      .station-title .en {
+        font-size: 24px;
+        font-weight: 800;
+        color: rgba(0, 0, 0, 0.72);
+      }
+
+      .meta {
+        text-align: right;
+        font-size: 12px;
+        line-height: 1.25;
+        color: rgba(0, 0, 0, 0.7);
+      }
+
+      .meta .clock {
+        display: inline-block;
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.85);
+      }
+
+      .board {
+        width: 100%;
+        padding: 14px 0 4px;
+      }
+
+      .board-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 40px 10px;
+        font-size: 40px;
+        letter-spacing: 0.01em;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 40px;
+        gap: 22px;
+      }
+
+      .ticket-box {
+        flex: 1 1 auto;
+        min-width: 420px;
+        height: 96px;
+        background: #edeedd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 46px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        border-radius: 10px;
+        box-shadow: inset 0 0 0 1px rgba(83, 82, 77, 0.06), 0 4px 12px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+      }
+
+      .doctor-box {
+        flex: 0 0 460px;
+        height: 96px;
+        background: #edeedd;
+        border-radius: 10px;
+        box-shadow: inset 0 0 0 1px rgba(83, 82, 77, 0.06), 0 4px 12px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        border: 0;
+        padding: 0;
+        color: #000;
+      }
+
+      .doctor-inner {
+        height: 100%;
+        display: flex;
+        align-items: stretch;
+      }
+
+      .doctor-name {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 18px;
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+      }
+
+      .doctor-room {
+        width: 88px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: 2px solid rgba(0, 0, 0, 0.12);
+        font-size: 44px;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+      }
+
+      .waiting {
+        margin: 8px 0 10px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        padding: 0 30px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+      }
+
+      .waiting-left {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        font-size: 28px;
+        font-weight: 700;
+      }
+
+      .waiting-right {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+      }
+
+      .waiting-number {
+        font-size: 72px;
+        font-weight: 800;
+      }
+
+      .waiting-unit {
+        font-size: 28px;
+        font-weight: 700;
+      }
+
+      @media (max-width: 1100px) {
+        .board-header,
+        .row {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        .row {
+          flex-direction: column;
+        }
+
+        .ticket-box {
+          min-width: 0;
+          width: 100%;
+        }
+
+        .doctor-box {
+          width: 100%;
+          flex-basis: auto;
+        }
+
+        .waiting {
+          padding: 0 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="header">
+        <div class="station-title">
+          <div class="zh">醫生站</div>
+          <div class="en">Doctor Station</div>
+        </div>
+        <div class="meta">
+          <div>養和醫院</div>
+          <div>Hong Kong</div>
+          <div>Sanatorium &amp; Hospital</div>
+          <span id="clock" class="clock"></span>
+        </div>
+      </div>
+
+      <div class="board">
+        <div class="board-header">
+          <div>號碼 Number</div>
+          <div>醫生 Doctor</div>
+        </div>
+        <div id="rows"></div>
+      </div>
+
+      <div class="waiting">
+        <div class="waiting-left">
+          <div>預計輪候時間</div>
+          <div style="font-weight: 600; opacity: 0.8">Estimated waiting time</div>
+        </div>
+        <div class="waiting-right">
+          <div id="waitingMins" class="waiting-number">15</div>
+          <div class="waiting-unit">
+            <div>分鐘</div>
+            <div style="opacity: 0.8">Mins</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const DOCTOR_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
+      const DOCTOR_ROOMS = ["A", "B", "C", "D"];
+      const MOCK_TICKET_CYCLE = ["", "OPD001", "OPD002", "OPD003", "OPD004"];
+
+      const rows = document.getElementById("rows");
+      const clock = document.getElementById("clock");
+
+      const state = {
+        tickets: ["", "", "", ""],
+      };
+
+      function formatDateTimeDDMMYYYYHHmmss(date) {
+        const dd = String(date.getDate()).padStart(2, "0");
+        const mm = String(date.getMonth() + 1).padStart(2, "0");
+        const yyyy = String(date.getFullYear());
+        const hh = String(date.getHours()).padStart(2, "0");
+        const min = String(date.getMinutes()).padStart(2, "0");
+        const ss = String(date.getSeconds()).padStart(2, "0");
+        return `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+      }
+
+      function nextMockTicket(current) {
+        const idx = MOCK_TICKET_CYCLE.indexOf(current);
+        if (idx < 0) return MOCK_TICKET_CYCLE[1];
+        return MOCK_TICKET_CYCLE[(idx + 1) % MOCK_TICKET_CYCLE.length];
+      }
+
+      function renderClock() {
+        clock.textContent = formatDateTimeDDMMYYYYHHmmss(new Date());
+      }
+
+      function renderRows() {
+        rows.innerHTML = "";
+        for (let i = 0; i < 4; i += 1) {
+          const row = document.createElement("div");
+          row.className = "row";
+
+          const ticket = document.createElement("div");
+          ticket.className = "ticket-box";
+          ticket.textContent = state.tickets[i];
+          ticket.addEventListener("click", () => {
+            state.tickets[i] = "";
+            renderRows();
+          });
+
+          const doctor = document.createElement("button");
+          doctor.type = "button";
+          doctor.className = "doctor-box";
+          doctor.setAttribute("aria-label", `醫生 ${DOCTOR_NAMES[i]} 房間 ${DOCTOR_ROOMS[i]}`);
+          doctor.addEventListener("click", () => {
+            state.tickets[i] = nextMockTicket(state.tickets[i]);
+            renderRows();
+          });
+
+          const doctorInner = document.createElement("div");
+          doctorInner.className = "doctor-inner";
+
+          const name = document.createElement("div");
+          name.className = "doctor-name";
+          name.textContent = DOCTOR_NAMES[i];
+
+          const room = document.createElement("div");
+          room.className = "doctor-room";
+          room.textContent = DOCTOR_ROOMS[i];
+
+          doctorInner.appendChild(name);
+          doctorInner.appendChild(room);
+          doctor.appendChild(doctorInner);
+
+          row.appendChild(ticket);
+          row.appendChild(doctor);
+          rows.appendChild(row);
+        }
+      }
+
+      renderClock();
+      setInterval(renderClock, 1000);
+      renderRows();
+    </script>
+  </body>
+</html>

@@ -133,14 +133,27 @@
       }
 
       .doctor-room {
-        width: 88px;
+        width: 96px;
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px 0 8px;
         border-left: 2px solid rgba(0, 0, 0, 0.12);
         font-size: 44px;
         font-weight: 900;
         letter-spacing: 0.03em;
+      }
+
+      .doctor-room svg {
+        width: 20px;
+        height: 20px;
+        opacity: 0.7;
+      }
+
+      .doctor-room .room-letter {
+        line-height: 1;
       }
 
       .waiting {
@@ -307,7 +320,20 @@
 
           const room = document.createElement("div");
           room.className = "doctor-room";
-          room.textContent = DOCTOR_ROOMS[i];
+          room.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M4 20V5.8C4 5.08 4.58 4.5 5.3 4.5H14.2C14.92 4.5 15.5 5.08 15.5 5.8V20"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path d="M15.5 12H20V20H15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M12 12.5H12.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            </svg>
+            <div class="room-letter">${DOCTOR_ROOMS[i]}</div>
+          `;
 
           doctorInner.appendChild(name);
           doctorInner.appendChild(room);

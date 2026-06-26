@@ -7,7 +7,13 @@ import { useQueueStore } from "@/queue/store";
 const FIXED_MISSED_TICKETS = Array.from({ length: 11 }, (_, idx) => `OPD${String(200 + idx).padStart(3, "0")}`);
 const FIXED_NOTICE_STORAGE_PREFIX = "queue-display-fixed-notice";
 const DOCTOR_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
-const MOCK_TICKET = "OPD001";
+const MOCK_TICKET_CYCLE = ["", "OPD001", "OPD002", "OPD003", "OPD004"];
+
+function nextMockTicket(current: string) {
+  const idx = MOCK_TICKET_CYCLE.indexOf(current);
+  if (idx < 0) return MOCK_TICKET_CYCLE[1];
+  return MOCK_TICKET_CYCLE[(idx + 1) % MOCK_TICKET_CYCLE.length];
+}
 
 function getFixedNoticeStorageKey(station: StationKey) {
   return `${FIXED_NOTICE_STORAGE_PREFIX}:${station}`;
@@ -252,8 +258,7 @@ export default function QueueDisplay() {
               type="button"
               onClick={() => {
                 if (nurseTicket) return;
-                if (nurseMockTicket) setNurseMockTicket("");
-                else setNurseMockTicket(MOCK_TICKET);
+                setNurseMockTicket((prev) => nextMockTicket(prev));
               }}
               className="font-sans text-[120px] font-semibold tabular-nums"
               style={{
@@ -346,16 +351,14 @@ export default function QueueDisplay() {
                           ) : (
                             <button
                               type="button"
-                              disabled={!doctorMockTickets[index]}
                               onClick={() => {
-                                if (!doctorMockTickets[index]) return;
                                 setDoctorMockTickets((prev) => {
                                   const next = [...prev];
-                                  next[index] = "";
+                                  next[index] = nextMockTicket(next[index] ?? "");
                                   return next;
                                 });
                               }}
-                              className="flex h-20 w-full min-w-[280px] items-center justify-center bg-[#edeedd] font-sans text-[40px] font-semibold tabular-nums disabled:cursor-default"
+                              className="flex h-20 w-full min-w-[280px] items-center justify-center bg-[#edeedd] font-sans text-[40px] font-semibold tabular-nums"
                               style={{
                                 touchAction: "manipulation",
                                 WebkitTapHighlightColor: "transparent",
@@ -370,10 +373,9 @@ export default function QueueDisplay() {
                             type="button"
                             onClick={() => {
                               if (row.ticket) return;
-                              if (doctorMockTickets[index]) return;
                               setDoctorMockTickets((prev) => {
                                 const next = [...prev];
-                                next[index] = MOCK_TICKET;
+                                next[index] = nextMockTicket(next[index] ?? "");
                                 return next;
                               });
                             }}

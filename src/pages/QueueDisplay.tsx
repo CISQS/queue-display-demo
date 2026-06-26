@@ -31,11 +31,51 @@ export default function QueueDisplay() {
   const [now, setNow] = useState(() => new Date());
   const [showFixedNoticeTickets, setShowFixedNoticeTickets] = useState(true);
   const [hiddenFixedNoticeTickets, setHiddenFixedNoticeTickets] = useState<Set<string>>(() => new Set());
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000);
     return () => window.clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const update = () => {
+      const doc = document as Document & {
+        webkitFullscreenElement?: Element | null;
+      };
+      setIsFullscreen(Boolean(doc.fullscreenElement ?? doc.webkitFullscreenElement));
+    };
+    update();
+    document.addEventListener("fullscreenchange", update);
+    document.addEventListener("webkitfullscreenchange", update as EventListener);
+    return () => {
+      document.removeEventListener("fullscreenchange", update);
+      document.removeEventListener("webkitfullscreenchange", update as EventListener);
+    };
+  }, []);
+
+  const toggleFullscreen = async () => {
+    const doc = document as Document & {
+      webkitExitFullscreen?: () => Promise<void> | void;
+      webkitFullscreenElement?: Element | null;
+    };
+    const root = document.documentElement as HTMLElement & {
+      webkitRequestFullscreen?: () => Promise<void> | void;
+    };
+
+    const fullscreenElement = doc.fullscreenElement ?? doc.webkitFullscreenElement;
+    try {
+      if (fullscreenElement) {
+        if (doc.exitFullscreen) await doc.exitFullscreen();
+        else if (doc.webkitExitFullscreen) await doc.webkitExitFullscreen();
+        return;
+      }
+      if (root.requestFullscreen) await root.requestFullscreen();
+      else if (root.webkitRequestFullscreen) await root.webkitRequestFullscreen();
+    } catch {
+      return;
+    }
+  };
 
   const rows = useMemo(() => {
     return snapshot.counters.map((c) => ({
@@ -93,7 +133,17 @@ export default function QueueDisplay() {
                 {stationOption.labelEn}
               </div>
             </button>
-            <div className="m-2 flex items-center text-sm">
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              className="m-2 flex items-center text-sm"
+              style={{
+                touchAction: "manipulation",
+                WebkitTapHighlightColor: "transparent",
+              }}
+              aria-label={isFullscreen ? "退出全屏" : "進入全屏"}
+              title={isFullscreen ? "退出全屏" : "進入全屏"}
+            >
               <div className="text-center text-xs">
                 <p className="text-base uppercase leading-none">
                   <br />
@@ -115,7 +165,7 @@ export default function QueueDisplay() {
                   }}
                 />
               </div>
-            </div>
+            </button>
           </div>
         </div>
 

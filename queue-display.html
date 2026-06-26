@@ -91,6 +91,22 @@
       color: #2f2f2f;
     }
 
+    .meta-button {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .meta-button:focus-visible {
+      outline: 3px solid rgba(42, 169, 184, 0.28);
+      outline-offset: 6px;
+      border-radius: 12px;
+    }
+
     .meta-copy .clock {
       display: inline-block;
       margin-top: 10px;
@@ -355,12 +371,12 @@
       </button>
 
       <div class="meta">
-        <div class="meta-copy">
+        <button id="fullscreenToggle" class="meta-copy meta-button" type="button" aria-label="全屏">
           <div>養和醫院</div>
           <div>Hong Kong</div>
           <div>Sanatorium &amp; Hospital</div>
           <span id="clock" class="clock"></span>
-        </div>
+        </button>
         <img class="meta-mark" src="./public/qdisplay/assets/logo-hksh-emc-sh-B1ezILO2.png" alt="" aria-hidden="true" />
       </div>
     </div>
@@ -433,6 +449,7 @@
     const stationZh = document.getElementById("stationZh");
     const stationEn = document.getElementById("stationEn");
     const clock = document.getElementById("clock");
+    const fullscreenToggle = document.getElementById("fullscreenToggle");
     const counterLabel = document.getElementById("counterLabel");
     const waitingMins = document.getElementById("waitingMins");
     const rows = document.getElementById("rows");
@@ -455,6 +472,23 @@
 
     function renderClock() {
       clock.textContent = formatDateTimeDDMMYYYYHHmmss(new Date());
+    }
+
+    async function toggleFullscreen() {
+      const doc = document;
+      const root = document.documentElement;
+      const fullscreenElement = doc.fullscreenElement || doc.webkitFullscreenElement;
+      try {
+        if (fullscreenElement) {
+          if (doc.exitFullscreen) await doc.exitFullscreen();
+          else if (doc.webkitExitFullscreen) await doc.webkitExitFullscreen();
+          return;
+        }
+        if (root.requestFullscreen) await root.requestFullscreen();
+        else if (root.webkitRequestFullscreen) await root.webkitRequestFullscreen();
+      } catch {
+        return;
+      }
     }
 
     function renderHeader() {
@@ -564,6 +598,8 @@
       showFixedMock = !showFixedMock;
       renderNotice();
     });
+
+    fullscreenToggle.addEventListener("click", toggleFullscreen);
 
     renderClock();
     setInterval(renderClock, 1000);

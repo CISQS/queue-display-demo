@@ -154,12 +154,6 @@
         overflow: hidden;
       }
 
-      .doctor-room svg {
-        width: 18px;
-        height: 18px;
-        opacity: 0.95;
-      }
-
       .doctor-room::before {
         content: "";
         position: absolute;
@@ -181,6 +175,12 @@
         letter-spacing: 0.16em;
         text-transform: uppercase;
         opacity: 0.9;
+      }
+
+      .doctor-room .room-label svg {
+        width: 14px;
+        height: 14px;
+        flex: 0 0 auto;
       }
 
       .doctor-room .room-letter {
@@ -368,6 +368,12 @@
           room.className = "doctor-room";
           room.innerHTML = `
             <div class="room-label">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 20V6.8C5 5.81 5.81 5 6.8 5H14.2C15.19 5 16 5.81 16 6.8V20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M10 12H10.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M3 20H21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M16 9H19V20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
               <span>Room</span>
             </div>
             <div class="room-letter">${DOCTOR_ROOMS[i]}</div>

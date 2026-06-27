@@ -478,12 +478,99 @@
     .doctor-name-box {
       min-width: 320px;
       width: 100%;
-      padding: 0 16px;
+      padding: 0;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 33px;
       font-weight: 600;
       line-height: 1;
       text-align: center;
+      justify-content: stretch;
+      overflow: hidden;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #f2f0e3 0%, #e6e2cf 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(83, 82, 77, 0.06),
+        0 10px 20px rgba(61, 39, 20, 0.08);
+    }
+
+    .doctor-name-text {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      color: #2f2b23;
+    }
+
+    .doctor-room {
+      width: 122px;
+      margin: 8px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #0f8b6d 0%, #15735e 100%);
+      color: #fffdf4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 8px 8px 10px;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+        0 6px 14px rgba(15, 139, 109, 0.24);
+    }
+
+    .doctor-room::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 28px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+    }
+
+    .doctor-room-label {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .doctor-room-label svg {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 auto;
+    }
+
+    .doctor-room-letter {
+      position: relative;
+      z-index: 1;
+      line-height: 1;
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+
+    .doctor-room-caption {
+      position: relative;
+      z-index: 1;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.82;
     }
   </style>
 </head>
@@ -586,6 +673,7 @@
     const COUNTER_CYCLE = ["", "OPD001", "OPD002", "OPD003"];
     const DOCTOR_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
     const MOCK_TICKET_CYCLE = ["", "OPD001", "OPD002", "OPD003", "OPD004"];
+    const DOCTOR_ROOMS = ["A", "B", "C", "D"];
     const FIXED_MISSED_TICKETS = Array.from({ length: 11 }, (_, idx) => `OPD${String(200 + idx).padStart(3, "0")}`);
     const FIXED_MOCK_STORAGE_PREFIX = "queue-display-fixed-notice";
 
@@ -787,11 +875,33 @@
           const doctorBox = document.createElement("button");
           doctorBox.type = "button";
           doctorBox.className = "doctor-name-box";
-          doctorBox.textContent = DOCTOR_NAMES[index] || "";
           doctorBox.addEventListener("click", () => {
             row.ticket = nextMockTicket(row.ticket);
             renderRows();
           });
+
+          const doctorName = document.createElement("div");
+          doctorName.className = "doctor-name-text";
+          doctorName.textContent = DOCTOR_NAMES[index] || "";
+
+          const doctorRoom = document.createElement("div");
+          doctorRoom.className = "doctor-room";
+          doctorRoom.innerHTML = `
+            <div class="doctor-room-label">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 20V6.8C5 5.81 5.81 5 6.8 5H14.2C15.19 5 16 5.81 16 6.8V20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M10 12H10.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M3 20H21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M16 9H19V20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+              <span>Room</span>
+            </div>
+            <div class="doctor-room-letter">${DOCTOR_ROOMS[index] || ""}</div>
+            <div class="doctor-room-caption">Consult</div>
+          `;
+
+          doctorBox.appendChild(doctorName);
+          doctorBox.appendChild(doctorRoom);
           doctorCell.appendChild(doctorBox);
 
           tr.appendChild(ticketCell);

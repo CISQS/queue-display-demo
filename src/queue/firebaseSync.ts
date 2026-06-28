@@ -63,6 +63,7 @@ function coerceStationState(station: StationKey, input: unknown, fallback: Stati
   const next: StationQueueState = {
     ...fallback,
     station,
+    resetDateKey: typeof data?.resetDateKey === "string" ? data.resetDateKey : fallback.resetDateKey,
     nowServing: typeof data?.nowServing === "string" ? data.nowServing : fallback.nowServing,
     next: Array.isArray(data?.next) ? (data?.next.filter((x) => typeof x === "string") as string[]).slice(0, 120) : fallback.next,
     passedTickets: Array.isArray(data?.passedTickets)
@@ -218,4 +219,6 @@ export async function startFirebaseSync() {
       console.error(`[firebaseSync] push failed (${station})`, err);
     });
   });
+
+  useQueueStore.getState().ensureDailyReset();
 }

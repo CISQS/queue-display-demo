@@ -4,6 +4,7 @@ import type { StationKey } from "@/queue/stations";
 import type { QueueSnapshot } from "@/queue/types";
 
 export type StationQueueState = QueueSnapshot & {
+  resetDateKey: string;
   passedTickets: string[];
   counters: Array<{
     counter: number;
@@ -15,7 +16,7 @@ type QueueStoreState = {
   stations: Record<StationKey, StationQueueState>;
   lastMutation?: {
     station: StationKey;
-    type: "call" | "complete" | "pass" | "moveCounterTicketToPassed" | "dismissPassedTicket" | "clearCounterTicket";
+    type: "call" | "complete" | "pass" | "moveCounterTicketToPassed" | "dismissPassedTicket" | "clearCounterTicket" | "dailyReset";
     atISO: string;
   };
   callTicket: (station: StationKey, ticketInput: string, counter: number) => void;
@@ -25,6 +26,7 @@ type QueueStoreState = {
   dismissPassedTicket: (station: StationKey, ticket: string) => void;
   clearCounterTicket: (station: StationKey, counter: number) => void;
   cycleCounterTicket: (station: StationKey, counter: number) => void;
+  ensureDailyReset: () => void;
 };
 
 const CHANNEL_NAME = "queue-display-channel";
@@ -46,6 +48,19 @@ function getPrefix(station: StationKey) {
 
 function padNumber(value: number, length: number) {
   return String(value).padStart(length, "0");
+}
+
+function getHongKongDateKey(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Hong_Kong",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const year = parts.find((part) => part.type === "year")?.value ?? "0000";
+  const month = parts.find((part) => part.type === "month")?.value ?? "01";
+  const day = parts.find((part) => part.type === "day")?.value ?? "01";
+  return `${year}-${month}-${day}`;
 }
 
 function parseTicket(ticket: string) {
@@ -85,6 +100,7 @@ function buildInitialStation(station: StationKey): StationQueueState {
   const next = Array.from({ length: 30 }).map((_, idx) => `${prefix}${padNumber(2 + idx, 3)}`);
   return {
     station,
+    resetDateKey: getHongKongDateKey(),
     nowServing,
     next,
     recentlyCalled: [],
@@ -97,6 +113,27 @@ function buildInitialStation(station: StationKey): StationQueueState {
     ],
     updatedAtISO: nowIso,
   };
+}
+
+function buildResetStation(station: StationKey, nowIso: string, resetDateKey: string): StationQueueState {
+  const base = buildInitialStation(station);
+  return {
+    ...base,
+    updatedAtISO: nowIso,
+    resetDateKey,
+  };
+}
+
+function ensureStationsReset(stations: QueueStoreState["stations"], nowIso: string, resetDateKey: string) {
+  let changed = false;
+  const nextStations = { ...stations };
+  (["dr", "nurse", "pharmacy"] as StationKey[]).forEach((station) => {
+    const current = stations[station];
+    if (current.resetDateKey === resetDateKey) return;
+    nextStations[station] = buildResetStation(station, nowIso, resetDateKey);
+    changed = true;
+  });
+  return { changed, stations: nextStations };
 }
 
 function appendRecentlyCalled(prev: StationQueueState, ticket: string, nowIso: string) {
@@ -327,6 +364,25 @@ export const useQueueStore = create<QueueStoreState>()(
           return { stations: nextStations };
         });
       },
+      ensureDailyReset: () => {
+        const nowIso = new Date().toISOString();
+        const resetDateKey = getHongKongDateKey();
+        (["dr", "nurse", "pharmacy"] as StationKey[]).forEach((station) => {
+          const current = get().stations[station];
+          if (current.resetDateKey === resetDateKey) return;
+          set((state) => {
+            const nextStations = {
+              ...state.stations,
+              [station]: buildResetStation(station, nowIso, resetDateKey),
+            };
+            broadcastStations(nextStations);
+            return {
+              stations: nextStations,
+              lastMutation: { station, type: "dailyReset", atISO: nowIso },
+            };
+          });
+        });
+      },
     }),
     {
       name: "queue-display-store",
@@ -349,6 +405,7 @@ export const useQueueStore = create<QueueStoreState>()(
             ...base,
             ...incoming,
             station: key,
+            resetDateKey: typeof incoming.resetDateKey === "string" ? incoming.resetDateKey : base.resetDateKey,
             passedTickets: Array.isArray(incoming.passedTickets) ? incoming.passedTickets : base.passedTickets,
             counters: Array.isArray(incoming.counters) ? (incoming.counters as StationQueueState["counters"]) : base.counters,
             next: Array.isArray(incoming.next) ? (incoming.next as string[]) : base.next,

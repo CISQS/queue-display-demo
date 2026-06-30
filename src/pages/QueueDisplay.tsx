@@ -558,7 +558,7 @@ export default function QueueDisplay() {
                 <div
                   className={[
                     isLabDraftV2
-                      ? "flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-l-2xl rounded-r-none bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10"
+                      ? "flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-none bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10"
                       : "flex h-[388px] w-[39%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10",
                   ].join(" ")}
                 >
@@ -642,7 +642,7 @@ export default function QueueDisplay() {
                       </div>
                     </div>
 
-                    <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-l-none rounded-r-2xl bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10">
+                    <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-none bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10">
                       <div className="flex h-11 items-center justify-center bg-[#00B18B] px-4 text-xl font-semibold tracking-wide text-white">
                         已過號 Missed
                       </div>

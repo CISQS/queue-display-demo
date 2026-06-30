@@ -555,7 +555,13 @@ export default function QueueDisplay() {
           <div className="w-full flex-1 px-4 py-5">
             <div className="flex flex-col gap-2">
               <div className="flex w-full items-start gap-2">
-                <div className="flex h-[388px] w-[39%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#f4fcf8] text-black shadow-[0_16px_30px_rgba(0,177,139,0.05)] ring-1 ring-[#00B18B]/8">
+                <div
+                  className={[
+                    isLabDraftV2
+                      ? "flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#f4fcf8] text-black shadow-[0_16px_30px_rgba(0,177,139,0.05)] ring-1 ring-[#00B18B]/8"
+                      : "flex h-[388px] w-[39%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#f4fcf8] text-black shadow-[0_16px_30px_rgba(0,177,139,0.05)] ring-1 ring-[#00B18B]/8",
+                  ].join(" ")}
+                >
                   <div className="flex h-11 items-center justify-center gap-2 bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
                     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M11 5 6 9H3v6h3l5 4V5Z" />
@@ -564,29 +570,53 @@ export default function QueueDisplay() {
                     </svg>
                     現在叫號 Now Serving
                   </div>
-                  <div className="flex min-h-0 flex-1 flex-col bg-[#f8fbf5]">
-                    {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
-                      <div
-                        key={`lab-now-${idx}`}
-                        className="flex items-center justify-between gap-2 px-5 py-3 text-[20px] font-semibold shadow-[inset_0_-1px_0_rgba(0,0,0,0.14)]"
-                      >
-                        <div className="text-[25px] font-bold tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
-                        <div
-                          className={[
-                            ticket.trim() ? "text-[#18a37f]" : "text-[#2f2b23]",
-                            "text-[25px] font-bold tabular-nums",
-                          ].join(" ")}
-                        >
-                          {ticket}
-                        </div>
+                  {isLabDraftV2 ? (
+                    <div className="flex min-h-0 flex-1 flex-col bg-[#f8fbf5]">
+                      <div className="flex items-center justify-between px-5 py-2 text-[13px] font-semibold tracking-wide text-black/55">
+                        <div>房號 Room</div>
+                        <div>票號 Ticket No.</div>
                       </div>
-                    ))}
-                  </div>
+                      <div className="flex min-h-0 flex-1 flex-col gap-y-2 px-5 py-2">
+                        {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
+                          <div key={`lab-now-${idx}`} className="flex items-center justify-between gap-2 py-2 text-[20px] font-semibold">
+                            <div className="text-[25px] font-bold tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
+                            <div
+                              className={[
+                                ticket.trim() ? "text-[#18a37f]" : "text-[#2f2b23]",
+                                "text-[25px] font-bold tabular-nums",
+                              ].join(" ")}
+                            >
+                              {ticket}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex min-h-0 flex-1 flex-col bg-[#f8fbf5]">
+                      {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
+                        <div
+                          key={`lab-now-${idx}`}
+                          className="flex items-center justify-between gap-2 px-5 py-3 text-[20px] font-semibold shadow-[inset_0_-1px_0_rgba(0,0,0,0.14)]"
+                        >
+                          <div className="text-[25px] font-bold tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
+                          <div
+                            className={[
+                              ticket.trim() ? "text-[#18a37f]" : "text-[#2f2b23]",
+                              "text-[25px] font-bold tabular-nums",
+                            ].join(" ")}
+                          >
+                            {ticket}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {isLabDraftV2 ? (
                   <div className="flex min-w-0 flex-1 gap-2">
-                    <div className="flex h-[388px] min-w-0 flex-[0.58] flex-col overflow-hidden rounded-2xl bg-[#f8fbf5] text-black shadow-[0_16px_30px_rgba(111,140,114,0.05)] ring-1 ring-[#9caf93]/10">
+                    <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#f8fbf5] text-black shadow-[0_16px_30px_rgba(111,140,114,0.05)] ring-1 ring-[#9caf93]/10">
                       <div className="flex h-11 items-center justify-center bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
                         等待中 Queuing
                       </div>
@@ -609,7 +639,7 @@ export default function QueueDisplay() {
                       </div>
                     </div>
 
-                    <div className="flex h-[388px] min-w-0 flex-[0.42] flex-col overflow-hidden rounded-2xl bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10">
+                    <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10">
                       <div className="flex h-11 items-center justify-center bg-[#00B18B] px-4 text-xl font-semibold tracking-wide text-white">
                         已過號 Missed
                       </div>

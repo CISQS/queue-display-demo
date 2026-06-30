@@ -340,7 +340,7 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
 
   return (
     <div className="min-h-screen w-full ui-sans-serif">
-      <div className="flex min-h-screen w-full flex-col bg-gradient-to-r from-[#eedcac] to-[#bce4be] text-black">
+      <div className="flex min-h-screen w-full flex-col bg-gradient-to-r from-[#e2f3f4] to-[#d2f0e6] text-black">
         <div className="bg-[#008d63]">
           <div className="inset-x-0 top-0 flex flex-wrap items-center justify-between bg-white">
             <button

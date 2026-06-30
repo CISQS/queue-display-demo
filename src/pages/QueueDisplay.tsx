@@ -601,14 +601,20 @@ export default function QueueDisplay() {
                       <div className="grid h-full max-h-[312px] grid-cols-2 items-start gap-x-12 text-[25px] font-bold tabular-nums text-[#2f2b23]">
                         <div className="flex flex-col gap-y-3">
                           {leftColumn.map((t) => (
-                            <div key={`lab-queue-${t}`} className="min-h-[34px] leading-none whitespace-nowrap">
+                            <div
+                              key={`lab-queue-${t}`}
+                              className="flex min-h-[34px] items-center rounded bg-white px-4 py-2 leading-none whitespace-nowrap shadow-sm"
+                            >
                               {t}
                             </div>
                           ))}
                         </div>
                         <div className="flex flex-col gap-y-3">
                           {rightColumn.map((t) => (
-                            <div key={`lab-queue-${t}`} className="min-h-[34px] leading-none whitespace-nowrap">
+                            <div
+                              key={`lab-queue-${t}`}
+                              className="flex min-h-[34px] items-center rounded bg-white px-4 py-2 leading-none whitespace-nowrap shadow-sm"
+                            >
                               {t}
                             </div>
                           ))}
@@ -656,14 +662,20 @@ export default function QueueDisplay() {
                       <div className="grid h-full max-h-[312px] grid-cols-2 items-start gap-x-12 text-[25px] font-bold tabular-nums text-[#2f2b23]">
                         <div className="flex flex-col gap-y-3">
                           {leftColumn.map((ticket) => (
-                            <div key={`lab-missed-${ticket}`} className="min-h-[34px] leading-none whitespace-nowrap">
+                            <div
+                              key={`lab-missed-${ticket}`}
+                              className="flex min-h-[34px] items-center rounded bg-white px-4 py-2 leading-none whitespace-nowrap shadow-sm"
+                            >
                               {ticket}
                             </div>
                           ))}
                         </div>
                         <div className="flex flex-col gap-y-3">
                           {rightColumn.map((ticket) => (
-                            <div key={`lab-missed-${ticket}`} className="min-h-[34px] leading-none whitespace-nowrap">
+                            <div
+                              key={`lab-missed-${ticket}`}
+                              className="flex min-h-[34px] items-center rounded bg-white px-4 py-2 leading-none whitespace-nowrap shadow-sm"
+                            >
                               {ticket}
                             </div>
                           ))}

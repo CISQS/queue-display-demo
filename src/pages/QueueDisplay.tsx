@@ -434,7 +434,7 @@ export default function QueueDisplay() {
                 <div
                   className={
                     station === "lab"
-                      ? "ml-3 cursor-pointer text-[20px] font-bold leading-tight"
+                      ? "ml-3 cursor-pointer text-[18px] font-bold leading-tight"
                       : "ml-5 cursor-pointer text-2xl font-bold"
                   }
                 >
@@ -571,7 +571,7 @@ export default function QueueDisplay() {
                       <div className="rounded-full bg-white/85 px-3 py-1 text-[25px] font-bold tabular-nums text-[#2f2b23] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]">{`Room${idx + 1}`}</div>
                       <div
                         className={[
-                          ticket.trim() ? "text-[#0b63a5]" : "text-[#2f2b23]",
+                          ticket.trim() ? "text-[#b78a1d]" : "text-[#2f2b23]",
                           "text-[25px] font-bold tabular-nums",
                         ].join(" ")}
                       >

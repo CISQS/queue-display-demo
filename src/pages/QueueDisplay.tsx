@@ -31,6 +31,54 @@ function nextMockTicket(current: string) {
   return MOCK_TICKET_CYCLE[(idx + 1) % MOCK_TICKET_CYCLE.length];
 }
 
+const LAB_NOW_SERVING_MOCK = ["SKH211", "SML421", "SHH331", "Suspended"];
+
+function isDefaultLabTicket(ticket: string) {
+  return /^L\d{3}$/.test(ticket.trim().toUpperCase());
+}
+
+function hashToSeed(input: string) {
+  let h = 2166136261;
+  for (let i = 0; i < input.length; i += 1) {
+    h ^= input.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function mulberry32(seed: number) {
+  let t = seed >>> 0;
+  return () => {
+    t += 0x6d2b79f5;
+    let x = Math.imul(t ^ (t >>> 15), t | 1);
+    x ^= x + Math.imul(x ^ (x >>> 7), x | 61);
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function randomLabTicket(rand: () => number) {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const a = letters[Math.floor(rand() * 26)] ?? "S";
+  const b = letters[Math.floor(rand() * 26)] ?? "H";
+  const c = letters[Math.floor(rand() * 26)] ?? "S";
+  const num = String(Math.floor(rand() * 1000)).padStart(3, "0");
+  return `${a}${b}${c}${num}`;
+}
+
+function generateLabTickets(count: number, seedInput: string, exclude: Set<string>) {
+  const rand = mulberry32(hashToSeed(seedInput));
+  const out: string[] = [];
+  let tries = 0;
+  while (out.length < count && tries < 5000) {
+    tries += 1;
+    const t = randomLabTicket(rand);
+    if (exclude.has(t)) continue;
+    exclude.add(t);
+    out.push(t);
+  }
+  return out;
+}
+
 function getFixedNoticeStorageKey(station: StationKey) {
   return `${FIXED_NOTICE_STORAGE_PREFIX}:${station}`;
 }
@@ -226,6 +274,37 @@ export default function QueueDisplay() {
   const columnLabelZh = station === "dr" ? "醫生" : "櫃位";
   const columnLabelEn = station === "dr" ? "Doctor" : "Counter";
   const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
+
+  const labDisplay = useMemo(() => {
+    if (station !== "lab") return null;
+
+    const exclude = new Set<string>();
+    const nowServing = snapshot.counters.slice(0, 4).map((c, idx) => {
+      const value = c.ticket && !isDefaultLabTicket(c.ticket) ? c.ticket : (LAB_NOW_SERVING_MOCK[idx] ?? "");
+      if (value) exclude.add(value);
+      return value;
+    });
+
+    const realQueue = snapshot.next
+      .map((t) => t.trim())
+      .filter(Boolean)
+      .filter((t) => !isDefaultLabTicket(t));
+    const queueBase = realQueue.length ? realQueue.slice(0, 7) : [];
+    queueBase.forEach((t) => exclude.add(t));
+    const queueFill = generateLabTickets(7 - queueBase.length, `${snapshot.resetDateKey}:lab:queue`, exclude);
+    const queue = [...queueBase, ...queueFill].slice(0, 7);
+
+    const realMissed = passedTickets
+      .map((t) => t.trim())
+      .filter(Boolean)
+      .filter((t) => !isDefaultLabTicket(t));
+    const missedBase = realMissed.length ? realMissed.slice(-7) : [];
+    missedBase.forEach((t) => exclude.add(t));
+    const missedFill = generateLabTickets(7 - missedBase.length, `${snapshot.resetDateKey}:lab:missed`, exclude);
+    const missed = [...missedBase, ...missedFill].slice(0, 7);
+
+    return { nowServing, queue, missed };
+  }, [passedTickets, snapshot.counters, snapshot.next, snapshot.resetDateKey, station]);
 
   const handleToggleMockNoticeTickets = () => {
     if (showFixedNoticeTickets) {
@@ -474,13 +553,13 @@ export default function QueueDisplay() {
                   Now Serving
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col divide-y divide-black/10">
-                  {snapshot.counters.slice(0, 4).map((c, idx) => (
+                  {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
                     <div
-                      key={`lab-now-${c.counter}`}
+                      key={`lab-now-${idx}`}
                       className="flex items-center justify-between gap-4 px-5 py-3 text-[20px] font-semibold"
                     >
                       <div className="opacity-90">{`Room${idx + 1}`}</div>
-                      <div className="font-bold tabular-nums text-[#0f8b6d]">{c.ticket}</div>
+                      <div className="font-bold tabular-nums text-[#0f8b6d]">{ticket}</div>
                     </div>
                   ))}
                 </div>
@@ -492,7 +571,7 @@ export default function QueueDisplay() {
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">
                   <div className="flex h-full max-h-[204px] flex-col flex-wrap content-start gap-x-10 gap-y-2 text-[24px] font-bold tabular-nums text-[#0f8b6d]">
-                    {snapshot.next.slice(0, 7).map((t) => (
+                    {(labDisplay?.queue ?? []).slice(0, 7).map((t) => (
                       <div key={`lab-queue-${t}`} className="min-h-[28px] leading-none whitespace-nowrap">
                         {t}
                       </div>
@@ -507,7 +586,7 @@ export default function QueueDisplay() {
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">
                   <div className="flex h-full max-h-[204px] flex-col flex-wrap content-start gap-x-10 gap-y-2 text-[24px] font-bold tabular-nums text-[#0f8b6d]">
-                    {mergedNoticeTickets.slice(0, 7).map(({ ticket }) => (
+                    {(labDisplay?.missed ?? []).slice(0, 7).map((ticket) => (
                       <div key={`lab-missed-${ticket}`} className="min-h-[28px] leading-none whitespace-nowrap">
                         {ticket}
                       </div>

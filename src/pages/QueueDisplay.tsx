@@ -566,7 +566,7 @@ export default function QueueDisplay() {
                   {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
                     <div
                       key={`lab-now-${idx}`}
-                      className="flex items-center justify-between gap-4 px-5 py-3 text-[20px] font-semibold shadow-[inset_0_-1px_0_rgba(0,0,0,0.14)]"
+                      className="flex items-center justify-between gap-2 px-5 py-3 text-[20px] font-semibold shadow-[inset_0_-1px_0_rgba(0,0,0,0.14)]"
                     >
                       <div className="text-[25px] font-bold tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
                       <div

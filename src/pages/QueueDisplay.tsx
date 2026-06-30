@@ -653,7 +653,7 @@ export default function QueueDisplay() {
                   {(() => {
                     const missedTickets = (labDisplay?.missed ?? []).slice(0, 4);
                     return (
-                      <div className="flex h-full max-h-[312px] items-start gap-x-12 text-[25px] font-bold tabular-nums text-[#2f2b23]">
+                      <div className="flex h-full max-h-[220px] items-start gap-x-12 text-[25px] font-bold tabular-nums text-[#2f2b23]">
                         {missedTickets.map((ticket) => (
                           <div key={`lab-missed-${ticket}`} className="min-h-[34px] leading-none whitespace-nowrap">
                             {ticket}

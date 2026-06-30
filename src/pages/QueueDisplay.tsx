@@ -190,6 +190,13 @@ export default function QueueDisplay() {
     return snapshot.counters.find((c) => c.counter === 1)?.ticket ?? "";
   }, [snapshot.counters]);
 
+  useEffect(() => {
+    if (station !== "nurse") return;
+    const nurseTicketIsMock = MOCK_TICKET_CYCLE.includes(nurseTicket);
+    if (!nurseTicket || nurseTicketIsMock) return;
+    setNurseMockTicket("");
+  }, [nurseTicket, station]);
+
   const waitingMins = useMemo(() => {
     if (station === "pharmacy") return 20;
     if (station === "dr") return 15;
@@ -231,7 +238,7 @@ export default function QueueDisplay() {
 
   if (station === "nurse") {
     const nurseTicketIsMock = MOCK_TICKET_CYCLE.includes(nurseTicket);
-    const nurseDisplayTicket = nurseMockTicket || nurseTicket;
+    const nurseDisplayTicket = nurseTicket && !nurseTicketIsMock ? nurseTicket : nurseMockTicket || nurseTicket;
     return (
       <div className="min-h-screen w-full ui-sans-serif">
         <div className="flex min-h-screen w-full flex-col bg-gradient-to-b from-[#f1e8c4] to-[#dff0cc] text-black">

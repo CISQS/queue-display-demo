@@ -579,7 +579,7 @@ export default function QueueDisplay() {
                       <div className="flex min-h-0 flex-1 flex-col gap-y-1 px-5 py-2">
                         {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
                           <div key={`lab-now-${idx}`} className="mx-auto flex w-full max-w-[280px] items-center justify-between gap-1 py-1 text-[20px] font-semibold">
-                            <div className="text-[25px] font-bold tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
+                            <div className="-translate-y-0.5 text-[25px] font-bold leading-none tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
                             <div
                               className={[
                                 ticket.trim() ? "text-[#18a37f]" : "text-[#2f2b23]",
@@ -601,7 +601,7 @@ export default function QueueDisplay() {
                       <div className="flex min-h-0 flex-1 flex-col gap-y-1 px-5 py-2">
                         {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
                           <div key={`lab-now-${idx}`} className="mx-auto flex w-full max-w-[280px] items-center justify-between gap-1 py-1 text-[20px] font-semibold">
-                            <div className="text-[25px] font-bold tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
+                            <div className="-translate-y-0.5 text-[25px] font-bold leading-none tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
                             <div
                               className={[
                                 ticket.trim() ? "text-[#18a37f]" : "text-[#2f2b23]",

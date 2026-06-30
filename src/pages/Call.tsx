@@ -403,7 +403,7 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
               <div className="mt-1 text-[18px] font-semibold opacity-95">Self Check In</div>
             </div>
 
-            <div className="p-5" style={{ transform: "scale(0.9)", transformOrigin: "top center" }}>
+            <div className="p-5">
               <div className="rounded-2xl border border-black/10 bg-[#f6f9f1] p-5">
                 <div className="text-[18px] font-semibold text-[#1e1b16]">請掃碼</div>
                 <div className="text-sm font-semibold text-black/60">Please scan barcode</div>

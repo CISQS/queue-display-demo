@@ -615,7 +615,7 @@ export default function QueueDisplay() {
               </div>
 
               <div className="flex h-[150px] w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10">
-                <div className="flex h-11 items-center justify-center gap-2 bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
+                <div className="flex min-h-[58px] items-center justify-center gap-3 bg-[#00B18B] px-4 py-2 text-white">
                   <svg
                     fill="currentColor"
                     version="1.1"
@@ -640,7 +640,10 @@ export default function QueueDisplay() {
                       ></path>
                     </g>
                   </svg>
-                  Missed
+                  <div className="text-center leading-tight">
+                    <div className="text-[15px] font-semibold">以下號碼請聯絡門診職員</div>
+                    <div className="text-[12px] font-medium">For the following numbers, please approach our staff</div>
+                  </div>
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden bg-[#f8fbf5] px-5 py-3">
                   {(() => {

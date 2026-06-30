@@ -407,33 +407,26 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
             </div>
 
             <div className="p-5">
-              <div className="rounded-2xl bg-[#f6f9f1] p-5">
-                <div className="mt-4 flex items-stretch gap-3">
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <div className="relative">
-                      <input
-                        value={value}
-                        readOnly
-                        placeholder="請掃碼 / Please scan barcode"
-                        className="h-16 w-full rounded-2xl border border-black/10 bg-white px-5 pr-14 text-center text-[26px] font-semibold tracking-wider text-black shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] outline-none"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          clear();
-                          setSubmitted(null);
-                        }}
-                        className="absolute right-4 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/5 text-lg font-bold text-black/50 transition hover:bg-black/10"
-                        aria-label="Clear"
-                        title="Clear"
-                        style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
-                      >
-                        ×
-                      </button>
-                    </div>
-                    {submitted && <div className="mt-2 text-center text-sm font-semibold text-[#008f70]">{`OK：${submitted}`}</div>}
-                  </div>
-                </div>
+              <div className="relative">
+                <input
+                  value={value}
+                  readOnly
+                  placeholder="請掃碼 / Please scan barcode"
+                  className="h-16 w-full rounded-2xl border border-black/10 bg-white px-5 pr-14 text-center text-[26px] font-semibold tracking-wider text-black shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    clear();
+                    setSubmitted(null);
+                  }}
+                  className="absolute right-4 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/5 text-lg font-bold text-black/50 transition hover:bg-black/10"
+                  aria-label="Clear"
+                  title="Clear"
+                  style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
+                >
+                  ×
+                </button>
               </div>
 
               <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_220px]">

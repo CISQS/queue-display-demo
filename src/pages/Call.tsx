@@ -295,13 +295,17 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
     };
   }, []);
 
-  const formatDateTimeDDMMYYYYHHmmss = (date: Date) => {
+  const formatDateDDMMYYYY = (date: Date) => {
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0");
     const yyyy = String(date.getFullYear());
+    return `${dd}/${mm}/${yyyy}`;
+  };
+
+  const formatTimeHHmm = (date: Date) => {
     const hh = String(date.getHours()).padStart(2, "0");
     const min = String(date.getMinutes()).padStart(2, "0");
-    return `${dd}/${mm}/${yyyy} ${hh}:${min}`;
+    return `${hh}:${min}`;
   };
 
   const formatWeekdayZhEn = (date: Date) => {
@@ -364,7 +368,7 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
             <button
               type="button"
               onClick={onToggleFullscreen}
-              className="m-2 flex items-center text-sm"
+              className="m-2 flex items-center gap-3 pr-2 text-sm"
               style={{
                 touchAction: "manipulation",
                 WebkitTapHighlightColor: "transparent",
@@ -372,10 +376,11 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
               aria-label={isFullscreen ? "退出全屏" : "進入全屏"}
               title={isFullscreen ? "退出全屏" : "進入全屏"}
             >
-              <div className="text-right">
-                <div className="text-sm font-semibold leading-none">{formatWeekdayZhEn(now)}</div>
-                <div className="mt-1 text-sm font-semibold leading-none text-black/80">
-                  {formatDateTimeDDMMYYYYHHmmss(now)}
+              <div className="text-right leading-none">
+                <div className="text-[clamp(14px,1.35vw,18px)] font-semibold">{formatWeekdayZhEn(now)}</div>
+                <div className="mt-1 flex items-end justify-end gap-3">
+                  <div className="text-[clamp(14px,1.35vw,18px)] font-semibold text-black/70">{formatDateDDMMYYYY(now)}</div>
+                  <div className="text-[clamp(34px,3.8vw,56px)] font-semibold tabular-nums">{formatTimeHHmm(now)}</div>
                 </div>
               </div>
               <div className="opacity-40">
@@ -391,14 +396,14 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
           </div>
         </div>
 
-        <div className="mx-auto max-w-3xl px-6 py-8">
+        <div className="mx-auto w-[min(92vw,92vh)] max-w-3xl px-2 py-4">
           <div className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_18px_38px_rgba(0,0,0,0.10)]">
             <div className="bg-[#00B18B] px-6 py-5 text-white">
               <div className="text-[28px] font-semibold leading-none">自助報到機</div>
               <div className="mt-1 text-[18px] font-semibold opacity-95">Self Check In</div>
             </div>
 
-            <div className="p-6">
+            <div className="p-5">
               <div className="rounded-2xl border border-black/10 bg-[#edeedd] p-5">
                 <div className="text-[18px] font-semibold text-[#1e1b16]">請掃碼</div>
                 <div className="text-sm font-semibold text-black/60">Please scan barcode</div>

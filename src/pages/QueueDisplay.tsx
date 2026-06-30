@@ -289,14 +289,14 @@ export default function QueueDisplay() {
       .map((t) => t.trim())
       .filter(Boolean)
       .filter((t) => !isDefaultLabTicket(t));
-    const queue = realQueue.length ? realQueue.slice(0, 7) : generateLabTickets(4, `${snapshot.resetDateKey}:lab:queue`, exclude);
+    const queue = realQueue.length ? realQueue.slice(0, 2) : generateLabTickets(2, `${snapshot.resetDateKey}:lab:queue`, exclude);
     queue.forEach((t) => exclude.add(t));
 
     const realMissed = passedTickets
       .map((t) => t.trim())
       .filter(Boolean)
       .filter((t) => !isDefaultLabTicket(t));
-    const missed = realMissed.length ? realMissed.slice(-7) : generateLabTickets(4, `${snapshot.resetDateKey}:lab:missed`, exclude);
+    const missed = realMissed.length ? realMissed.slice(-4) : generateLabTickets(4, `${snapshot.resetDateKey}:lab:missed`, exclude);
     missed.forEach((t) => exclude.add(t));
 
     return { nowServing, queue, missed };
@@ -594,10 +594,9 @@ export default function QueueDisplay() {
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden bg-[#f8fbf5] px-5 py-4">
                   {(() => {
-                    const queueTickets = (labDisplay?.queue ?? []).slice(0, 7);
-                    const splitAt = Math.min(6, Math.ceil(queueTickets.length / 2));
-                    const leftColumn = queueTickets.slice(0, splitAt);
-                    const rightColumn = queueTickets.slice(splitAt, 12);
+                    const queueTickets = (labDisplay?.queue ?? []).slice(0, 2);
+                    const leftColumn = queueTickets;
+                    const rightColumn: string[] = [];
                     return (
                       <div className="grid h-full max-h-[312px] grid-cols-2 items-start gap-x-12 text-[25px] font-bold tabular-nums text-[#2f2b23]">
                         <div className="flex flex-col gap-y-3">
@@ -650,10 +649,9 @@ export default function QueueDisplay() {
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden bg-[#f8fbf5] px-5 py-4">
                   {(() => {
-                    const missedTickets = (labDisplay?.missed ?? []).slice(0, 7);
-                    const splitAt = Math.min(6, Math.ceil(missedTickets.length / 2));
-                    const leftColumn = missedTickets.slice(0, splitAt);
-                    const rightColumn = missedTickets.slice(splitAt, 12);
+                    const missedTickets = (labDisplay?.missed ?? []).slice(0, 4);
+                    const leftColumn = missedTickets;
+                    const rightColumn: string[] = [];
                     return (
                       <div className="grid h-full max-h-[312px] grid-cols-2 items-start gap-x-12 text-[25px] font-bold tabular-nums text-[#2f2b23]">
                         <div className="flex flex-col gap-y-3">

@@ -558,8 +558,8 @@ export default function QueueDisplay() {
                 <div
                   className={[
                     isLabDraftV2
-                      ? "flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-l-2xl rounded-r-none bg-[#f4fcf8] text-black shadow-[0_16px_30px_rgba(0,177,139,0.05)] ring-1 ring-[#00B18B]/8"
-                      : "flex h-[388px] w-[39%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#f4fcf8] text-black shadow-[0_16px_30px_rgba(0,177,139,0.05)] ring-1 ring-[#00B18B]/8",
+                      ? "flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-l-2xl rounded-r-none bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10"
+                      : "flex h-[388px] w-[39%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#fcf8f4] text-black shadow-[0_16px_30px_rgba(134,101,63,0.05)] ring-1 ring-[#c8ac88]/10",
                   ].join(" ")}
                 >
                   <div className="flex h-11 items-center justify-center gap-2 bg-[#00B18B] text-xl font-semibold tracking-wide text-white">

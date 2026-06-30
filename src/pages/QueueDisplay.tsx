@@ -576,9 +576,9 @@ export default function QueueDisplay() {
                         <div>房號 Room</div>
                         <div>票號 Ticket No.</div>
                       </div>
-                      <div className="flex min-h-0 flex-1 flex-col gap-y-2 px-5 py-1">
+                      <div className="flex min-h-0 flex-1 flex-col gap-y-3 px-5 py-2">
                         {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
-                          <div key={`lab-now-${idx}`} className="mx-auto flex min-h-[30px] w-full max-w-[280px] items-center justify-between gap-1 text-[20px] font-semibold">
+                          <div key={`lab-now-${idx}`} className="mx-auto flex min-h-[34px] w-full max-w-[280px] items-center justify-between gap-1 text-[20px] font-semibold">
                             <div className="-translate-y-0.5 text-[25px] font-bold leading-none tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
                             <div
                               className={[
@@ -598,9 +598,9 @@ export default function QueueDisplay() {
                         <div>房號 Room</div>
                         <div>票號 Ticket No.</div>
                       </div>
-                      <div className="flex min-h-0 flex-1 flex-col gap-y-2 px-5 py-1">
+                      <div className="flex min-h-0 flex-1 flex-col gap-y-3 px-5 py-2">
                         {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
-                          <div key={`lab-now-${idx}`} className="mx-auto flex min-h-[30px] w-full max-w-[280px] items-center justify-between gap-1 text-[20px] font-semibold">
+                          <div key={`lab-now-${idx}`} className="mx-auto flex min-h-[34px] w-full max-w-[280px] items-center justify-between gap-1 text-[20px] font-semibold">
                             <div className="-translate-y-0.5 text-[25px] font-bold leading-none tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
                             <div
                               className={[

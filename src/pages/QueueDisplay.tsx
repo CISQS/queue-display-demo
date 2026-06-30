@@ -289,10 +289,8 @@ export default function QueueDisplay() {
       .map((t) => t.trim())
       .filter(Boolean)
       .filter((t) => !isDefaultLabTicket(t));
-    const queueBase = realQueue.length ? realQueue.slice(0, 7) : [];
-    queueBase.forEach((t) => exclude.add(t));
-    const queueFill = generateLabTickets(7 - queueBase.length, `${snapshot.resetDateKey}:lab:queue`, exclude);
-    const queue = [...queueBase, ...queueFill].slice(0, 7);
+    const queue = realQueue.length ? realQueue.slice(0, 7) : generateLabTickets(2, `${snapshot.resetDateKey}:lab:queue`, exclude);
+    queue.forEach((t) => exclude.add(t));
 
     const realMissed = passedTickets
       .map((t) => t.trim())
@@ -549,7 +547,11 @@ export default function QueueDisplay() {
           <div className="w-full flex-1 px-8 py-6">
             <div className="flex w-full items-start gap-3">
               <div className="flex h-[388px] w-[34%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
-                <div className="flex h-11 items-center justify-center bg-white/60 text-xl font-semibold tracking-wide">
+                <div className="flex h-11 items-center justify-center gap-2 bg-white/60 text-xl font-semibold tracking-wide">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="#3d2714" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 3a9 9 0 1 0 9 9" />
+                    <path d="M12 7v5l3 2" />
+                  </svg>
                   Now Serving
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col divide-y divide-black/10">
@@ -559,14 +561,29 @@ export default function QueueDisplay() {
                       className="flex items-center justify-between gap-4 px-5 py-3 text-[20px] font-semibold"
                     >
                       <div className="opacity-90">{`Room${idx + 1}`}</div>
-                      <div className="font-bold tabular-nums text-[#2f2b23]">{ticket}</div>
+                      <div
+                        className={[
+                          ticket.trim().toLowerCase() === "suspended" ? "text-[#2f2b23]" : "text-[#0f8b6d]",
+                          "font-bold tabular-nums",
+                        ].join(" ")}
+                      >
+                        {ticket}
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
-                <div className="flex h-11 items-center justify-center bg-white/60 text-xl font-semibold tracking-wide">
+                <div className="flex h-11 items-center justify-center gap-2 bg-white/60 text-xl font-semibold tracking-wide">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="#3d2714" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8 6h13" />
+                    <path d="M8 12h13" />
+                    <path d="M8 18h13" />
+                    <path d="M3 6h.01" />
+                    <path d="M3 12h.01" />
+                    <path d="M3 18h.01" />
+                  </svg>
                   Queuing
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">
@@ -597,7 +614,31 @@ export default function QueueDisplay() {
               </div>
 
               <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
-                <div className="flex h-11 items-center justify-center bg-white/60 text-xl font-semibold tracking-wide">
+                <div className="flex h-11 items-center justify-center gap-2 bg-white/60 text-xl font-semibold tracking-wide">
+                  <svg
+                    fill="#3d2714"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 437.699 437.699"
+                    xmlSpace="preserve"
+                    className="h-5 w-5"
+                  >
+                    <g>
+                      <path
+                        d="M372.578,63.101c-41.18-32.332-95.775-50.138-153.727-50.138c-57.952,0-112.547,17.806-153.728,50.138
+                        C23.127,96.073,0,140.162,0,187.244c0,47.688,24.536,93.246,67.589,126.027l-20.81,97.656c-0.893,4.186,0.629,8.518,3.94,11.227
+                        c2.079,1.701,4.645,2.582,7.237,2.582c1.538,0,3.087-0.311,4.548-0.943l144.063-62.539c4.104,0.18,8.223,0.271,12.282,0.271
+                        c57.952,0,112.545-17.807,153.727-50.139c41.996-32.973,65.123-77.061,65.123-124.144
+                        C437.701,140.162,414.574,96.073,372.578,63.101z M218.852,304.393c-15.709,0-28.49-12.78-28.49-28.489
+                        c0-15.71,12.781-28.491,28.49-28.491c15.708,0,28.49,12.781,28.49,28.491C247.342,291.612,234.561,304.393,218.852,304.393z
+                         M240.721,215.57c-0.771,11.446-10.367,20.417-21.844,20.417c-0.499,0-1.002-0.016-1.505-0.051
+                        c-10.867-0.737-19.624-9.498-20.355-20.376l-6.931-102.056c-0.522-7.686,1.98-15.118,7.049-20.926
+                        c5.068-5.806,12.092-9.29,19.779-9.813c0.653-0.044,1.313-0.066,1.962-0.066c15.11,0,27.757,11.813,28.778,26.894
+                        C248.202,116.2,240.721,215.57,240.721,215.57z"
+                      ></path>
+                    </g>
+                  </svg>
                   Missed
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">

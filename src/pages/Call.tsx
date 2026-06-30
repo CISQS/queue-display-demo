@@ -301,8 +301,13 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
     const yyyy = String(date.getFullYear());
     const hh = String(date.getHours()).padStart(2, "0");
     const min = String(date.getMinutes()).padStart(2, "0");
-    const ss = String(date.getSeconds()).padStart(2, "0");
-    return `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+    return `${dd}/${mm}/${yyyy} ${hh}:${min}`;
+  };
+
+  const formatWeekdayZhEn = (date: Date) => {
+    const zh = new Intl.DateTimeFormat("zh-HK", { weekday: "long" }).format(date);
+    const en = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
+    return `${zh} ${en}`;
   };
 
   const append = (next: string) => {
@@ -367,17 +372,11 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
               aria-label={isFullscreen ? "退出全屏" : "進入全屏"}
               title={isFullscreen ? "退出全屏" : "進入全屏"}
             >
-              <div className="text-center text-xs">
-                <p className="text-base uppercase leading-none">
-                  <br />
-                  養和醫院
-                  <br />
-                  Hong Kong
-                  <br />
-                  Sanatorium &amp; Hospital <br />
-                  <br />
-                  <span className="font-semibold">{formatDateTimeDDMMYYYYHHmmss(now)}</span>
-                </p>
+              <div className="text-right">
+                <div className="text-sm font-semibold leading-none">{formatWeekdayZhEn(now)}</div>
+                <div className="mt-1 text-sm font-semibold leading-none text-black/80">
+                  {formatDateTimeDDMMYYYYHHmmss(now)}
+                </div>
               </div>
               <div className="opacity-40">
                 <img

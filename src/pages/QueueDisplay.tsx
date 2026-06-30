@@ -408,7 +408,7 @@ export default function QueueDisplay() {
   return (
     <div className="min-h-screen w-full ui-sans-serif">
       <div className="flex min-h-screen w-full select-none flex-col bg-gradient-to-r from-[#eedcac] to-[#bce4be] text-black">
-        <div className="bg-[#008d63]">
+        <div className={station === "lab" ? "bg-transparent" : "bg-[#008d63]"}>
           <div
             className="inset-x-0 top-0 flex flex-wrap items-center justify-between bg-white"
             style={station === "lab" ? { transform: "scale(0.9)", transformOrigin: "top center" } : undefined}

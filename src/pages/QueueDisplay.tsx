@@ -415,7 +415,7 @@ export default function QueueDisplay() {
             <button
               type="button"
               onClick={() => navigate("/")}
-              className={station === "lab" ? "m-2 flex items-center pl-4 text-left" : "m-2 flex items-center pl-5 text-left"}
+              className={station === "lab" ? "mx-2 my-1 flex items-center pl-3 text-left" : "m-2 flex items-center pl-5 text-left"}
               style={{
                 touchAction: "manipulation",
                 WebkitTapHighlightColor: "transparent",
@@ -423,7 +423,7 @@ export default function QueueDisplay() {
             >
               <img
                 src={asset("qdisplay/assets/hksh_logo-CIMGYLsQ.png")}
-                className={station === "lab" ? "h-14 cursor-pointer" : "h-16 cursor-pointer"}
+                className={station === "lab" ? "h-12 cursor-pointer" : "h-16 cursor-pointer"}
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                 }}
@@ -433,7 +433,13 @@ export default function QueueDisplay() {
                   {displayStationZh} {displayStationEn}
                 </div>
               ) : (
-                <div className={station === "lab" ? "ml-4 cursor-pointer text-[22px] font-bold" : "ml-5 cursor-pointer text-2xl font-bold"}>
+                <div
+                  className={
+                    station === "lab"
+                      ? "ml-3 cursor-pointer text-[20px] font-bold leading-tight"
+                      : "ml-5 cursor-pointer text-2xl font-bold"
+                  }
+                >
                   {displayStationZh}
                   <br />
                   {displayStationEn}
@@ -443,7 +449,7 @@ export default function QueueDisplay() {
             <button
               type="button"
               onClick={toggleFullscreen}
-              className={station === "lab" ? "m-2 flex items-center text-[13px]" : "m-2 flex items-center text-sm"}
+              className={station === "lab" ? "mx-2 my-1 flex items-center text-[12px]" : "m-2 flex items-center text-sm"}
               style={{
                 touchAction: "manipulation",
                 WebkitTapHighlightColor: "transparent",
@@ -451,8 +457,8 @@ export default function QueueDisplay() {
               aria-label={isFullscreen ? "退出全屏" : "進入全屏"}
               title={isFullscreen ? "退出全屏" : "進入全屏"}
             >
-              <div className="text-center text-xs">
-                <p className="text-base uppercase leading-none">
+              <div className={station === "lab" ? "text-center text-[10px]" : "text-center text-xs"}>
+                <p className={station === "lab" ? "text-[11px] uppercase leading-none" : "text-base uppercase leading-none"}>
                   <br />
                   養和醫院
                   <br />
@@ -466,7 +472,7 @@ export default function QueueDisplay() {
               <div className="opacity-40">
                 <img
                   src={asset("qdisplay/assets/logo-hksh-emc-sh-B1ezILO2.png")}
-                  className="min-h-20"
+                  className={station === "lab" ? "h-16" : "min-h-20"}
                   onError={(e) => {
                     e.currentTarget.style.display = "none";
                   }}

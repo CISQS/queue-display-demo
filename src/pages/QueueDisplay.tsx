@@ -570,13 +570,24 @@ export default function QueueDisplay() {
                   Queuing
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">
-                  <div className="mx-auto flex h-full max-h-[312px] w-fit flex-col flex-wrap content-start gap-x-12 gap-y-3 text-[25px] font-bold tabular-nums text-[#2f2b23]">
-                    {(labDisplay?.queue ?? []).slice(0, 7).map((t) => (
+                  {(() => {
+                    const queueTickets = (labDisplay?.queue ?? []).slice(0, 7);
+                    const multiColumn = queueTickets.length > 6;
+                    return (
+                      <div
+                        className={[
+                          multiColumn ? "mx-auto w-fit" : "w-full",
+                          "flex h-full max-h-[312px] flex-col flex-wrap content-start gap-x-12 gap-y-3 text-[25px] font-bold tabular-nums text-[#2f2b23]",
+                        ].join(" ")}
+                      >
+                        {queueTickets.map((t) => (
                       <div key={`lab-queue-${t}`} className="min-h-[34px] leading-none whitespace-nowrap">
                         {t}
                       </div>
-                    ))}
-                  </div>
+                        ))}
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -585,13 +596,24 @@ export default function QueueDisplay() {
                   Missed
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">
-                  <div className="mx-auto flex h-full max-h-[312px] w-fit flex-col flex-wrap content-start gap-x-12 gap-y-3 text-[25px] font-bold tabular-nums text-[#2f2b23]">
-                    {(labDisplay?.missed ?? []).slice(0, 7).map((ticket) => (
+                  {(() => {
+                    const missedTickets = (labDisplay?.missed ?? []).slice(0, 7);
+                    const multiColumn = missedTickets.length > 6;
+                    return (
+                      <div
+                        className={[
+                          multiColumn ? "mx-auto w-fit" : "w-full",
+                          "flex h-full max-h-[312px] flex-col flex-wrap content-start gap-x-12 gap-y-3 text-[25px] font-bold tabular-nums text-[#2f2b23]",
+                        ].join(" ")}
+                      >
+                        {missedTickets.map((ticket) => (
                       <div key={`lab-missed-${ticket}`} className="min-h-[34px] leading-none whitespace-nowrap">
                         {ticket}
                       </div>
-                    ))}
-                  </div>
+                        ))}
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             </div>

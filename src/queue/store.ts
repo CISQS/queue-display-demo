@@ -88,7 +88,7 @@ function appendPassedTicket(items: string[], ticket: string) {
   return [...items.filter((item) => item !== ticket), ticket].slice(-120);
 }
 
-const COUNTER_CYCLE = ["OPD001", "OPD002", "OPD003", ""];
+const COUNTER_CYCLE = ["SHK123", "SHH304", "SML321", ""];
 
 function nextCycleValue(current: string) {
   const idx = COUNTER_CYCLE.indexOf(current);

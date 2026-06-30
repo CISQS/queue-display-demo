@@ -404,7 +404,7 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
             </div>
 
             <div className="p-5">
-              <div className="rounded-2xl border border-black/10 bg-[#edeedd] p-5">
+              <div className="rounded-2xl border border-black/10 bg-[#f6f9f1] p-5">
                 <div className="text-[18px] font-semibold text-[#1e1b16]">請掃碼</div>
                 <div className="text-sm font-semibold text-black/60">Please scan barcode</div>
 

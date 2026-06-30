@@ -1,17 +1,25 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Download, MonitorPlay, PhoneCall } from "lucide-react";
+import { Download, MonitorPlay, PhoneCall, Settings } from "lucide-react";
 import StationSelect from "@/components/StationSelect";
 import { getLastStation, setLastStation, type StationKey } from "@/queue/stations";
+import { DEFAULT_DOCTOR_NAMES, loadDoctorNames, saveDoctorNames } from "@/queue/doctorConfig";
 
 export default function Home() {
   const navigate = useNavigate();
   const [station, setStation] = useState<StationKey>(() => getLastStation());
+  const [showDoctorSettings, setShowDoctorSettings] = useState(false);
+  const [doctorNamesDraft, setDoctorNamesDraft] = useState<string[]>(() => loadDoctorNames());
   const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
   useEffect(() => {
     setLastStation(station);
   }, [station]);
+
+  useEffect(() => {
+    if (!showDoctorSettings) return;
+    setDoctorNamesDraft(loadDoctorNames());
+  }, [showDoctorSettings]);
 
   const toggleFullscreen = async () => {
     const doc = document as Document & {
@@ -62,7 +70,18 @@ export default function Home() {
             <span className="ml-2 font-normal text-black/60">叫號系統</span>
           </div>
         </div>
-        <div className="text-xs font-semibold text-black/50">Home</div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShowDoctorSettings(true)}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-black/10 bg-white text-black/60 shadow-sm transition hover:bg-black/[0.03] hover:text-black focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/25"
+            aria-label="設定醫生名字"
+            title="設定醫生名字"
+          >
+            <Settings className="h-4 w-4" />
+          </button>
+          <div className="text-xs font-semibold text-black/50">Home</div>
+        </div>
       </div>
 
       <div className="mx-auto max-w-5xl px-6 py-8">
@@ -110,6 +129,75 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {showDoctorSettings && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label="設定醫生名字"
+          onClick={() => setShowDoctorSettings(false)}
+        >
+          <div
+            className="w-full max-w-lg rounded-xl bg-white shadow-xl"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <div className="flex items-center justify-between border-b border-black/10 px-5 py-4">
+              <div className="text-sm font-semibold">醫生名字設定</div>
+              <button
+                type="button"
+                onClick={() => setShowDoctorSettings(false)}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-black/10 bg-white text-black/60 shadow-sm transition hover:bg-black/[0.03] hover:text-black focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/25"
+                aria-label="關閉"
+                title="關閉"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4 px-5 py-5">
+              {doctorNamesDraft.map((value, idx) => (
+                <div key={`doctor-name-${idx}`}>
+                  <div className="text-xs font-semibold text-black/60">{`醫生 ${idx + 1}`}</div>
+                  <input
+                    value={value}
+                    onChange={(e) => {
+                      const next = [...doctorNamesDraft];
+                      next[idx] = e.target.value;
+                      setDoctorNamesDraft(next);
+                    }}
+                    className="mt-2 h-11 w-full rounded-lg border border-black/15 bg-white px-4 text-sm font-semibold text-black outline-none focus:ring-2 focus:ring-[#2aa9b8]/30"
+                    placeholder={DEFAULT_DOCTOR_NAMES[idx]}
+                    inputMode="text"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-end gap-2 border-t border-black/10 px-5 py-4">
+              <button
+                type="button"
+                onClick={() => setShowDoctorSettings(false)}
+                className="inline-flex h-10 items-center justify-center rounded-lg border border-black/10 bg-white px-4 text-sm font-semibold text-black/70 shadow-sm transition hover:bg-black/[0.03] hover:text-black focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/25"
+              >
+                取消
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  saveDoctorNames(doctorNamesDraft);
+                  setShowDoctorSettings(false);
+                }}
+                className="inline-flex h-10 items-center justify-center rounded-lg bg-[#2aa9b8] px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2396a3] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/35"
+              >
+                儲存
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

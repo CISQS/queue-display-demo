@@ -520,8 +520,8 @@
       <table class="doctor-table">
         <thead>
           <tr>
-            <th>號碼 Number</th>
             <th>醫生 Doctor</th>
+            <th>號碼 Number</th>
           </tr>
         </thead>
         <tbody id="doctorRows"></tbody>
@@ -583,10 +583,20 @@
       { key: "pharmacy", labelZh: "藥房", labelEn: "Pharmacy", wait: 20, columnZh: "櫃位", columnEn: "Counter" }
     ];
 
-    const COUNTER_CYCLE = ["", "OPD001", "OPD002", "OPD003"];
-    const DOCTOR_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
-    const MOCK_TICKET_CYCLE = ["", "OPD001", "OPD002", "OPD003", "OPD004"];
-    const FIXED_MISSED_TICKETS = Array.from({ length: 11 }, (_, idx) => `OPD${String(200 + idx).padStart(3, "0")}`);
+    const COUNTER_CYCLE = ["", "SHK123", "SHH304", "SML321"];
+    const DOCTOR_DEFAULT_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
+    const DOCTOR_NAMES_STORAGE_KEY = "queue-display:doctor-names";
+    const MOCK_TICKET_CYCLE = ["", "SHK123", "SHH304", "SML321"];
+    const MOCK_TICKET_PRESETS = [
+      { prefix: "SHK", start: 123 },
+      { prefix: "SHH", start: 304 },
+      { prefix: "SML", start: 321 },
+    ];
+    const FIXED_MISSED_TICKETS = Array.from({ length: 11 }, (_, idx) => {
+      const preset = MOCK_TICKET_PRESETS[idx % MOCK_TICKET_PRESETS.length];
+      const offset = Math.floor(idx / MOCK_TICKET_PRESETS.length);
+      return `${preset.prefix}${String(preset.start + offset).padStart(3, "0")}`;
+    });
     const FIXED_MOCK_STORAGE_PREFIX = "queue-display-fixed-notice";
 
     let stationIndex = 0;
@@ -594,6 +604,7 @@
     let passedTickets = [];
     const hiddenFixedNoticeTickets = new Set();
     const rowsState = [1, 2, 3, 4].map((counter) => ({ counter, ticket: "" }));
+    let doctorNames = [];
 
     const stationButton = document.getElementById("stationButton");
     const stationZh = document.getElementById("stationZh");
@@ -615,6 +626,22 @@
 
     function currentStation() {
       return STATIONS[stationIndex];
+    }
+
+    function loadDoctorNames() {
+      try {
+        const raw = window.localStorage.getItem(DOCTOR_NAMES_STORAGE_KEY);
+        if (!raw) return DOCTOR_DEFAULT_NAMES;
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return DOCTOR_DEFAULT_NAMES;
+        const names = parsed
+          .map((name) => (typeof name === "string" ? name.trim() : ""))
+          .slice(0, 4);
+        while (names.length < 4) names.push("");
+        return names.map((name, idx) => name || DOCTOR_DEFAULT_NAMES[idx]);
+      } catch {
+        return DOCTOR_DEFAULT_NAMES;
+      }
     }
 
     function getFixedMockStorageKey(stationKey) {
@@ -771,8 +798,19 @@
         rowsState.forEach((row, index) => {
           const tr = document.createElement("tr");
 
+          const doctorCell = document.createElement("td");
+          doctorCell.className = "doctor-ticket-cell";
+          const doctorBox = document.createElement("button");
+          doctorBox.type = "button";
+          doctorBox.className = "doctor-name-box";
+          doctorBox.textContent = doctorNames[index] || "";
+          doctorBox.addEventListener("click", () => {
+            row.ticket = nextMockTicket(row.ticket);
+            renderRows();
+          });
+          doctorCell.appendChild(doctorBox);
+
           const ticketCell = document.createElement("td");
-          ticketCell.className = "doctor-ticket-cell";
           const ticketBox = document.createElement("button");
           ticketBox.type = "button";
           ticketBox.className = "doctor-ticket-box";
@@ -783,19 +821,8 @@
           });
           ticketCell.appendChild(ticketBox);
 
-          const doctorCell = document.createElement("td");
-          const doctorBox = document.createElement("button");
-          doctorBox.type = "button";
-          doctorBox.className = "doctor-name-box";
-          doctorBox.textContent = DOCTOR_NAMES[index] || "";
-          doctorBox.addEventListener("click", () => {
-            row.ticket = nextMockTicket(row.ticket);
-            renderRows();
-          });
-          doctorCell.appendChild(doctorBox);
-
-          tr.appendChild(ticketCell);
           tr.appendChild(doctorCell);
+          tr.appendChild(ticketCell);
           doctorRows.appendChild(tr);
         });
         return;
@@ -820,7 +847,7 @@
         if (currentStation().key === "dr") {
           const doctor = document.createElement("div");
           doctor.className = "counter-button";
-          doctor.textContent = DOCTOR_NAMES[index] || "";
+          doctor.textContent = doctorNames[index] || "";
           right.appendChild(doctor);
         } else {
           const button = document.createElement("button");
@@ -885,9 +912,15 @@
 
     nurseTicket.addEventListener("click", toggleNurseMockTicket);
     fullscreenToggle.addEventListener("click", toggleFullscreen);
+    window.addEventListener("storage", (e) => {
+      if (e.key !== DOCTOR_NAMES_STORAGE_KEY) return;
+      doctorNames = loadDoctorNames();
+      if (currentStation().key === "dr") renderRows();
+    });
 
     renderClock();
     setInterval(renderClock, 1000);
+    doctorNames = loadDoctorNames();
     renderHeader();
     renderRows();
     applyFixedMockState(loadFixedMockState());

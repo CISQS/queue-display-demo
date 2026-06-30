@@ -3,12 +3,27 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getLastStation, getStationOption, isStationKey, setLastStation, type StationKey } from "@/queue/stations";
 import { useQueueSnapshot } from "@/hooks/useQueueSnapshot";
 import { useQueueStore } from "@/queue/store";
+import { DOCTOR_NAMES_STORAGE_KEY, DOCTOR_NAMES_UPDATED_EVENT, loadDoctorNames } from "@/queue/doctorConfig";
 
-const FIXED_MISSED_TICKETS = Array.from({ length: 11 }, (_, idx) => `OPD${String(200 + idx).padStart(3, "0")}`);
+const MOCK_TICKET_PRESETS = [
+  { prefix: "SHK", start: 123 },
+  { prefix: "SHH", start: 304 },
+  { prefix: "SML", start: 321 },
+];
+
+const FIXED_MISSED_TICKETS = Array.from({ length: 11 }, (_, idx) => {
+  const preset = MOCK_TICKET_PRESETS[idx % MOCK_TICKET_PRESETS.length];
+  const offset = Math.floor(idx / MOCK_TICKET_PRESETS.length);
+  return `${preset.prefix}${String(preset.start + offset).padStart(3, "0")}`;
+});
 const FIXED_NOTICE_STORAGE_PREFIX = "queue-display-fixed-notice";
-const DOCTOR_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
 const DOCTOR_ROOMS = ["A", "B", "C", "D"];
-const MOCK_TICKET_CYCLE = ["", "OPD001", "OPD002", "OPD003", "OPD004"];
+const MOCK_TICKET_CYCLE = [
+  "",
+  "SHK123",
+  "SHH304",
+  "SML321",
+];
 
 function nextMockTicket(current: string) {
   const idx = MOCK_TICKET_CYCLE.indexOf(current);
@@ -80,6 +95,7 @@ export default function QueueDisplay() {
     () => new Set(initialFixedNoticeState.hiddenFixedNoticeTickets),
   );
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [doctorNames, setDoctorNames] = useState(() => loadDoctorNames());
   const [doctorMockTickets, setDoctorMockTickets] = useState<string[]>(() => Array.from({ length: 4 }).map(() => ""));
   const [nurseMockTicket, setNurseMockTicket] = useState("");
 
@@ -96,6 +112,21 @@ export default function QueueDisplay() {
     setDoctorMockTickets(Array.from({ length: 4 }).map(() => ""));
     setNurseMockTicket("");
   }, [station]);
+
+  useEffect(() => {
+    const update = () => setDoctorNames(loadDoctorNames());
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== DOCTOR_NAMES_STORAGE_KEY) return;
+      update();
+    };
+    update();
+    window.addEventListener("storage", onStorage);
+    window.addEventListener(DOCTOR_NAMES_UPDATED_EVENT, update as EventListener);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(DOCTOR_NAMES_UPDATED_EVENT, update as EventListener);
+    };
+  }, []);
 
   useEffect(() => {
     setShowFixedNoticeTickets(initialFixedNoticeState.showFixedNoticeTickets);
@@ -348,39 +379,16 @@ export default function QueueDisplay() {
                 <table className="w-full border-separate border-spacing-y-4 text-black">
                   <thead>
                     <tr className="text-4xl">
-                      <th className="pb-2 text-left font-normal">號碼 Number</th>
                       <th className="pb-2 text-left font-normal">
                         {columnLabelZh} {columnLabelEn}
                       </th>
+                      <th className="pb-2 text-left font-normal">號碼 Number</th>
                     </tr>
                   </thead>
                   <tbody>
                     {rows.map((row, index) => (
                       <tr key={`counter-row-${row.counter}`}>
                         <td className="pr-8 align-middle">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (row.ticket) {
-                                clearCounterTicket("dr", Number(row.counter));
-                                return;
-                              }
-                              setDoctorMockTickets((prev) => {
-                                const next = [...prev];
-                                next[index] = "";
-                                return next;
-                              });
-                            }}
-                            className="flex h-24 w-full min-w-[420px] items-center justify-center bg-[#edeedd] font-sans text-[42px] font-semibold tabular-nums"
-                            style={{
-                              touchAction: "manipulation",
-                              WebkitTapHighlightColor: "transparent",
-                            }}
-                          >
-                            {row.ticket || doctorMockTickets[index]}
-                          </button>
-                        </td>
-                        <td className="align-middle">
                           <button
                             type="button"
                             onClick={() => {
@@ -409,8 +417,31 @@ export default function QueueDisplay() {
                               </div>
                             </div>
                             <div className="flex flex-1 items-center justify-center px-5 text-center text-[36px] font-extrabold tracking-[0.01em] text-[#2f2b23]">
-                              {DOCTOR_NAMES[index] ?? ""}
+                              {doctorNames[index] ?? ""}
                             </div>
+                          </button>
+                        </td>
+                        <td className="align-middle">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (row.ticket) {
+                                clearCounterTicket("dr", Number(row.counter));
+                                return;
+                              }
+                              setDoctorMockTickets((prev) => {
+                                const next = [...prev];
+                                next[index] = "";
+                                return next;
+                              });
+                            }}
+                            className="flex h-24 w-full min-w-[420px] items-center justify-center bg-[#edeedd] font-sans text-[42px] font-semibold tabular-nums"
+                            style={{
+                              touchAction: "manipulation",
+                              WebkitTapHighlightColor: "transparent",
+                            }}
+                          >
+                            {row.ticket || doctorMockTickets[index]}
                           </button>
                         </td>
                       </tr>

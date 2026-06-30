@@ -304,15 +304,33 @@
     </div>
 
     <script>
-      const DOCTOR_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
+      const DOCTOR_DEFAULT_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
+      const DOCTOR_NAMES_STORAGE_KEY = "queue-display:doctor-names";
       const DOCTOR_ROOMS = ["A", "B", "C", "D"];
-      const MOCK_TICKET_CYCLE = ["", "OPD001", "OPD002", "OPD003", "OPD004"];
+      const MOCK_TICKET_CYCLE = ["", "SHK123", "SHH304", "SML321"];
 
       const rows = document.getElementById("rows");
       const clock = document.getElementById("clock");
       const state = {
         tickets: ["", "", "", ""],
       };
+      let doctorNames = [];
+
+      function loadDoctorNames() {
+        try {
+          const raw = window.localStorage.getItem(DOCTOR_NAMES_STORAGE_KEY);
+          if (!raw) return DOCTOR_DEFAULT_NAMES;
+          const parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed)) return DOCTOR_DEFAULT_NAMES;
+          const names = parsed
+            .map((name) => (typeof name === "string" ? name.trim() : ""))
+            .slice(0, 4);
+          while (names.length < 4) names.push("");
+          return names.map((name, idx) => name || DOCTOR_DEFAULT_NAMES[idx]);
+        } catch {
+          return DOCTOR_DEFAULT_NAMES;
+        }
+      }
 
       function formatDateTimeDDMMYYYYHHmmss(date) {
         const dd = String(date.getDate()).padStart(2, "0");
@@ -351,7 +369,7 @@
           const doctor = document.createElement("button");
           doctor.type = "button";
           doctor.className = "doctor-box";
-          doctor.setAttribute("aria-label", `醫生 ${DOCTOR_NAMES[i]} 房間 ${DOCTOR_ROOMS[i]}`);
+          doctor.setAttribute("aria-label", `醫生 ${doctorNames[i]} 房間 ${DOCTOR_ROOMS[i]}`);
           doctor.addEventListener("click", () => {
             state.tickets[i] = nextMockTicket(state.tickets[i]);
             renderRows();
@@ -362,7 +380,7 @@
 
           const name = document.createElement("div");
           name.className = "doctor-name";
-          name.textContent = DOCTOR_NAMES[i];
+          name.textContent = doctorNames[i];
 
           const room = document.createElement("div");
           room.className = "doctor-room";
@@ -378,14 +396,20 @@
           doctorInner.appendChild(room);
           doctor.appendChild(doctorInner);
 
-          row.appendChild(ticket);
           row.appendChild(doctor);
+          row.appendChild(ticket);
           rows.appendChild(row);
         }
       }
 
       renderClock();
       setInterval(renderClock, 1000);
+      doctorNames = loadDoctorNames();
+      window.addEventListener("storage", (e) => {
+        if (e.key !== DOCTOR_NAMES_STORAGE_KEY) return;
+        doctorNames = loadDoctorNames();
+        renderRows();
+      });
       renderRows();
     </script>
   </body>

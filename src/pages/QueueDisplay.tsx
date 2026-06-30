@@ -549,7 +549,7 @@ export default function QueueDisplay() {
           <div className="w-full flex-1 px-8 py-6">
             <div className="flex w-full items-start gap-3">
               <div className="flex h-[292px] w-[34%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
-                <div className="flex h-11 items-center justify-center bg-white/60 text-base font-semibold tracking-wide">
+                <div className="flex h-11 items-center justify-center bg-white/60 text-xl font-semibold tracking-wide">
                   Now Serving
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col divide-y divide-black/10">
@@ -566,7 +566,7 @@ export default function QueueDisplay() {
               </div>
 
               <div className="flex h-[292px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
-                <div className="flex h-11 items-center justify-center bg-white/60 text-base font-semibold tracking-wide">
+                <div className="flex h-11 items-center justify-center bg-white/60 text-xl font-semibold tracking-wide">
                   Queuing
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">
@@ -581,7 +581,7 @@ export default function QueueDisplay() {
               </div>
 
               <div className="flex h-[292px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
-                <div className="flex h-11 items-center justify-center bg-white/60 text-base font-semibold tracking-wide">
+                <div className="flex h-11 items-center justify-center bg-white/60 text-xl font-semibold tracking-wide">
                   Missed
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">

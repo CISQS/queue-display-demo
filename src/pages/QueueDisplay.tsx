@@ -576,9 +576,9 @@ export default function QueueDisplay() {
                         <div>房號 Room</div>
                         <div>票號 Ticket No.</div>
                       </div>
-                      <div className="flex min-h-0 flex-1 flex-col gap-y-3 px-5 py-2">
+                      <div className="flex min-h-0 flex-1 flex-col gap-y-2 px-5 py-1">
                         {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
-                          <div key={`lab-now-${idx}`} className="mx-auto flex min-h-[34px] w-full max-w-[280px] items-center justify-between gap-1 text-[20px] font-semibold">
+                          <div key={`lab-now-${idx}`} className="mx-auto flex min-h-[30px] w-full max-w-[280px] items-center justify-between gap-1 text-[20px] font-semibold">
                             <div className="-translate-y-0.5 text-[25px] font-bold leading-none tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
                             <div
                               className={[
@@ -667,14 +667,14 @@ export default function QueueDisplay() {
                     <div className="flex h-11 items-center justify-center bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
                       等待中 Queuing
                     </div>
-                    <div className="min-h-0 flex-1 overflow-hidden bg-[#f8fbf5] px-5 py-4">
+                    <div className="min-h-0 flex-1 overflow-hidden bg-[#f8fbf5] px-5 py-3">
                       {(() => {
                         const queueTickets = (labDisplay?.queue ?? []).slice(0, 2);
                         return (
-                          <div className="grid h-full max-h-[312px] grid-cols-2 items-start gap-x-12 text-[25px] font-bold tabular-nums text-[#2f2b23]">
-                            <div className="flex flex-col gap-y-3">
+                          <div className="grid h-full max-h-[280px] grid-cols-2 items-start gap-x-12 text-[25px] font-bold tabular-nums text-[#2f2b23]">
+                            <div className="flex flex-col gap-y-2">
                               {queueTickets.map((t) => (
-                                <div key={`lab-queue-${t}`} className="min-h-[34px] leading-none whitespace-nowrap">
+                                <div key={`lab-queue-${t}`} className="min-h-[30px] leading-none whitespace-nowrap">
                                   {t}
                                 </div>
                               ))}

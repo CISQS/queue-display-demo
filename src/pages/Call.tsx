@@ -407,7 +407,7 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
             </div>
 
             <div className="p-5">
-              <div className="rounded-2xl border border-black/10 bg-[#f6f9f1] p-5">
+              <div className="rounded-2xl bg-[#f6f9f1] p-5">
                 <div className="mt-4 flex items-stretch gap-3">
                   <div className="flex min-w-0 flex-1 flex-col">
                     <div className="relative">

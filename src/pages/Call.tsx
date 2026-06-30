@@ -112,6 +112,18 @@ export default function Call() {
         <div className="rounded-xl border border-black/10 bg-white">
           <div className="bg-[#2aa9b8] px-4 py-2 text-sm font-semibold text-white">叫號系統 Calling System</div>
           <div className="p-6">
+            <button
+              type="button"
+              onClick={() => {
+                const url = `${import.meta.env.BASE_URL}#/display?station=${station}`;
+                window.open(url, "_blank", "noopener,noreferrer");
+              }}
+              className="mb-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2aa9b8] px-4 text-sm font-semibold text-white shadow-sm transition duration-150 hover:bg-[#2396a3] hover:shadow-md active:translate-y-[1px] active:scale-[0.98] active:bg-[#1e8691] active:shadow-inner focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/35"
+              style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
+            >
+              <MonitorPlay className="h-4 w-4" />
+              Queue Display
+            </button>
             <div className="grid gap-4">
               <div>
                 <div className="text-xs font-semibold text-black/60">Station</div>

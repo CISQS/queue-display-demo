@@ -571,7 +571,7 @@ export default function QueueDisplay() {
                       <div className="rounded-full bg-white/85 px-3 py-1 text-[25px] font-bold tabular-nums text-[#2f2b23] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]">{`Room${idx + 1}`}</div>
                       <div
                         className={[
-                          ticket.trim() ? "text-[#0f8b6d]" : "text-[#2f2b23]",
+                          ticket.trim() ? "text-[#0b63a5]" : "text-[#2f2b23]",
                           "text-[25px] font-bold tabular-nums",
                         ].join(" ")}
                       >
@@ -648,7 +648,7 @@ export default function QueueDisplay() {
                     return (
                       <div className="flex h-full max-h-[72px] flex-wrap content-start gap-x-12 gap-y-3 text-[25px] font-bold tabular-nums text-[#2f2b23]">
                         {missedTickets.map((ticket) => (
-                          <div key={`lab-missed-${ticket}`} className="h-[34px] leading-none whitespace-nowrap text-[#8a5a34]">
+                          <div key={`lab-missed-${ticket}`} className="h-[34px] leading-none whitespace-nowrap text-[#2f2b23]">
                             {ticket}
                           </div>
                         ))}

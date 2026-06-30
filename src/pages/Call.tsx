@@ -472,8 +472,10 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
                         onClick={backspace}
                         className="h-20 rounded-2xl border border-black/10 bg-[#f7f7f7] text-[22px] font-semibold text-black/70 shadow-[0_8px_18px_rgba(0,0,0,0.08)] transition hover:bg-[#f0f0f0] active:translate-y-[1px] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)]"
                         style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
+                        aria-label="刪除"
+                        title="刪除"
                       >
-                        X
+                        刪除
                       </button>
                     </div>
                   ) : (
@@ -510,21 +512,23 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
                         onClick={backspace}
                         className="col-span-2 h-14 rounded-xl border border-black/10 bg-[#f7f7f7] text-[18px] font-semibold text-black/70 shadow-[0_8px_18px_rgba(0,0,0,0.08)] transition hover:bg-[#f0f0f0] active:translate-y-[1px] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)]"
                         style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
+                        aria-label="刪除"
+                        title="刪除"
                       >
-                        ⌫
+                        刪除
                       </button>
                     </div>
                   )}
                 </div>
 
-                <div className="grid gap-3">
+                <div className="flex gap-3">
                   <button
                     type="button"
                     onClick={() => {
                       clear();
                       setSubmitted(null);
                     }}
-                    className="inline-flex h-20 items-center justify-center rounded-2xl border border-black/15 bg-white px-4 text-[22px] font-semibold text-black/80 shadow-sm transition hover:bg-black/[0.03] active:translate-y-[1px] active:scale-[0.99]"
+                    className="inline-flex h-20 flex-[3] items-center justify-center rounded-2xl border border-black/15 bg-white px-4 text-[22px] font-semibold text-black/80 shadow-sm transition hover:bg-black/[0.03] active:translate-y-[1px] active:scale-[0.99]"
                     style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
                   >
                     清空 Clear
@@ -532,7 +536,7 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
                   <button
                     type="button"
                     onClick={submit}
-                    className="inline-flex h-20 items-center justify-center rounded-2xl bg-[#00B18B] px-4 text-[22px] font-semibold text-white shadow-[0_10px_22px_rgba(0,177,139,0.22)] transition hover:bg-[#009a78] active:translate-y-[1px] active:scale-[0.99]"
+                    className="inline-flex h-20 flex-[7] items-center justify-center rounded-2xl bg-[#00B18B] px-4 text-[22px] font-semibold text-white shadow-[0_10px_22px_rgba(0,177,139,0.22)] transition hover:bg-[#009a78] active:translate-y-[1px] active:scale-[0.99]"
                     style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
                   >
                     完成 OK

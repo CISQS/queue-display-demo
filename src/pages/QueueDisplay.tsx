@@ -361,16 +361,16 @@ export default function QueueDisplay() {
 
         {station === "dr" ? (
           <div className="w-full px-10 pt-4 pb-2 text-black">
-            <div className="flex items-end justify-between pb-2 text-4xl font-normal">
-              <div className="w-[42%]">號碼 Number</div>
-              <div className="flex-1 pl-8">
+            <div className="flex items-end justify-between pb-4 text-[32px] font-normal">
+              <div className="w-[40%]">號碼 Number</div>
+              <div className="flex-1 pl-10">
                 {columnLabelZh} {columnLabelEn}
               </div>
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5">
               {rows.map((row, index) => (
-                <div key={`counter-row-${row.counter}`} className="flex items-stretch gap-8">
+                <div key={`counter-row-${row.counter}`} className="flex items-stretch gap-10">
                   <button
                     type="button"
                     onClick={() => {
@@ -384,7 +384,7 @@ export default function QueueDisplay() {
                         return next;
                       });
                     }}
-                    className="flex h-24 w-[42%] min-w-0 items-center justify-center rounded-[14px] bg-[#edeedd] font-sans text-[clamp(34px,4.6vw,56px)] font-semibold tabular-nums"
+                    className="flex h-24 w-[40%] min-w-0 items-center justify-center rounded-[14px] bg-[#edeedd] font-sans text-[clamp(34px,4.6vw,56px)] font-semibold tabular-nums"
                     style={{
                       touchAction: "manipulation",
                       WebkitTapHighlightColor: "transparent",
@@ -409,7 +409,7 @@ export default function QueueDisplay() {
                       WebkitTapHighlightColor: "transparent",
                     }}
                   >
-                    <div className="relative m-2 flex w-[102px] shrink-0 flex-col items-center justify-center gap-[1px] overflow-hidden rounded-[14px] bg-gradient-to-b from-[#0f8b6d] to-[#15735e] px-2 py-[9px] text-[#fffdf4] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.15),0_6px_14px_rgba(15,139,109,0.24)] before:absolute before:left-0 before:right-0 before:top-0 before:h-7 before:bg-gradient-to-b before:from-[rgba(255,255,255,0.18)] before:to-[rgba(255,255,255,0)] before:content-['']">
+                    <div className="relative m-2 flex h-[88px] w-[106px] shrink-0 flex-col items-center justify-center gap-[1px] overflow-hidden rounded-[14px] bg-gradient-to-b from-[#0f8b6d] to-[#15735e] px-2 text-[#fffdf4] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.15),0_6px_14px_rgba(15,139,109,0.24)] before:absolute before:left-0 before:right-0 before:top-0 before:h-7 before:bg-gradient-to-b before:from-[rgba(255,255,255,0.18)] before:to-[rgba(255,255,255,0)] before:content-['']">
                       <div
                         className="relative z-[1] text-[clamp(30px,3.8vw,44px)] font-black leading-none tracking-[0.04em]"
                         style={{ textShadow: "0 2px 6px rgba(0, 0, 0, 0.18)" }}

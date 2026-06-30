@@ -560,7 +560,7 @@ export default function QueueDisplay() {
                     <path d="M15.5 8.5a5 5 0 0 1 0 7" />
                     <path d="M18 6a8.5 8.5 0 0 1 0 12" />
                   </svg>
-                  Now Serving
+                  現在叫號
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col bg-[#f8fbf5]">
                   {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
@@ -584,7 +584,7 @@ export default function QueueDisplay() {
 
                 <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#f8fbf5] text-black shadow-[0_16px_30px_rgba(111,140,114,0.05)] ring-1 ring-[#9caf93]/10">
                 <div className="flex h-11 items-center justify-center bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
-                  Queuing
+                  等待中
                 </div>
                 <div className="min-h-0 flex-1 overflow-hidden bg-[#f8fbf5] px-5 py-4">
                   {(() => {

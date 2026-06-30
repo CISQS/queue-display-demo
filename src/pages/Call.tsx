@@ -433,17 +433,6 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
                     </div>
                     {submitted && <div className="mt-2 text-center text-sm font-semibold text-[#008f70]">{`OK：${submitted}`}</div>}
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={backspace}
-                    className="inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-black/10 bg-white text-[22px] font-semibold text-black/70 shadow-sm transition hover:bg-black/[0.03] active:translate-y-[1px]"
-                    style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
-                    aria-label="Backspace"
-                    title="Backspace"
-                  >
-                    ⌫
-                  </button>
                 </div>
               </div>
 

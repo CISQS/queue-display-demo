@@ -553,7 +553,7 @@ export default function QueueDisplay() {
           <div className="w-full flex-1 px-4 py-5">
             <div className="flex flex-col gap-2">
               <div className="flex w-full items-start gap-2">
-                <div className="flex h-[388px] w-[39%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#e7f5ef] text-black shadow-[0_20px_40px_rgba(0,177,139,0.12)] ring-1 ring-[#00B18B]/20">
+                <div className="flex h-[388px] w-[39%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#eef9f4] text-black shadow-[0_18px_36px_rgba(0,177,139,0.08)] ring-1 ring-[#00B18B]/12">
                 <div className="flex h-11 items-center justify-center gap-2 bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
                   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M11 5 6 9H3v6h3l5 4V5Z" />
@@ -582,7 +582,7 @@ export default function QueueDisplay() {
                 </div>
               </div>
 
-                <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#edf2e8] text-black shadow-[0_20px_40px_rgba(111,140,114,0.12)] ring-1 ring-[#9caf93]/30">
+                <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#f3f7ef] text-black shadow-[0_18px_36px_rgba(111,140,114,0.08)] ring-1 ring-[#9caf93]/18">
                 <div className="flex h-11 items-center justify-center bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
                   Queuing
                 </div>
@@ -614,7 +614,7 @@ export default function QueueDisplay() {
               </div>
               </div>
 
-              <div className="flex h-[150px] w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-[#f2ece3] text-black shadow-[0_20px_40px_rgba(134,101,63,0.12)] ring-1 ring-[#c8ac88]/30">
+              <div className="flex h-[150px] w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-[#f8f3ed] text-black shadow-[0_18px_36px_rgba(134,101,63,0.08)] ring-1 ring-[#c8ac88]/18">
                 <div className="flex h-11 items-center justify-center gap-2 bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
                   <svg
                     fill="currentColor"

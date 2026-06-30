@@ -1,4 +1,4 @@
-export type StationKey = "dr" | "nurse" | "pharmacy";
+export type StationKey = "dr" | "nurse" | "pharmacy" | "lab";
 
 export type StationOption = {
   key: StationKey;
@@ -12,6 +12,7 @@ export const STATIONS: StationOption[] = [
   { key: "dr", labelEn: "Doctor Station", labelZh: "醫生站" },
   { key: "nurse", labelEn: "Nurse Station", labelZh: "護士分流站" },
   { key: "pharmacy", labelEn: "Pharmacy", labelZh: "藥房" },
+  { key: "lab", labelEn: "Lab", labelZh: "檢驗" },
 ];
 
 export function formatStationLabel(station: StationOption) {
@@ -19,7 +20,7 @@ export function formatStationLabel(station: StationOption) {
 }
 
 export function isStationKey(value: string): value is StationKey {
-  return value === "dr" || value === "nurse" || value === "pharmacy";
+  return value === "dr" || value === "nurse" || value === "pharmacy" || value === "lab";
 }
 
 export function getStationOption(stationKey: StationKey): StationOption {

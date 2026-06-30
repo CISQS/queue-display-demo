@@ -466,6 +466,53 @@ export default function QueueDisplay() {
               ))}
             </div>
           </div>
+        ) : station === "lab" ? (
+          <div className="w-full flex-1 px-8 py-6">
+            <div className="flex h-full min-h-[560px] w-full gap-4">
+              <div className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#0b4b8a]/90 text-white shadow-[0_20px_40px_rgba(0,0,0,0.12)] ring-1 ring-white/10">
+                <div className="flex h-14 items-center justify-center bg-black/25 text-xl font-semibold tracking-wide">
+                  Now Serving
+                </div>
+                <div className="flex min-h-0 flex-1 flex-col">
+                  {snapshot.counters.slice(0, 4).map((c, idx) => (
+                    <div
+                      key={`lab-now-${c.counter}`}
+                      className="flex items-center justify-between gap-6 border-t border-white/10 px-6 py-5 text-2xl"
+                    >
+                      <div className="font-semibold opacity-95">{`Room${idx + 1}`}</div>
+                      <div className="font-bold tabular-nums text-[#ffd46a]">{c.ticket}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#0b4b8a]/90 text-white shadow-[0_20px_40px_rgba(0,0,0,0.12)] ring-1 ring-white/10">
+                <div className="flex h-14 items-center justify-center bg-black/25 text-xl font-semibold tracking-wide">
+                  Queuing
+                </div>
+                <div className="min-h-0 flex-1 overflow-auto px-6 py-4">
+                  <div className="flex flex-col gap-4 text-2xl font-bold tabular-nums text-[#ffd46a]">
+                    {snapshot.next.slice(0, 12).map((t) => (
+                      <div key={`lab-queue-${t}`}>{t}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#0b4b8a]/90 text-white shadow-[0_20px_40px_rgba(0,0,0,0.12)] ring-1 ring-white/10">
+                <div className="flex h-14 items-center justify-center bg-black/25 text-xl font-semibold tracking-wide">
+                  Missed
+                </div>
+                <div className="min-h-0 flex-1 overflow-auto px-6 py-4">
+                  <div className="flex flex-col gap-4 text-2xl font-bold tabular-nums text-[#ffd46a]">
+                    {mergedNoticeTickets.slice(0, 12).map(({ ticket }) => (
+                      <div key={`lab-missed-${ticket}`}>{ticket}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         ) : (
           <div className="h-[380px] w-full">
             <div className="box-border flex justify-between px-10 py-2 text-4xl">
@@ -509,7 +556,7 @@ export default function QueueDisplay() {
           </div>
         )}
 
-        {station !== "dr" && (
+        {station !== "dr" && station !== "lab" && (
           <div className="my-2 flex h-[100px] items-center justify-between bg-white font-sans">
               <div className="flex w-2/3 items-center justify-start">
                 <div>
@@ -573,7 +620,7 @@ export default function QueueDisplay() {
             </div>
         )}
 
-            {station !== "dr" && (
+            {station !== "dr" && station !== "lab" && (
               <>
                 <button
                   type="button"

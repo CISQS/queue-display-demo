@@ -43,6 +43,7 @@ function broadcastStations(stations: QueueStoreState["stations"]) {
 function getPrefix(station: StationKey) {
   if (station === "dr") return "D";
   if (station === "nurse") return "N";
+  if (station === "lab") return "L";
   return "P";
 }
 
@@ -130,7 +131,7 @@ function buildResetStation(station: StationKey, nowIso: string, resetDateKey: st
 function ensureStationsReset(stations: QueueStoreState["stations"], nowIso: string, resetDateKey: string) {
   let changed = false;
   const nextStations = { ...stations };
-  (["dr", "nurse", "pharmacy"] as StationKey[]).forEach((station) => {
+  (["dr", "nurse", "pharmacy", "lab"] as StationKey[]).forEach((station) => {
     const current = stations[station];
     if (current.resetDateKey === resetDateKey) return;
     nextStations[station] = buildResetStation(station, nowIso, resetDateKey);
@@ -170,6 +171,7 @@ export const useQueueStore = create<QueueStoreState>()(
         dr: buildInitialStation("dr"),
         nurse: buildInitialStation("nurse"),
         pharmacy: buildInitialStation("pharmacy"),
+        lab: buildInitialStation("lab"),
       },
       callTicket: (station, ticketInput, counter) => {
     const ticket = normalizeTicket(ticketInput);
@@ -370,7 +372,7 @@ export const useQueueStore = create<QueueStoreState>()(
       ensureDailyReset: () => {
         const nowIso = new Date().toISOString();
         const resetDateKey = getHongKongResetKey();
-        (["dr", "nurse", "pharmacy"] as StationKey[]).forEach((station) => {
+        (["dr", "nurse", "pharmacy", "lab"] as StationKey[]).forEach((station) => {
           const current = get().stations[station];
           if (current.resetDateKey === resetDateKey) return;
           set((state) => {
@@ -398,9 +400,10 @@ export const useQueueStore = create<QueueStoreState>()(
           dr: buildInitialStation("dr"),
           nurse: buildInitialStation("nurse"),
           pharmacy: buildInitialStation("pharmacy"),
+          lab: buildInitialStation("lab"),
         };
 
-        (["dr", "nurse", "pharmacy"] as StationKey[]).forEach((key) => {
+        (["dr", "nurse", "pharmacy", "lab"] as StationKey[]).forEach((key) => {
           const incoming = state?.stations?.[key];
           if (!incoming) return;
           const base = nextStations[key];

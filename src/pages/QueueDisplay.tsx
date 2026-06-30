@@ -553,7 +553,7 @@ export default function QueueDisplay() {
           <div className="w-full flex-1 px-4 py-5">
             <div className="flex flex-col gap-2">
               <div className="flex w-full items-start gap-2">
-                <div className="flex h-[388px] w-[34%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
+                <div className="flex h-[388px] w-[39%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
                 <div className="flex h-11 items-center justify-center gap-2 bg-[#dff3e9] text-xl font-semibold tracking-wide">
                   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="#3d2714" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 3a9 9 0 1 0 9 9" />
@@ -565,7 +565,7 @@ export default function QueueDisplay() {
                   {(labDisplay?.nowServing ?? []).slice(0, 4).map((ticket, idx) => (
                     <div
                       key={`lab-now-${idx}`}
-                      className="flex items-center justify-between gap-4 px-5 py-3 text-[20px] font-semibold"
+                      className="flex items-center justify-between gap-4 border-b border-black/10 px-5 py-3 text-[20px] font-semibold last:border-b-0"
                     >
                       <div className="text-[25px] font-bold tabular-nums text-[#2f2b23]">{`Room${idx + 1}`}</div>
                       <div
@@ -621,7 +621,7 @@ export default function QueueDisplay() {
               </div>
               </div>
 
-              <div className="flex h-[108px] w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
+              <div className="flex h-[150px] w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
                 <div className="flex h-11 items-center justify-center gap-2 bg-[#dff3e9] text-xl font-semibold tracking-wide">
                   <svg
                     fill="#3d2714"
@@ -653,7 +653,7 @@ export default function QueueDisplay() {
                   {(() => {
                     const missedTickets = (labDisplay?.missed ?? []).slice(0, 4);
                     return (
-                      <div className="flex h-full max-h-[34px] items-center gap-x-12 text-[25px] font-bold tabular-nums text-[#2f2b23]">
+                      <div className="flex h-full max-h-[72px] flex-wrap content-start gap-x-12 gap-y-3 text-[25px] font-bold tabular-nums text-[#2f2b23]">
                         {missedTickets.map((ticket) => (
                           <div key={`lab-missed-${ticket}`} className="h-[34px] leading-none whitespace-nowrap">
                             {ticket}

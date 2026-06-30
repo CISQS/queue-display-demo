@@ -31,7 +31,7 @@ function nextMockTicket(current: string) {
   return MOCK_TICKET_CYCLE[(idx + 1) % MOCK_TICKET_CYCLE.length];
 }
 
-const LAB_NOW_SERVING_MOCK = ["SKH211", "SML421", "SHH331", "Suspended"];
+const LAB_NOW_SERVING_MOCK = ["SKH211", "SML421", "SHH331", ""];
 
 function isDefaultLabTicket(ticket: string) {
   return /^L\d{3}$/.test(ticket.trim().toUpperCase());
@@ -551,8 +551,9 @@ export default function QueueDisplay() {
           </div>
         ) : station === "lab" ? (
           <div className="w-full flex-1 px-4 py-5">
-            <div className="flex w-full items-start gap-2">
-              <div className="flex h-[388px] w-[34%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
+            <div className="flex flex-col gap-2">
+              <div className="flex w-full items-start gap-2">
+                <div className="flex h-[388px] w-[34%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
                 <div className="flex h-11 items-center justify-center gap-2 bg-[#dff3e9] text-xl font-semibold tracking-wide">
                   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="#3d2714" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 3a9 9 0 1 0 9 9" />
@@ -569,8 +570,8 @@ export default function QueueDisplay() {
                       <div className="opacity-90">{`Room${idx + 1}`}</div>
                       <div
                         className={[
-                          ticket.trim().toLowerCase() === "suspended" ? "text-[#2f2b23]" : "text-[#0f8b6d]",
-                          "font-bold tabular-nums",
+                          ticket.trim() ? "text-[#0f8b6d]" : "text-[#2f2b23]",
+                          "text-[25px] font-bold tabular-nums",
                         ].join(" ")}
                       >
                         {ticket}
@@ -580,7 +581,7 @@ export default function QueueDisplay() {
                 </div>
               </div>
 
-              <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
+                <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
                 <div className="flex h-11 items-center justify-center gap-2 bg-[#dff3e9] text-xl font-semibold tracking-wide">
                   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="#3d2714" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M8 6h13" />
@@ -618,8 +619,9 @@ export default function QueueDisplay() {
                   })()}
                 </div>
               </div>
+              </div>
 
-              <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
+              <div className="flex h-[220px] w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
                 <div className="flex h-11 items-center justify-center gap-2 bg-[#dff3e9] text-xl font-semibold tracking-wide">
                   <svg
                     fill="#3d2714"

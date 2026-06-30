@@ -554,8 +554,8 @@ export default function QueueDisplay() {
             <div className="flex flex-col gap-2">
               <div className="flex w-full items-start gap-2">
                 <div className="flex h-[388px] w-[39%] min-w-0 shrink-0 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
-                <div className="flex h-11 items-center justify-center gap-2 bg-[#dff3e9] text-xl font-semibold tracking-wide">
-                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="#3d2714" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="flex h-11 items-center justify-center gap-2 bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M11 5 6 9H3v6h3l5 4V5Z" />
                     <path d="M15.5 8.5a5 5 0 0 1 0 7" />
                     <path d="M18 6a8.5 8.5 0 0 1 0 12" />
@@ -583,8 +583,8 @@ export default function QueueDisplay() {
               </div>
 
                 <div className="flex h-[388px] min-w-0 flex-1 flex-col overflow-hidden rounded-2xl bg-[#edeedd] text-black shadow-[0_20px_40px_rgba(0,0,0,0.08)] ring-1 ring-black/10">
-                <div className="flex h-11 items-center justify-center gap-2 bg-[#dff3e9] text-xl font-semibold tracking-wide">
-                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="#3d2714" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <div className="flex h-11 items-center justify-center gap-2 bg-[#00B18B] text-xl font-semibold tracking-wide text-white">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="6" cy="6" r="1.6" />
                     <path d="M4.8 10.2c0-1 0.8-1.8 1.8-1.8h0.1c1 0 1.8 0.8 1.8 1.8v2.3H4.8z" />
                     <circle cx="12" cy="9" r="1.6" />

@@ -568,7 +568,7 @@ export default function QueueDisplay() {
                       key={`lab-now-${idx}`}
                       className="flex items-center justify-between gap-4 px-5 py-3 text-[20px] font-semibold shadow-[inset_0_-1px_0_rgba(0,0,0,0.14)]"
                     >
-                      <div className="rounded-full bg-[#00B18B] px-3 py-1 text-[25px] font-bold tabular-nums text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12),0_4px_10px_rgba(0,177,139,0.18)]">{`Room${idx + 1}`}</div>
+                      <div className="rounded-full bg-white/90 px-3 py-1 text-[25px] font-bold tabular-nums text-[#00B18B] shadow-[inset_0_0_0_1px_rgba(0,177,139,0.16),0_4px_10px_rgba(0,177,139,0.10)]">{`Room${idx + 1}`}</div>
                       <div
                         className={[
                           ticket.trim() ? "text-[#0f8b6d]" : "text-[#2f2b23]",

@@ -55,7 +55,7 @@ function getFirebaseConfig(env: FirebaseEnv): FirebaseConfig | null {
 }
 
 function isStationKey(value: unknown): value is StationKey {
-  return value === "dr" || value === "nurse" || value === "pharmacy";
+  return value === "dr" || value === "nurse" || value === "pharmacy" || value === "lab";
 }
 
 function coerceStationState(station: StationKey, input: unknown, fallback: StationQueueState): StationQueueState {
@@ -163,7 +163,7 @@ export async function startFirebaseSync() {
 
   console.info("[firebaseSync] enabled");
 
-  const stationKeys: StationKey[] = ["dr", "nurse", "pharmacy"];
+  const stationKeys: StationKey[] = ["dr", "nurse", "pharmacy", "lab"];
 
   stationKeys.forEach((station) => {
     const ref = doc(db, "stations", station);

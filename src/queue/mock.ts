@@ -8,12 +8,14 @@ function padNumber(value: number, length: number) {
 function getPrefix(station: StationKey) {
   if (station === "dr") return "D";
   if (station === "nurse") return "N";
+  if (station === "lab") return "L";
   return "P";
 }
 
 function getBase(station: StationKey) {
   if (station === "dr") return 10;
   if (station === "nurse") return 100;
+  if (station === "lab") return 200;
   return 1;
 }
 
@@ -41,4 +43,3 @@ export function getMockQueueSnapshot(station: StationKey, nowMs = Date.now()): Q
     updatedAtISO: new Date(nowMs).toISOString(),
   };
 }
-

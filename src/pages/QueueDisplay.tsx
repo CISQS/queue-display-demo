@@ -24,6 +24,9 @@ const MOCK_TICKET_CYCLE = [
   "SHH304",
   "SML321",
 ];
+const LAB_ROOM_TICKETS = ["N0001", "N0002", "N0004", "Suspended"] as const;
+const LAB_QUEUEING_TICKETS = ["U0001", "U0002", "N0005", "N0006", "N0007"] as const;
+const LAB_MISSED_TICKETS = ["N0003"] as const;
 
 function nextMockTicket(current: string) {
   const idx = MOCK_TICKET_CYCLE.indexOf(current);
@@ -250,6 +253,7 @@ export default function QueueDisplay() {
   const waitingMins = useMemo(() => {
     if (station === "pharmacy") return 20;
     if (station === "dr") return 15;
+    if (station === "lab") return 0;
     return 10;
   }, [station]);
 
@@ -399,6 +403,113 @@ export default function QueueDisplay() {
             >
               {nurseDisplayTicket}
             </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isLabDraftV2) {
+    return (
+      <div className="min-h-screen w-full ui-sans-serif">
+        <div className="flex min-h-screen w-full flex-col bg-gradient-to-r from-[#eedcac] to-[#bce4be] text-black">
+          <div className="bg-[#008d63]">
+            <div className="inset-x-0 top-0 flex flex-wrap items-center justify-between bg-white">
+              <button type="button" onClick={() => navigate("/")} className="m-2 flex items-center pl-5 text-left">
+                <img
+                  src={asset("qdisplay/assets/hksh_logo-CIMGYLsQ.png")}
+                  className="h-16 cursor-pointer"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+                <div className="ml-5 cursor-pointer text-2xl font-bold">
+                  {displayStationZh}
+                  <br />
+                  {displayStationEn}
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={toggleFullscreen}
+                className="m-2 flex items-center text-sm"
+                style={{
+                  touchAction: "manipulation",
+                  WebkitTapHighlightColor: "transparent",
+                }}
+                aria-label={isFullscreen ? "退出全屏" : "進入全屏"}
+                title={isFullscreen ? "退出全屏" : "進入全屏"}
+              >
+                <div className="text-center text-xs">
+                  <p className="text-base uppercase leading-none">
+                    <br />
+                    養和醫院
+                    <br />
+                    Hong Kong
+                    <br />
+                    Sanatorium &amp; Hospital <br />
+                    <br />
+                    <span className="font-semibold">{formatDateTimeDDMMYYYYHHmmss(now)}</span>
+                  </p>
+                </div>
+                <div className="opacity-40">
+                  <img
+                    src={asset("qdisplay/assets/logo-hksh-emc-sh-B1ezILO2.png")}
+                    className="min-h-20"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div className="mx-auto w-full max-w-6xl px-10 pt-8">
+            <div className="overflow-hidden rounded-2xl bg-white/65 shadow-sm ring-1 ring-black/5">
+              <div className="grid grid-cols-3 bg-[#16b194] text-white">
+                <div className="py-3 text-center text-xl font-semibold">Now Serving</div>
+                <div className="py-3 text-center text-xl font-semibold">Queuing</div>
+                <div className="py-3 text-center text-xl font-semibold">Missed</div>
+              </div>
+
+              <div className="grid grid-cols-3">
+                <div className="border-r border-black/10 p-6">
+                  <div className="grid grid-cols-2 gap-x-8 text-sm font-semibold text-black/50">
+                    <div>房號 Room</div>
+                    <div>票號 Ticket No.</div>
+                  </div>
+                  <div className="mt-3 space-y-4">
+                    {(["Room 1", "Room 2", "Room 3", "Room 4"] as const).map((room, idx) => (
+                      <div key={room} className="grid grid-cols-2 items-center gap-x-8">
+                        <div className="text-4xl font-semibold text-[#008d63]">{room}</div>
+                        <div className="text-3xl font-semibold tabular-nums text-[#008d63]">{LAB_ROOM_TICKETS[idx]}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="border-r border-black/10 p-6">
+                  <div className="space-y-4">
+                    {LAB_QUEUEING_TICKETS.map((ticket) => (
+                      <div key={ticket} className="text-3xl font-semibold tabular-nums text-black/75">
+                        {ticket}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <div className="space-y-4">
+                    {LAB_MISSED_TICKETS.map((ticket) => (
+                      <div key={ticket} className="text-3xl font-semibold tabular-nums text-black/75">
+                        {ticket}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

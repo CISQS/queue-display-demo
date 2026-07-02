@@ -360,7 +360,7 @@ export default function QueueDisplay() {
   );
 
   const labMissedV1Content = (
-    <div className="grid h-full min-h-0 grid-cols-4 items-start gap-x-3 overflow-hidden bg-[#f2f3ee] px-5 py-4">
+    <div className="grid h-full min-h-0 grid-cols-4 items-start gap-x-2 overflow-hidden bg-[#f2f3ee] px-5 py-4">
       {labMissedTickets.map((ticket, idx) => (
         <div key={`lab-missed-v1-${idx}`} className="text-[27px] font-semibold leading-none tabular-nums text-[#2f2b23]">
           {ticket}

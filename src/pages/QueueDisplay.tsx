@@ -20,10 +20,9 @@ const FIXED_NOTICE_STORAGE_PREFIX = "queue-display-fixed-notice";
 const DOCTOR_ROOMS = ["A", "B", "C", "D"];
 const MOCK_TICKET_CYCLE = [
   "",
-  "SKH211",
-  "SKH224",
-  "SHH304",
-  "SML321",
+  "SKH1234",
+  "SML5678",
+  "SHM1123",
 ];
 const LAB_ROOM_TICKETS = ["N0001", "N0002", "N0004", "Suspended"] as const;
 const LAB_QUEUEING_TICKETS = ["U0001", "U0002", "N0005", "N0006", "N0007"] as const;

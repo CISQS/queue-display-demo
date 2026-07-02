@@ -1,7 +1,9 @@
 export const DOCTOR_NAMES_STORAGE_KEY = "queue-display:doctor-names";
 export const DOCTOR_NAMES_UPDATED_EVENT = "queue-display-doctor-names";
 
-export const DEFAULT_DOCTOR_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
+const LEGACY_DEFAULT_DOCTOR_NAMES = ["常健康", "常開心", "常快樂", "常輕鬆"];
+
+export const DEFAULT_DOCTOR_NAMES = ["袁兆文醫生", "游華漢醫生", "常醫仁醫生", ""];
 
 function normalizeNames(input: unknown) {
   if (!Array.isArray(input)) return null;
@@ -18,6 +20,7 @@ export function loadDoctorNames() {
     const parsed = JSON.parse(raw);
     const normalized = normalizeNames(parsed);
     if (!normalized) return DEFAULT_DOCTOR_NAMES;
+    if (normalized.every((name, idx) => name === LEGACY_DEFAULT_DOCTOR_NAMES[idx])) return DEFAULT_DOCTOR_NAMES;
     return normalized.map((name, idx) => name || DEFAULT_DOCTOR_NAMES[idx]);
   } catch {
     return DEFAULT_DOCTOR_NAMES;

@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Download, MonitorPlay, PhoneCall, Settings } from "lucide-react";
 import StationSelect from "@/components/StationSelect";
 import { getLastStation, setLastStation, type StationKey } from "@/queue/stations";
+
+function getDisplayPath(station: StationKey) {
+  return station === "lab" ? "/display?station=lab&draft=v2" : `/display?station=${station}`;
+}
 import { DEFAULT_DOCTOR_NAMES, loadDoctorNames, saveDoctorNames } from "@/queue/doctorConfig";
 
 export default function Home() {
@@ -111,7 +115,7 @@ export default function Home() {
 
               <button
                 type="button"
-                onClick={() => navigate(`/display?station=${station}`)}
+                onClick={() => navigate(getDisplayPath(station))}
                 className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2aa9b8] px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2396a3] focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/35"
               >
                 <MonitorPlay className="h-4 w-4" />

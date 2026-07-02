@@ -12,7 +12,7 @@ export const STATIONS: StationOption[] = [
   { key: "dr", labelEn: "Doctor Station", labelZh: "醫生站" },
   { key: "nurse", labelEn: "Nurse Station", labelZh: "護士分流站" },
   { key: "pharmacy", labelEn: "Pharmacy", labelZh: "藥房" },
-  { key: "lab", labelEn: "Pathology", labelZh: "病理部" },
+  { key: "lab", labelEn: "Department of Pathology", labelZh: "病理部" },
 ];
 
 export function formatStationLabel(station: StationOption) {

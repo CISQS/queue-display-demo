@@ -5,6 +5,10 @@ import StationSelect from "@/components/StationSelect";
 import { getLastStation, isStationKey, setLastStation, type StationKey } from "@/queue/stations";
 import { useQueueStore } from "@/queue/store";
 
+function getDisplayHash(station: StationKey) {
+  return station === "lab" ? "#/display?station=lab&draft=v2" : `#/display?station=${station}`;
+}
+
 export default function Call() {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
@@ -159,7 +163,7 @@ function StandardCall({ station, asset, setParams, onHome }: StandardCallProps) 
             <button
               type="button"
               onClick={() => {
-                const url = `${import.meta.env.BASE_URL}#/display?station=${station}`;
+                const url = `${import.meta.env.BASE_URL}${getDisplayHash(station)}`;
                 window.open(url, "_blank", "noopener,noreferrer");
               }}
               className="mb-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2aa9b8] px-4 text-sm font-semibold text-white shadow-sm transition duration-150 hover:bg-[#2396a3] hover:shadow-md active:translate-y-[1px] active:scale-[0.98] active:bg-[#1e8691] active:shadow-inner focus:outline-none focus:ring-2 focus:ring-[#2aa9b8]/35"

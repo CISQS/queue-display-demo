@@ -89,7 +89,7 @@ function appendPassedTicket(items: string[], ticket: string) {
   return [...items.filter((item) => item !== ticket), ticket].slice(-120);
 }
 
-const COUNTER_CYCLE = ["SHK123", "SHH304", "SML321", ""];
+const COUNTER_CYCLE = ["SKH211", "SKH224", "SHH304", "SML321", ""];
 
 function nextCycleValue(current: string) {
   const idx = COUNTER_CYCLE.indexOf(current);
@@ -126,18 +126,6 @@ function buildResetStation(station: StationKey, nowIso: string, resetDateKey: st
     updatedAtISO: nowIso,
     resetDateKey,
   };
-}
-
-function ensureStationsReset(stations: QueueStoreState["stations"], nowIso: string, resetDateKey: string) {
-  let changed = false;
-  const nextStations = { ...stations };
-  (["dr", "nurse", "pharmacy", "lab"] as StationKey[]).forEach((station) => {
-    const current = stations[station];
-    if (current.resetDateKey === resetDateKey) return;
-    nextStations[station] = buildResetStation(station, nowIso, resetDateKey);
-    changed = true;
-  });
-  return { changed, stations: nextStations };
 }
 
 function appendRecentlyCalled(prev: StationQueueState, ticket: string, nowIso: string) {
@@ -393,7 +381,7 @@ export const useQueueStore = create<QueueStoreState>()(
       name: "queue-display-store",
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({ stations: s.stations }),
-      version: 1,
+      version: 2,
       migrate: (persisted) => {
         const state = persisted as { stations?: Partial<Record<StationKey, Partial<StationQueueState>>> };
         const nextStations: QueueStoreState["stations"] = {

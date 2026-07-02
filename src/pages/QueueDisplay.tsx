@@ -20,7 +20,8 @@ const FIXED_NOTICE_STORAGE_PREFIX = "queue-display-fixed-notice";
 const DOCTOR_ROOMS = ["A", "B", "C", "D"];
 const MOCK_TICKET_CYCLE = [
   "",
-  "SHK123",
+  "SKH211",
+  "SKH224",
   "SHH304",
   "SML321",
 ];
@@ -467,14 +468,21 @@ export default function QueueDisplay() {
 
           <div className="mx-auto w-full max-w-6xl px-10 pt-8">
             <div className="overflow-hidden rounded-2xl bg-white/65 shadow-sm ring-1 ring-black/5">
-              <div className="grid grid-cols-3 bg-[#16b194] text-white">
-                <div className="py-3 text-center text-xl font-semibold">Now Serving</div>
-                <div className="py-3 text-center text-xl font-semibold">Queuing</div>
-                <div className="py-3 text-center text-xl font-semibold">Missed</div>
+              <div className="grid grid-cols-3 divide-x divide-white/35 bg-[#16b194] text-white">
+                <div className="flex items-center justify-center gap-2 py-3 text-center text-xl font-semibold">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+                    <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                    <path d="M18 6a8.5 8.5 0 0 1 0 12" />
+                  </svg>
+                  <span>進行中 Now Serving</span>
+                </div>
+                <div className="py-3 text-center text-xl font-semibold">待叫號 Queuing</div>
+                <div className="py-3 text-center text-xl font-semibold">已過號 Missed</div>
               </div>
 
-              <div className="grid grid-cols-3">
-                <div className="border-r border-black/10 p-6">
+              <div className="grid grid-cols-3 divide-x divide-black/10">
+                <div className="p-6 pb-10">
                   <div className="grid grid-cols-2 gap-x-8 text-sm font-semibold text-black/50">
                     <div>房號 Room</div>
                     <div>票號 Ticket No.</div>
@@ -482,33 +490,49 @@ export default function QueueDisplay() {
                   <div className="mt-3 space-y-4">
                     {(["Room 1", "Room 2", "Room 3", "Room 4"] as const).map((room, idx) => (
                       <div key={room} className="grid grid-cols-2 items-center gap-x-8">
-                        <div className="text-4xl font-semibold text-[#008d63]">{room}</div>
-                        <div className="text-3xl font-semibold tabular-nums text-[#008d63]">{LAB_ROOM_TICKETS[idx]}</div>
+                        <div className="text-2xl font-semibold text-[#008d63]">{room}</div>
+                        <div
+                          className={[
+                            LAB_ROOM_TICKETS[idx] === "Suspended" ? "text-black/35" : "text-[#008d63]",
+                            "text-2xl font-semibold tabular-nums",
+                          ].join(" ")}
+                        >
+                          {LAB_ROOM_TICKETS[idx]}
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="border-r border-black/10 p-6">
+                <div className="p-6 pb-10">
                   <div className="space-y-4">
                     {LAB_QUEUEING_TICKETS.map((ticket) => (
-                      <div key={ticket} className="text-3xl font-semibold tabular-nums text-black/75">
+                      <div key={ticket} className="text-2xl font-semibold tabular-nums text-black/75">
                         {ticket}
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="p-6">
+                <div className="p-6 pb-10">
                   <div className="space-y-4">
                     {LAB_MISSED_TICKETS.map((ticket) => (
-                      <div key={ticket} className="text-3xl font-semibold tabular-nums text-black/75">
+                      <div key={ticket} className="text-2xl font-semibold tabular-nums text-black/75">
                         {ticket}
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-3 pt-5 text-center text-xl font-semibold text-black/70">
+              <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 7v6" />
+                <path d="M12 17h.01" />
+              </svg>
+              已過號請前往接待處 If your number has been missed, please proceed to the reception counter.
             </div>
           </div>
         </div>

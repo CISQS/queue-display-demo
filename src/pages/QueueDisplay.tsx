@@ -322,7 +322,7 @@ export default function QueueDisplay() {
 
   const labNowServingContent = (
     <>
-      <div className="mx-auto flex w-full max-w-[280px] items-center justify-between px-2 py-3 text-[13px] font-semibold tracking-wide text-black/55">
+      <div className="mx-auto flex w-full max-w-[300px] items-center justify-between px-3 pb-2 pt-4 text-[15px] font-semibold tracking-wide text-black/55">
         <div>房號 Room</div>
         <div>票號 Ticket No.</div>
       </div>
@@ -383,7 +383,7 @@ export default function QueueDisplay() {
 
   const labNowServingV1Content = (
     <>
-      <div className="mx-auto flex w-full max-w-[282px] items-center justify-between px-3 py-3 text-[13px] font-semibold tracking-wide text-black/55">
+      <div className="mx-auto flex w-full max-w-[300px] items-center justify-between px-3 pb-2 pt-4 text-[15px] font-semibold tracking-wide text-black/55">
         <div>房號 Room</div>
         <div>票號 Ticket No.</div>
       </div>

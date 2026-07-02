@@ -364,9 +364,9 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
                 }}
               />
               <div className="ml-5 cursor-pointer text-2xl font-bold">
-                檢驗
+                病理部
                 <br />
-                Lab
+                Department of Pathology
               </div>
             </button>
             <button
@@ -469,10 +469,10 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
                         onClick={backspace}
                         className="h-20 rounded-2xl border border-black/10 bg-[#f7f7f7] text-[22px] font-semibold text-black/70 shadow-[0_8px_18px_rgba(0,0,0,0.08)] transition hover:bg-[#f0f0f0] active:translate-y-[1px] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)]"
                         style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
-                        aria-label="刪除"
-                        title="刪除"
+                        aria-label="刪除 Del"
+                        title="刪除 Del"
                       >
-                        刪除
+                        刪除 Del
                       </button>
                     </div>
                   ) : (
@@ -509,10 +509,10 @@ function LabCallMockUI({ asset, onHome, onToggleFullscreen }: LabCallMockUIProps
                         onClick={backspace}
                         className="col-span-2 h-14 rounded-xl border border-black/10 bg-[#f7f7f7] text-[18px] font-semibold text-black/70 shadow-[0_8px_18px_rgba(0,0,0,0.08)] transition hover:bg-[#f0f0f0] active:translate-y-[1px] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)]"
                         style={{ touchAction: "manipulation", WebkitTapHighlightColor: "transparent" }}
-                        aria-label="刪除"
-                        title="刪除"
+                        aria-label="刪除 Del"
+                        title="刪除 Del"
                       >
-                        刪除
+                        刪除 Del
                       </button>
                     </div>
                   )}

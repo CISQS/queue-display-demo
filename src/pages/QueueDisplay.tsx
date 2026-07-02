@@ -370,13 +370,13 @@ export default function QueueDisplay() {
   );
 
   const labMissedV2Content = (
-    <div className="flex min-h-0 flex-1 flex-col justify-start bg-[#f2f3ee] px-6 py-4">
-      <div className="space-y-5 pt-2 text-left">
+    <div className="flex min-h-0 flex-1 flex-col justify-start bg-[#f2f3ee] px-5 py-4">
+      <div className="space-y-6 pt-1 text-left">
         {labMissedTickets.map((ticket, idx) => (
-          <div key={`lab-missed-v2-${idx}`} className="text-[30px] font-semibold leading-none tabular-nums text-[#2f2b23]">
-          {ticket}
-        </div>
-      ))}
+          <div key={`lab-missed-v2-${idx}`} className="text-[29px] font-bold leading-none tabular-nums tracking-[0.005em] text-[#2f2b23]">
+            {ticket}
+          </div>
+        ))}
       </div>
     </div>
   );

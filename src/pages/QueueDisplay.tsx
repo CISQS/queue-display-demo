@@ -332,11 +332,11 @@ export default function QueueDisplay() {
             key={`lab-now-${idx}`}
             className="mx-auto flex min-h-[34px] w-full max-w-[280px] items-center justify-between gap-1 text-[20px] font-semibold"
           >
-            <div className="-translate-y-0.5 text-[25px] font-bold leading-none tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
+            <div className="-translate-y-0.5 text-[30px] font-bold leading-none tabular-nums text-[#18a37f]">{`Room ${idx + 1}`}</div>
             <div
               className={[
                 ticket.trim() ? "text-[#18a37f]" : "text-[#2f2b23]",
-                "text-[25px] font-bold leading-none tabular-nums",
+                "text-[30px] font-bold leading-none tabular-nums",
               ].join(" ")}
             >
               {ticket}
@@ -360,7 +360,7 @@ export default function QueueDisplay() {
   );
 
   const labMissedV1Content = (
-    <div className="grid h-full min-h-0 grid-cols-4 items-start gap-x-4 overflow-hidden bg-[#f2f3ee] px-5 py-4">
+    <div className="grid h-full min-h-0 grid-cols-4 items-start gap-x-2 overflow-hidden bg-[#f2f3ee] px-5 py-4">
       {labMissedTickets.map((ticket, idx) => (
         <div key={`lab-missed-v1-${idx}`} className="text-[27px] font-semibold leading-none tabular-nums text-[#2f2b23]">
           {ticket}
